@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker build -t "smartassert/basil-compiler:${TAG_NAME:-master}" .
+docker build -t "smartassert/compiler:${TAG_NAME:-master}" .
