@@ -16,7 +16,7 @@ CONTAINER_PORT="8000"
 HOST_PORT="9000"
 CONTAINER_TEST_FILENAME="test.yml"
 
-IMAGE_NAME="smartassert/basil-compiler:${TAG_NAME:-master}"
+IMAGE_NAME="smartassert/compiler:${TAG_NAME:-master}"
 
 echo "Testing image: ${IMAGE_NAME}"
 
