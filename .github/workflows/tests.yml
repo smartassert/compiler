@@ -36,7 +36,7 @@ jobs:
         run: composer test-functional
 
       - name: Run PHPUnit integration tests
-        run: composer test-integration
+        run: composer test-integration-bin
 
   integration:
     name: Test Docker Image
