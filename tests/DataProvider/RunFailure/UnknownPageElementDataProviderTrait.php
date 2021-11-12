@@ -7,6 +7,7 @@ namespace webignition\BasilCliCompiler\Tests\DataProvider\RunFailure;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
 use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
+use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 
@@ -19,10 +20,10 @@ trait UnknownPageElementDataProviderTrait
     {
         return [
             'test declares step, step contains action using unknown page element' => [
-                'cliArguments' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/action-contains-unknown-page-element.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getInvalidTest() . '/action-contains-unknown-page-element.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_PAGE_ELEMENT,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -42,10 +43,10 @@ trait UnknownPageElementDataProviderTrait
                 ),
             ],
             'test imports step, test passes step unknown page element' => [
-                'cliArguments' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/imports-test-passes-unknown-element.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getInvalidTest() . '/imports-test-passes-unknown-element.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_PAGE_ELEMENT,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

@@ -7,6 +7,7 @@ namespace webignition\BasilCliCompiler\Tests\DataProvider\RunFailure;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
 use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
+use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 
@@ -19,10 +20,10 @@ trait NonLoadableDataDataProviderTrait
     {
         return [
             'test contains invalid yaml' => [
-                'cliArguments' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/invalid.unparseable.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getInvalidTest() . '/invalid.unparseable.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -38,10 +39,10 @@ trait NonLoadableDataDataProviderTrait
                 ),
             ],
             'test file contains non-array data' => [
-                'cliArguments' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/invalid.not-an-array.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getInvalidTest() . '/invalid.not-an-array.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

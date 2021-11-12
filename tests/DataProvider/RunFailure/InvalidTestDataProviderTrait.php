@@ -7,6 +7,7 @@ namespace webignition\BasilCliCompiler\Tests\DataProvider\RunFailure;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
 use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
+use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 
@@ -22,10 +23,7 @@ trait InvalidTestDataProviderTrait
 
         return [
             'test has invalid configuration' => [
-                'cliArguments' => [
-                    '--source' => $testPath,
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments($testPath, FixturePaths::getTarget()),
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_TEST,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

@@ -16,6 +16,7 @@ use webignition\BasilCliCompiler\Services\CommandFactory;
 use webignition\BasilCliCompiler\Services\CompiledClassResolver;
 use webignition\BasilCliCompiler\Services\Compiler;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
+use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\CircularStepImportDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\EmptyTestDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\InvalidPageDataProviderTrait;
@@ -27,6 +28,7 @@ use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownElementDat
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunSuccess\SuccessDataProviderTrait;
+use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementException;
@@ -55,14 +57,13 @@ class GenerateCommandTest extends TestCase
     use SuccessDataProviderTrait;
 
     /**
-     * @param array<string, string> $cliArguments
-     * @param string[]              $expectedGeneratedCodePaths
-     * @param string[]              $classNames
+     * @param string[] $expectedGeneratedCodePaths
+     * @param string[] $classNames
      *
      * @dataProvider successDataProvider
      */
     public function testRunSuccess(
-        array $cliArguments,
+        CliArguments $cliArguments,
         int $expectedExitCode,
         SuiteManifest $expectedOutput,
         array $expectedGeneratedCodePaths,
@@ -71,9 +72,9 @@ class GenerateCommandTest extends TestCase
         $stdout = new BufferedOutput();
         $stderr = new BufferedOutput();
 
-        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $this->createArgvFromInput($cliArguments));
+        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $cliArguments->toArgvArray());
 
-        $exitCode = $command->run(new ArrayInput($cliArguments), new NullOutput());
+        $exitCode = $command->run(new ArrayInput($cliArguments->getOptions()), new NullOutput());
         self::assertSame($expectedExitCode, $exitCode);
         self::assertSame('', $stderr->fetch());
 
@@ -124,8 +125,6 @@ class GenerateCommandTest extends TestCase
     }
 
     /**
-     * @param array<mixed> $cliArguments
-     *
      * @dataProvider nonLoadableDataDataProvider
      * @dataProvider circularStepImportDataProvider
      * @dataProvider emptyTestDataProvider
@@ -139,7 +138,7 @@ class GenerateCommandTest extends TestCase
      * @dataProvider unresolvedPlaceholderDataProvider
      */
     public function testRunFailure(
-        array $cliArguments,
+        CliArguments $cliArguments,
         int $expectedExitCode,
         ErrorOutputInterface $expectedCommandOutput,
         ?callable $initializer = null
@@ -147,13 +146,13 @@ class GenerateCommandTest extends TestCase
         $stdout = new BufferedOutput();
         $stderr = new BufferedOutput();
 
-        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $this->createArgvFromInput($cliArguments));
+        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $cliArguments->toArgvArray());
 
         if (null !== $initializer) {
             $initializer($command);
         }
 
-        $exitCode = $command->run(new ArrayInput($cliArguments), new NullOutput());
+        $exitCode = $command->run(new ArrayInput($cliArguments->getOptions()), new NullOutput());
         self::assertSame($expectedExitCode, $exitCode);
         self::assertSame('', $stdout->fetch());
 
@@ -167,19 +166,17 @@ class GenerateCommandTest extends TestCase
      */
     public function unresolvedPlaceholderDataProvider(): array
     {
-        $root = getcwd();
-
         return [
             'placeholder CLIENT is not defined' => [
-                'input' => [
-                    '--source' => $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
-                    '--target' => $root . '/tests/build/target',
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getTest() . '/example.com.verify-open-literal.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => ErrorOutputFactory::CODE_GENERATOR_UNRESOLVED_PLACEHOLDER,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
-                        $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
-                        $root . '/tests/build/target',
+                        FixturePaths::getTest() . '/example.com.verify-open-literal.yml',
+                        FixturePaths::getTarget(),
                         AbstractBaseTest::class
                     ),
                     'Unresolved variable "CLIENT" in template ' .

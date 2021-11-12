@@ -7,6 +7,7 @@ namespace webignition\BasilCliCompiler\Tests\DataProvider\RunFailure;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
 use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
+use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 
@@ -19,10 +20,10 @@ trait CircularStepImportDataProviderTrait
     {
         return [
             'test imports step which imports self' => [
-                'cliArguments' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/invalid.import-circular-reference-self.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getInvalidTest() . '/invalid.import-circular-reference-self.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_CIRCULAR_STEP_IMPORT,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -38,10 +39,10 @@ trait CircularStepImportDataProviderTrait
                 ),
             ],
             'test imports step which step imports self' => [
-                'cliArguments' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/invalid.import-circular-reference-indirect.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getInvalidTest() . '/invalid.import-circular-reference-indirect.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_CIRCULAR_STEP_IMPORT,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

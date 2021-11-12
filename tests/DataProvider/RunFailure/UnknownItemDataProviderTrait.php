@@ -7,6 +7,7 @@ namespace webignition\BasilCliCompiler\Tests\DataProvider\RunFailure;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
 use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
+use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 
@@ -19,10 +20,10 @@ trait UnknownItemDataProviderTrait
     {
         return [
             'test declares step, step uses unknown dataset' => [
-                'cliArguments' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/step-uses-unknown-dataset.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getInvalidTest() . '/step-uses-unknown-dataset.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -42,10 +43,10 @@ trait UnknownItemDataProviderTrait
                 ),
             ],
             'test declares step, step uses unknown page' => [
-                'cliArguments' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/step-uses-unknown-page.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getInvalidTest() . '/step-uses-unknown-page.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -65,10 +66,10 @@ trait UnknownItemDataProviderTrait
                 ),
             ],
             'test declares step, step uses step' => [
-                'cliArguments' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/step-uses-unknown-step.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getInvalidTest() . '/step-uses-unknown-step.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
+use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilerModels\SuiteManifest;
@@ -40,18 +41,15 @@ class CompilerTest extends TestCase
     /**
      * @dataProvider generateDataProvider
      *
-     * @param array<int, string> $cliArguments
-     * @param array<mixed>       $expectedGeneratedTestDataCollection
+     * @param array<mixed> $expectedGeneratedTestDataCollection
      */
     public function testGenerate(
-        array $cliArguments,
+        CliArguments $cliArguments,
         string $localTarget,
         array $expectedGeneratedTestDataCollection
     ): void {
         $compilationOutput = $this->getCompilationOutput($cliArguments);
         $this->assertSame(0, $compilationOutput->getExitCode());
-
-        $remoteTarget = str_replace('--target=', '', $cliArguments[1]);
 
         $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($compilationOutput->getContent()));
 
@@ -60,7 +58,7 @@ class CompilerTest extends TestCase
 
         foreach ($testManifests as $index => $testManifest) {
             $testPath = $testManifest->getTarget();
-            $localTestPath = str_replace($remoteTarget, $localTarget, $testPath);
+            $localTestPath = str_replace($cliArguments->getTarget(), $localTarget, $testPath);
             self::assertFileExists($localTestPath);
 
             $expectedGeneratedTestData = $expectedGeneratedTestDataCollection[$index];
@@ -90,10 +88,10 @@ class CompilerTest extends TestCase
 
         return [
             'single test' => [
-                'cliArguments' => [
-                    '--source=' . $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
-                    '--target=' . $root . '/tests/build/target',
-                ],
+                'cliArguments' => new CliArguments(
+                    $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
+                    $root . '/tests/build/target',
+                ),
                 'localTarget' => $root . '/tests/build/target',
                 'expectedGeneratedTestDataCollection' => [
                     [
@@ -110,12 +108,9 @@ class CompilerTest extends TestCase
         return str_replace((string) getcwd(), '', $generatedTestContent);
     }
 
-    /**
-     * @param array<int, string> $cliArguments
-     */
-    private function getCompilationOutput(array $cliArguments): CompilationOutput
+    private function getCompilationOutput(CliArguments $cliArguments): CompilationOutput
     {
-        $processArguments = array_merge(['./bin/compiler'], $cliArguments);
+        $processArguments = array_merge(['./bin/compiler'], $cliArguments->toArgvArray());
         $process = new Process($processArguments);
         $exitCode = $process->run();
 

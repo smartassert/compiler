@@ -6,6 +6,7 @@ namespace webignition\BasilCliCompiler\Tests\DataProvider\RunSuccess;
 
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
+use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\SuiteManifest;
 use webignition\BasilCompilerModels\TestManifest;
@@ -22,10 +23,10 @@ trait SuccessDataProviderTrait
 
         return [
             'single test' => [
-                'cliArguments' => [
-                    '--source' => FixturePaths::getTest() . '/example.com.verify-open-literal.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getTest() . '/example.com.verify-open-literal.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => 0,
                 'expectedOutput' => new SuiteManifest(
                     new Configuration(
@@ -50,10 +51,10 @@ trait SuccessDataProviderTrait
                 ],
             ],
             'single test, verify open literal with page import' => [
-                'cliArguments' => [
-                    '--source' => FixturePaths::getTest() . '/example.com.import-page.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getTest() . '/example.com.import-page.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => 0,
                 'expectedOutput' => new SuiteManifest(
                     new Configuration(
@@ -78,10 +79,10 @@ trait SuccessDataProviderTrait
                 ],
             ],
             'single test with multiple browsers' => [
-                'cliArguments' => [
-                    '--source' => FixturePaths::getTest() . '/example.com.verify-open-literal-multiple-browsers.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments(
+                    FixturePaths::getTest() . '/example.com.verify-open-literal-multiple-browsers.yml',
+                    FixturePaths::getTarget()
+                ),
                 'expectedExitCode' => 0,
                 'expectedOutput' => new SuiteManifest(
                     new Configuration(

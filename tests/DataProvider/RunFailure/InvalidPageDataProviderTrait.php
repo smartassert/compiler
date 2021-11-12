@@ -7,6 +7,7 @@ namespace webignition\BasilCliCompiler\Tests\DataProvider\RunFailure;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
 use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
+use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 
@@ -27,10 +28,7 @@ trait InvalidPageDataProviderTrait
 
         return [
             'test imports invalid page; url empty' => [
-                'cliArguments' => [
-                    '--source' => $testPath,
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'cliArguments' => new CliArguments($testPath, FixturePaths::getTarget()),
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_PAGE,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
