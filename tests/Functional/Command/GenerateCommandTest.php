@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilCliCompiler\Tests\Functional\Command;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
@@ -26,7 +27,6 @@ use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownElementDat
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunSuccess\SuccessDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\Services\ServiceMocker;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
@@ -39,7 +39,7 @@ use webignition\BasilParser\ActionParser;
 use webignition\BasilParser\AssertionParser;
 use webignition\ObjectReflector\ObjectReflector;
 
-class GenerateCommandTest extends \PHPUnit\Framework\TestCase
+class GenerateCommandTest extends TestCase
 {
     use NonLoadableDataDataProviderTrait;
     use CircularStepImportDataProviderTrait;
@@ -63,7 +63,7 @@ class GenerateCommandTest extends \PHPUnit\Framework\TestCase
     public function testRunSuccess(
         array $input,
         int $expectedExitCode,
-        SuiteManifest $expectedCommandOutput,
+        SuiteManifest $expectedOutput,
         array $expectedGeneratedCodePaths,
         array $classNames
     ): void {
@@ -72,27 +72,38 @@ class GenerateCommandTest extends \PHPUnit\Framework\TestCase
 
         $command = CommandFactory::createGenerateCommand($stdout, $stderr, $this->createArgvFromInput($input));
 
-        $this->mockClassNameFactoryOnCommand($command, $classNames);
-
         $exitCode = $command->run(new ArrayInput($input), new NullOutput());
         self::assertSame($expectedExitCode, $exitCode);
         self::assertSame('', $stderr->fetch());
 
-        $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($stdout->fetch()));
-        self::assertEquals($expectedCommandOutput, $suiteManifest);
+        $output = $stdout->fetch();
+        $outputWithClassNamesReplaced = $this->replaceClassNamesInContent($output, $classNames);
+
+        $suiteManifestForOutput = SuiteManifest::fromArray((array) Yaml::parse($output));
+        $suiteManifestForClassNameModifiedOutput = SuiteManifest::fromArray(
+            (array) Yaml::parse($outputWithClassNamesReplaced)
+        );
+        self::assertEquals($expectedOutput, $suiteManifestForClassNameModifiedOutput);
 
         $generatedTestsToRemove = [];
-        foreach ($suiteManifest->getTestManifests() as $testManifestIndex => $testManifest) {
+        foreach ($suiteManifestForOutput->getTestManifests() as $testManifestIndex => $testManifest) {
             $expectedCodePath = $testManifest->getTarget();
 
             self::assertFileExists($expectedCodePath);
             self::assertFileIsReadable($expectedCodePath);
 
-            $expectedGeneratedCodePath = $expectedGeneratedCodePaths[$testManifestIndex];
-            $expectedGeneratedCode = file_get_contents($expectedGeneratedCodePath);
-            $generatedCode = file_get_contents($expectedCodePath);
+            $generatedCode = (string) file_get_contents($expectedCodePath);
+            self::assertNotSame('', $generatedCode);
 
-            self::assertSame($expectedGeneratedCode, $generatedCode);
+            $generatedCodeWithModifiedClassName = $this->replaceClassNameInContent(
+                $generatedCode,
+                $classNames[$testManifestIndex]
+            );
+
+            $expectedGeneratedCodePath = $expectedGeneratedCodePaths[$testManifestIndex];
+            $expectedGeneratedCode = (string) file_get_contents($expectedGeneratedCodePath);
+
+            self::assertSame($expectedGeneratedCode, $generatedCodeWithModifiedClassName);
 
             $generatedTestsToRemove[] = $expectedCodePath;
         }
@@ -382,15 +393,22 @@ class GenerateCommandTest extends \PHPUnit\Framework\TestCase
     /**
      * @param string[] $classNames
      */
-    private function mockClassNameFactoryOnCommand(GenerateCommand $command, array $classNames): void
+    private function replaceClassNamesInContent(string $output, array $classNames): string
     {
-        $serviceMocker = new ServiceMocker();
+        foreach ($classNames as $className) {
+            $output = $this->replaceClassNameInContent($output, $className);
+        }
 
-        $compiler = $serviceMocker->mockClassNameFactoryOnCompiler(
-            ObjectReflector::getProperty($command, 'compiler'),
-            $classNames
+        return $output;
+    }
+
+    private function replaceClassNameInContent(string $output, string $className): string
+    {
+        return (string) preg_replace(
+            '/Generated[a-zA-Z0-9]{32}Test/',
+            $className,
+            $output,
+            1
         );
-
-        ObjectReflector::setProperty($command, GenerateCommand::class, 'compiler', $compiler);
     }
 }
