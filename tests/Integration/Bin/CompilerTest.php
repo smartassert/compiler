@@ -7,7 +7,8 @@ namespace webignition\BasilCliCompiler\Tests\Integration\Bin;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
-use webignition\BasilCliCompiler\Tests\Integration\AbstractGeneratedTestCase;
+use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
+use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilerModels\SuiteManifest;
 
@@ -22,30 +23,48 @@ class CompilerTest extends TestCase
         $this->classNameReplacer = new ClassNameReplacer();
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $directoryIterator = new \DirectoryIterator(FixturePaths::getTarget());
+
+        foreach ($directoryIterator as $item) {
+            /** @var \DirectoryIterator $item */
+            if ('php' === $item->getExtension() && $item->isFile() && $item->isWritable()) {
+                unlink($item->getPathname());
+            }
+        }
+    }
+
     /**
      * @dataProvider generateDataProvider
      *
      * @param array<mixed> $expectedGeneratedTestDataCollection
      */
-    public function testGenerate(string $source, string $target, array $expectedGeneratedTestDataCollection): void
-    {
-        $generateProcess = $this->createGenerateCommandProcess($source, $target);
-        $exitCode = $generateProcess->run();
+    public function testGenerate(
+        string $sourceDirectory,
+        string $sourcePath,
+        string $remoteTarget,
+        string $localTarget,
+        array $expectedGeneratedTestDataCollection
+    ): void {
+        $compilationOutput = $this->getCompilationOutput($sourceDirectory . $sourcePath, $remoteTarget);
+        $this->assertSame(0, $compilationOutput->getExitCode());
 
-        $this->assertSame(0, $exitCode);
-
-        $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($generateProcess->getOutput()));
+        $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($compilationOutput->getContent()));
 
         $testManifests = $suiteManifest->getTestManifests();
         self::assertNotEmpty($testManifests);
 
         foreach ($testManifests as $index => $testManifest) {
             $testPath = $testManifest->getTarget();
-            self::assertFileExists($testPath);
+            $localTestPath = str_replace($remoteTarget, $localTarget, $testPath);
+            self::assertFileExists($localTestPath);
 
             $expectedGeneratedTestData = $expectedGeneratedTestDataCollection[$index];
 
-            $generatedTestContent = (string) file_get_contents($testPath);
+            $generatedTestContent = (string) file_get_contents($localTestPath);
 
             $classNameReplacement = $expectedGeneratedTestData['classNameReplacement'];
             $generatedTestContent = $this->classNameReplacer->replaceNamesInContent(
@@ -59,10 +78,6 @@ class CompilerTest extends TestCase
 
             $this->assertSame($expectedTestContent, $generatedTestContent);
         }
-
-        foreach ($testManifests as $testManifest) {
-            unlink($testManifest->getTarget());
-        }
     }
 
     /**
@@ -74,12 +89,14 @@ class CompilerTest extends TestCase
 
         return [
             'single test' => [
-                'source' => $root . '/tests/Fixtures/basil-integration/Test/index-page-open.yml',
-                'target' => $root . '/tests/build/target',
+                'sourceDirectory' => $root . '/tests/Fixtures/basil',
+                'sourcePath' => '/Test/example.com.verify-open-literal.yml',
+                'remoteTarget' => $root . '/tests/build/target',
+                'localTarget' => $root . '/tests/build/target',
                 'expectedGeneratedTestDataCollection' => [
                     [
-                        'classNameReplacement' => 'IndexPageOpenTest',
-                        'expectedContentPath' => '/tests/Fixtures/php/Test-Integration/IndexPageOpenTest.php',
+                        'classNameReplacement' => 'GeneratedVerifyOpenLiteralChrome',
+                        'expectedContentPath' => '/tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralChrome.php',
                     ],
                 ],
             ],
@@ -94,13 +111,20 @@ class CompilerTest extends TestCase
         return new Process([
             './bin/compiler',
             '--source=' . $source,
-            '--target=' . $target,
-            '--base-class=' . AbstractGeneratedTestCase::class
+            '--target=' . $target
         ]);
     }
 
     private function removeProjectRootPathInGeneratedTest(string $generatedTestContent): string
     {
         return str_replace((string) getcwd(), '', $generatedTestContent);
+    }
+
+    private function getCompilationOutput(string $source, string $remoteTarget): CompilationOutput
+    {
+        $generateProcess = $this->createGenerateCommandProcess($source, $remoteTarget);
+        $exitCode = $generateProcess->run();
+
+        return new CompilationOutput($generateProcess->getOutput(), $exitCode);
     }
 }

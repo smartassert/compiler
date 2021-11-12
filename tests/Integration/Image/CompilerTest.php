@@ -6,6 +6,7 @@ namespace webignition\BasilCliCompiler\Tests\Integration\Image;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
+use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilerModels\SuiteManifest;
 use webignition\TcpCliProxyClient\Client;
@@ -28,37 +29,23 @@ class CompilerTest extends TestCase
      * @param array<mixed> $expectedGeneratedTestDataCollection
      */
     public function testGenerate(
-        string $source,
+        string $sourceDirectory,
+        string $sourcePath,
         string $remoteTarget,
         string $localTarget,
         array $expectedGeneratedTestDataCollection
     ): void {
-        $output = '';
-        $exitCode = null;
+        $compilationOutput = $this->getCompilationOutput($sourceDirectory . $sourcePath, $remoteTarget);
+        $this->assertSame(0, $compilationOutput->getExitCode());
 
-        $handler = (new HandlerFactory())->createWithScalarOutput($output, $exitCode);
+        $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($compilationOutput->getContent()));
 
-        $client = Client::createFromHostAndPort('localhost', 8000);
-
-        $client->request(
-            sprintf(
-                './compiler --source=%s --target=%s',
-                $source,
-                $remoteTarget
-            ),
-            $handler
-        );
-
-        $this->assertSame(0, $exitCode);
-
-        $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($output));
         $testManifests = $suiteManifest->getTestManifests();
         self::assertNotEmpty($testManifests);
 
         foreach ($testManifests as $index => $testManifest) {
             $testPath = $testManifest->getTarget();
             $localTestPath = str_replace($remoteTarget, $localTarget, $testPath);
-
             self::assertFileExists($localTestPath);
 
             $expectedGeneratedTestData = $expectedGeneratedTestDataCollection[$index];
@@ -88,7 +75,8 @@ class CompilerTest extends TestCase
 
         return [
             'single test' => [
-                'source' => '/app/source/Test/example.com.verify-open-literal.yml',
+                'sourceDirectory' => '/app/source',
+                'sourcePath' => '/Test/example.com.verify-open-literal.yml',
                 'remoteTarget' => '/app/tests',
                 'localTarget' => $root . '/tests/build/target',
                 'expectedGeneratedTestDataCollection' => [
@@ -104,5 +92,26 @@ class CompilerTest extends TestCase
     private function removeProjectRootPathInGeneratedTest(string $generatedTestContent): string
     {
         return str_replace((string) getcwd(), '', $generatedTestContent);
+    }
+
+    private function getCompilationOutput(string $source, string $remoteTarget): CompilationOutput
+    {
+        $output = '';
+        $exitCode = 0;
+
+        $handler = (new HandlerFactory())->createWithScalarOutput($output, $exitCode);
+
+        $client = Client::createFromHostAndPort('localhost', 8000);
+
+        $client->request(
+            sprintf(
+                './compiler --source=%s --target=%s',
+                $source,
+                $remoteTarget
+            ),
+            $handler
+        );
+
+        return new CompilationOutput($output, $exitCode);
     }
 }
