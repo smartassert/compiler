@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
+use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTest;
 use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilerModels\SuiteManifest;
 use webignition\TcpCliProxyClient\Client;
@@ -27,12 +28,12 @@ class CompilerTest extends TestCase
     /**
      * @dataProvider generateDataProvider
      *
-     * @param array<mixed> $expectedGeneratedTestDataCollection
+     * @param ExpectedGeneratedTest[] $expectedGeneratedTests
      */
     public function testGenerate(
         CliArguments $cliArguments,
         string $localTarget,
-        array $expectedGeneratedTestDataCollection
+        array $expectedGeneratedTests
     ): void {
         $compilationOutput = $this->getCompilationOutput($cliArguments);
         $this->assertSame(0, $compilationOutput->getExitCode());
@@ -47,21 +48,16 @@ class CompilerTest extends TestCase
             $localTestPath = str_replace($cliArguments->getTarget(), $localTarget, $testPath);
             self::assertFileExists($localTestPath);
 
-            $expectedGeneratedTestData = $expectedGeneratedTestDataCollection[$index];
-
+            $expectedGeneratedTest = $expectedGeneratedTests[$index];
             $generatedTestContent = (string) file_get_contents($localTestPath);
 
-            $classNameReplacement = $expectedGeneratedTestData['classNameReplacement'];
             $generatedTestContent = $this->classNameReplacer->replaceNamesInContent(
                 $generatedTestContent,
-                [$classNameReplacement]
+                [$expectedGeneratedTest->getReplacementClassName()]
             );
             $generatedTestContent = $this->removeProjectRootPathInGeneratedTest($generatedTestContent);
 
-            $expectedTestContentPath = getcwd() . '/' . $expectedGeneratedTestData['expectedContentPath'];
-            $expectedTestContent = (string) file_get_contents($expectedTestContentPath);
-
-            $this->assertSame($expectedTestContent, $generatedTestContent);
+            $this->assertSame($expectedGeneratedTest->getExpectedContent(), $generatedTestContent);
         }
     }
 
@@ -79,11 +75,11 @@ class CompilerTest extends TestCase
                     '/app/tests'
                 ),
                 'localTarget' => $root . '/tests/build/target',
-                'expectedGeneratedTestDataCollection' => [
-                    [
-                        'classNameReplacement' => 'GeneratedVerifyOpenLiteralChrome',
-                        'expectedContentPath' => '/tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralChrome.php',
-                    ],
+                'expectedGeneratedTests' => [
+                    new ExpectedGeneratedTest(
+                        'GeneratedVerifyOpenLiteralChrome',
+                        '/tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralChrome.php',
+                    ),
                 ],
             ],
         ];
