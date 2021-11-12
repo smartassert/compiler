@@ -32,7 +32,7 @@
         ],
         "static-analysis": "./vendor/bin/phpstan analyse --ansi",
         "integration-setup": "docker-compose -f tests/docker/docker-compose.yml up -d --build",
-        "integration-teardown-generated-tests": "docker-compose -f tests/docker/docker-compose.yml exec compiler sh -c 'rm -f /app/tests/Generated*.php'",
+        "integration-teardown-generated-tests": "docker-compose -f tests/docker/docker-compose.yml exec -T compiler sh -c 'rm -f /app/tests/Generated*.php'",
         "integration-teardown-services": "docker-compose -f tests/docker/docker-compose.yml stop",
         "integration-teardown": [
             "@integration-teardown-generated-tests",
