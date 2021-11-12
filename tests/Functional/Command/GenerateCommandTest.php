@@ -55,14 +55,14 @@ class GenerateCommandTest extends TestCase
     use SuccessDataProviderTrait;
 
     /**
-     * @param array<string, string> $input
+     * @param array<string, string> $cliArguments
      * @param string[]              $expectedGeneratedCodePaths
      * @param string[]              $classNames
      *
      * @dataProvider successDataProvider
      */
     public function testRunSuccess(
-        array $input,
+        array $cliArguments,
         int $expectedExitCode,
         SuiteManifest $expectedOutput,
         array $expectedGeneratedCodePaths,
@@ -71,9 +71,9 @@ class GenerateCommandTest extends TestCase
         $stdout = new BufferedOutput();
         $stderr = new BufferedOutput();
 
-        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $this->createArgvFromInput($input));
+        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $this->createArgvFromInput($cliArguments));
 
-        $exitCode = $command->run(new ArrayInput($input), new NullOutput());
+        $exitCode = $command->run(new ArrayInput($cliArguments), new NullOutput());
         self::assertSame($expectedExitCode, $exitCode);
         self::assertSame('', $stderr->fetch());
 
@@ -124,7 +124,7 @@ class GenerateCommandTest extends TestCase
     }
 
     /**
-     * @param array<mixed> $input
+     * @param array<mixed> $cliArguments
      *
      * @dataProvider nonLoadableDataDataProvider
      * @dataProvider circularStepImportDataProvider
@@ -139,7 +139,7 @@ class GenerateCommandTest extends TestCase
      * @dataProvider unresolvedPlaceholderDataProvider
      */
     public function testRunFailure(
-        array $input,
+        array $cliArguments,
         int $expectedExitCode,
         ErrorOutputInterface $expectedCommandOutput,
         ?callable $initializer = null
@@ -147,13 +147,13 @@ class GenerateCommandTest extends TestCase
         $stdout = new BufferedOutput();
         $stderr = new BufferedOutput();
 
-        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $this->createArgvFromInput($input));
+        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $this->createArgvFromInput($cliArguments));
 
         if (null !== $initializer) {
             $initializer($command);
         }
 
-        $exitCode = $command->run(new ArrayInput($input), new NullOutput());
+        $exitCode = $command->run(new ArrayInput($cliArguments), new NullOutput());
         self::assertSame($expectedExitCode, $exitCode);
         self::assertSame('', $stdout->fetch());
 

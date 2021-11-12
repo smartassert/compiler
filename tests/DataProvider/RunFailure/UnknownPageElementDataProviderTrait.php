@@ -19,7 +19,7 @@ trait UnknownPageElementDataProviderTrait
     {
         return [
             'test declares step, step contains action using unknown page element' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/action-contains-unknown-page-element.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -42,7 +42,7 @@ trait UnknownPageElementDataProviderTrait
                 ),
             ],
             'test imports step, test passes step unknown page element' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/imports-test-passes-unknown-element.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],

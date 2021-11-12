@@ -40,17 +40,18 @@ class CompilerTest extends TestCase
     /**
      * @dataProvider generateDataProvider
      *
-     * @param array<mixed> $expectedGeneratedTestDataCollection
+     * @param array<int, string> $cliArguments
+     * @param array<mixed>       $expectedGeneratedTestDataCollection
      */
     public function testGenerate(
-        string $sourceDirectory,
-        string $sourcePath,
-        string $remoteTarget,
+        array $cliArguments,
         string $localTarget,
         array $expectedGeneratedTestDataCollection
     ): void {
-        $compilationOutput = $this->getCompilationOutput($sourceDirectory . $sourcePath, $remoteTarget);
+        $compilationOutput = $this->getCompilationOutput($cliArguments);
         $this->assertSame(0, $compilationOutput->getExitCode());
+
+        $remoteTarget = str_replace('--target=', '', $cliArguments[1]);
 
         $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($compilationOutput->getContent()));
 
@@ -89,9 +90,10 @@ class CompilerTest extends TestCase
 
         return [
             'single test' => [
-                'sourceDirectory' => $root . '/tests/Fixtures/basil',
-                'sourcePath' => '/Test/example.com.verify-open-literal.yml',
-                'remoteTarget' => $root . '/tests/build/target',
+                'cliArguments' => [
+                    '--source=' . $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
+                    '--target=' . $root . '/tests/build/target',
+                ],
                 'localTarget' => $root . '/tests/build/target',
                 'expectedGeneratedTestDataCollection' => [
                     [
@@ -103,28 +105,20 @@ class CompilerTest extends TestCase
         ];
     }
 
-    /**
-     * @return Process<string>
-     */
-    private function createGenerateCommandProcess(string $source, string $target): Process
-    {
-        return new Process([
-            './bin/compiler',
-            '--source=' . $source,
-            '--target=' . $target
-        ]);
-    }
-
     private function removeProjectRootPathInGeneratedTest(string $generatedTestContent): string
     {
         return str_replace((string) getcwd(), '', $generatedTestContent);
     }
 
-    private function getCompilationOutput(string $source, string $remoteTarget): CompilationOutput
+    /**
+     * @param array<int, string> $cliArguments
+     */
+    private function getCompilationOutput(array $cliArguments): CompilationOutput
     {
-        $generateProcess = $this->createGenerateCommandProcess($source, $remoteTarget);
-        $exitCode = $generateProcess->run();
+        $processArguments = array_merge(['./bin/compiler'], $cliArguments);
+        $process = new Process($processArguments);
+        $exitCode = $process->run();
 
-        return new CompilationOutput($generateProcess->getOutput(), $exitCode);
+        return new CompilationOutput($process->getOutput(), $exitCode);
     }
 }

@@ -19,7 +19,7 @@ trait NonLoadableDataDataProviderTrait
     {
         return [
             'test contains invalid yaml' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/invalid.unparseable.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -38,7 +38,7 @@ trait NonLoadableDataDataProviderTrait
                 ),
             ],
             'test file contains non-array data' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/invalid.not-an-array.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],

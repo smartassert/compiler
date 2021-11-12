@@ -27,7 +27,7 @@ trait InvalidPageDataProviderTrait
 
         return [
             'test imports invalid page; url empty' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => $testPath,
                     '--target' => FixturePaths::getTarget(),
                 ],

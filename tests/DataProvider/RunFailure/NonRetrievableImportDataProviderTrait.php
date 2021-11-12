@@ -27,7 +27,7 @@ trait NonRetrievableImportDataProviderTrait
 
         return [
             'test imports non-parsable page' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => $testPath,
                     '--target' => FixturePaths::getTarget(),
                 ],

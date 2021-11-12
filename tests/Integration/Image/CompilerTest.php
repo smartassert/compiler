@@ -26,17 +26,18 @@ class CompilerTest extends TestCase
     /**
      * @dataProvider generateDataProvider
      *
+     * @param array<int, string> $cliArguments
      * @param array<mixed> $expectedGeneratedTestDataCollection
      */
     public function testGenerate(
-        string $sourceDirectory,
-        string $sourcePath,
-        string $remoteTarget,
+        array $cliArguments,
         string $localTarget,
         array $expectedGeneratedTestDataCollection
     ): void {
-        $compilationOutput = $this->getCompilationOutput($sourceDirectory . $sourcePath, $remoteTarget);
+        $compilationOutput = $this->getCompilationOutput($cliArguments);
         $this->assertSame(0, $compilationOutput->getExitCode());
+
+        $remoteTarget = str_replace('--target=', '', $cliArguments[1]);
 
         $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($compilationOutput->getContent()));
 
@@ -75,9 +76,10 @@ class CompilerTest extends TestCase
 
         return [
             'single test' => [
-                'sourceDirectory' => '/app/source',
-                'sourcePath' => '/Test/example.com.verify-open-literal.yml',
-                'remoteTarget' => '/app/tests',
+                'cliArguments' => [
+                    '--source=/app/source/Test/example.com.verify-open-literal.yml',
+                    '--target=/app/tests',
+                ],
                 'localTarget' => $root . '/tests/build/target',
                 'expectedGeneratedTestDataCollection' => [
                     [
@@ -94,7 +96,10 @@ class CompilerTest extends TestCase
         return str_replace((string) getcwd(), '', $generatedTestContent);
     }
 
-    private function getCompilationOutput(string $source, string $remoteTarget): CompilationOutput
+    /**
+     * @param array<int, string> $cliArguments
+     */
+    private function getCompilationOutput(array $cliArguments): CompilationOutput
     {
         $output = '';
         $exitCode = 0;
@@ -104,11 +109,7 @@ class CompilerTest extends TestCase
         $client = Client::createFromHostAndPort('localhost', 8000);
 
         $client->request(
-            sprintf(
-                './compiler --source=%s --target=%s',
-                $source,
-                $remoteTarget
-            ),
+            './compiler ' . implode(' ', $cliArguments),
             $handler
         );
 

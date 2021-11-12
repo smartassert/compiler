@@ -21,7 +21,7 @@ trait UnknownElementDataProviderTrait
 
         return [
             'test declares step, step contains action with unknown element' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/action-contains-unknown-element.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -43,7 +43,7 @@ trait UnknownElementDataProviderTrait
                 ),
             ],
             'test imports step, step contains action with unknown element' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/import-action-containing-unknown-element.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],

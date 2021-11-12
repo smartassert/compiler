@@ -22,7 +22,7 @@ trait InvalidTestDataProviderTrait
 
         return [
             'test has invalid configuration' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => $testPath,
                     '--target' => FixturePaths::getTarget(),
                 ],

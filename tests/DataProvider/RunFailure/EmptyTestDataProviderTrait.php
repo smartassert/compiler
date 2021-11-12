@@ -22,7 +22,7 @@ trait EmptyTestDataProviderTrait
 
         return [
             'test file is empty' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => $emptyTestPath,
                     '--target' => FixturePaths::getTarget(),
                 ],

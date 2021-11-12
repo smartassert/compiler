@@ -22,7 +22,7 @@ trait SuccessDataProviderTrait
 
         return [
             'single test' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getTest() . '/example.com.verify-open-literal.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -50,7 +50,7 @@ trait SuccessDataProviderTrait
                 ],
             ],
             'single test, verify open literal with page import' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getTest() . '/example.com.import-page.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -78,7 +78,7 @@ trait SuccessDataProviderTrait
                 ],
             ],
             'single test with multiple browsers' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getTest() . '/example.com.verify-open-literal-multiple-browsers.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],

@@ -19,7 +19,7 @@ trait UnknownItemDataProviderTrait
     {
         return [
             'test declares step, step uses unknown dataset' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/step-uses-unknown-dataset.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -42,7 +42,7 @@ trait UnknownItemDataProviderTrait
                 ),
             ],
             'test declares step, step uses unknown page' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/step-uses-unknown-page.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -65,7 +65,7 @@ trait UnknownItemDataProviderTrait
                 ),
             ],
             'test declares step, step uses step' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/step-uses-unknown-step.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],

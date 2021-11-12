@@ -21,7 +21,7 @@ trait ParseExceptionDataProviderTrait
 
         return [
             'test declares step, step contains unparseable action' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/unparseable-action.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -45,7 +45,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test declares step, step contains unparseable assertion' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/unparseable-assertion.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -69,7 +69,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test imports step, step contains unparseable action' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/import-unparseable-action.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -93,7 +93,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test imports step, step contains unparseable assertion' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/import-unparseable-assertion.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -117,7 +117,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test declares step, step contains non-array actions data' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/non-array-actions-data.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -139,7 +139,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test declares step, step contains non-array assertions data' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/non-array-assertions-data.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -161,7 +161,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test imports step, step contains non-array actions data' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/import-non-array-actions-data.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
@@ -183,7 +183,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test imports step, step contains non-array assertions data' => [
-                'input' => [
+                'cliArguments' => [
                     '--source' => FixturePaths::getInvalidTest() . '/import-non-array-assertions-data.yml',
                     '--target' => FixturePaths::getTarget(),
                 ],
