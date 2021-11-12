@@ -6,12 +6,22 @@ namespace webignition\BasilCliCompiler\Tests\Integration\Image;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
+use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilerModels\SuiteManifest;
 use webignition\TcpCliProxyClient\Client;
 use webignition\TcpCliProxyClient\HandlerFactory;
 
 class CompilerTest extends TestCase
 {
+    private ClassNameReplacer $classNameReplacer;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->classNameReplacer = new ClassNameReplacer();
+    }
+
     /**
      * @dataProvider generateDataProvider
      *
@@ -56,7 +66,10 @@ class CompilerTest extends TestCase
             $generatedTestContent = (string) file_get_contents($localTestPath);
 
             $classNameReplacement = $expectedGeneratedTestData['classNameReplacement'];
-            $generatedTestContent = $this->replaceGeneratedTestClassName($generatedTestContent, $classNameReplacement);
+            $generatedTestContent = $this->classNameReplacer->replaceNamesInContent(
+                $generatedTestContent,
+                [$classNameReplacement]
+            );
             $generatedTestContent = $this->removeProjectRootPathInGeneratedTest($generatedTestContent);
 
             $expectedTestContentPath = getcwd() . '/' . $expectedGeneratedTestData['expectedContentPath'];
@@ -86,15 +99,6 @@ class CompilerTest extends TestCase
                 ],
             ],
         ];
-    }
-
-    private function replaceGeneratedTestClassName(string $generatedTestContent, string $className): string
-    {
-        return (string) preg_replace(
-            '/class Generated[a-zA-Z0-9]{32}Test/',
-            'class ' . $className,
-            $generatedTestContent
-        );
     }
 
     private function removeProjectRootPathInGeneratedTest(string $generatedTestContent): string

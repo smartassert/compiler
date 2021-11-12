@@ -4,13 +4,24 @@ declare(strict_types=1);
 
 namespace webignition\BasilCliCompiler\Tests\Integration\Bin;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BasilCliCompiler\Tests\Integration\AbstractGeneratedTestCase;
+use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilerModels\SuiteManifest;
 
-class CompilerTest extends \PHPUnit\Framework\TestCase
+class CompilerTest extends TestCase
 {
+    private ClassNameReplacer $classNameReplacer;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->classNameReplacer = new ClassNameReplacer();
+    }
+
     /**
      * @dataProvider generateDataProvider
      *
@@ -37,7 +48,10 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
             $generatedTestContent = (string) file_get_contents($testPath);
 
             $classNameReplacement = $expectedGeneratedTestData['classNameReplacement'];
-            $generatedTestContent = $this->replaceGeneratedTestClassName($generatedTestContent, $classNameReplacement);
+            $generatedTestContent = $this->classNameReplacer->replaceNamesInContent(
+                $generatedTestContent,
+                [$classNameReplacement]
+            );
             $generatedTestContent = $this->removeProjectRootPathInGeneratedTest($generatedTestContent);
 
             $expectedTestContentPath = getcwd() . '/' . $expectedGeneratedTestData['expectedContentPath'];
@@ -83,15 +97,6 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
             '--target=' . $target,
             '--base-class=' . AbstractGeneratedTestCase::class
         ]);
-    }
-
-    private function replaceGeneratedTestClassName(string $generatedTestContent, string $className): string
-    {
-        return (string) preg_replace(
-            '/class Generated[a-zA-Z0-9]{32}Test/',
-            'class ' . $className,
-            $generatedTestContent
-        );
     }
 
     private function removeProjectRootPathInGeneratedTest(string $generatedTestContent): string

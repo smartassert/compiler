@@ -27,6 +27,7 @@ use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownElementDat
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunSuccess\SuccessDataProviderTrait;
+use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
@@ -77,7 +78,9 @@ class GenerateCommandTest extends TestCase
         self::assertSame('', $stderr->fetch());
 
         $output = $stdout->fetch();
-        $outputWithClassNamesReplaced = $this->replaceClassNamesInContent($output, $classNames);
+
+        $classNameReplacer = new ClassNameReplacer();
+        $outputWithClassNamesReplaced = $classNameReplacer->replaceNamesInContent($output, $classNames);
 
         $suiteManifestForOutput = SuiteManifest::fromArray((array) Yaml::parse($output));
         $suiteManifestForClassNameModifiedOutput = SuiteManifest::fromArray(
@@ -95,9 +98,11 @@ class GenerateCommandTest extends TestCase
             $generatedCode = (string) file_get_contents($expectedCodePath);
             self::assertNotSame('', $generatedCode);
 
-            $generatedCodeWithModifiedClassName = $this->replaceClassNameInContent(
+            $generatedCodeWithModifiedClassName = $classNameReplacer->replaceNamesInContent(
                 $generatedCode,
-                $classNames[$testManifestIndex]
+                [
+                    $classNames[$testManifestIndex],
+                ]
             );
 
             $expectedGeneratedCodePath = $expectedGeneratedCodePaths[$testManifestIndex];
@@ -388,27 +393,5 @@ class GenerateCommandTest extends TestCase
         }
 
         return $argv;
-    }
-
-    /**
-     * @param string[] $classNames
-     */
-    private function replaceClassNamesInContent(string $output, array $classNames): string
-    {
-        foreach ($classNames as $className) {
-            $output = $this->replaceClassNameInContent($output, $className);
-        }
-
-        return $output;
-    }
-
-    private function replaceClassNameInContent(string $output, string $className): string
-    {
-        return (string) preg_replace(
-            '/Generated[a-zA-Z0-9]{32}Test/',
-            $className,
-            $output,
-            1
-        );
     }
 }
