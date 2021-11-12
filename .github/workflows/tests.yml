@@ -38,6 +38,20 @@ jobs:
       - name: Run PHPUnit integration tests
         run: composer test-integration
 
+  integration:
+    name: Test Docker Image (new)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup
+        run: composer integration-setup
+
+      - name: Teardown
+        run: composer integration-teardown
+
   image:
     name: Test Docker Image
     runs-on: ubuntu-latest
