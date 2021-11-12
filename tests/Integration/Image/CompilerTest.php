@@ -17,8 +17,12 @@ class CompilerTest extends TestCase
      *
      * @param array<mixed> $expectedGeneratedTestDataCollection
      */
-    public function testGenerate(string $source, string $remoteTarget, string $localTarget, array $expectedGeneratedTestDataCollection): void
-    {
+    public function testGenerate(
+        string $source,
+        string $remoteTarget,
+        string $localTarget,
+        array $expectedGeneratedTestDataCollection
+    ): void {
         $output = '';
         $exitCode = null;
 
