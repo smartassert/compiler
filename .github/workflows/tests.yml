@@ -39,7 +39,7 @@ jobs:
         run: composer test-integration
 
   integration:
-    name: Test Docker Image (new)
+    name: Test Docker Image
     runs-on: ubuntu-latest
 
     steps:
@@ -49,18 +49,8 @@ jobs:
       - name: Setup
         run: composer integration-setup
 
+      - name: Run
+        run: ./build/test.sh
+
       - name: Teardown
         run: composer integration-teardown
-
-  image:
-    name: Test Docker Image
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Build test image
-        run: |
-          ./build/build.sh
-          ./build/test.sh
