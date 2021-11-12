@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  compiler:
+    build:
+      context: ../..
+    container_name: compiler
+    volumes:
+      - ../Fixtures/basil:/app/source
+      - ../build/target:/app/tests
+    ports:
+      - "8000:8000"
