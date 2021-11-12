@@ -50,7 +50,7 @@ jobs:
         run: composer integration-setup
 
       - name: Run
-        run: ./build/test.sh
+        run: composer test-integration-image
 
       - name: Teardown
         run: composer integration-teardown

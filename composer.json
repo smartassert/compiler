@@ -41,6 +41,7 @@
         "test-unit": "./vendor/bin/phpunit --colors=always tests/Unit",
         "test-functional": "./vendor/bin/phpunit --colors=always tests/Functional",
         "test-integration-bin": "./vendor/bin/phpunit --colors=always tests/Integration/Bin",
+        "test-integration-image": "./vendor/bin/phpunit --colors=always tests/Integration/Image",
         "test": [
             "@test-unit",
             "@test-functional",
@@ -80,7 +81,8 @@
         "webignition/basil-data-validator": ">=0.16,<1",
         "webignition/basil-parser": ">=0.26,<1",
         "webignition/object-reflector": ">=1,<2",
-        "webignition/symfony-panther-webserver-runner": ">=0.5,<1"
+        "webignition/symfony-panther-webserver-runner": ">=0.5,<1",
+        "webignition/tcp-cli-proxy-client": "^0.12.0"
     },
     "bin": [
         "bin/compiler"
