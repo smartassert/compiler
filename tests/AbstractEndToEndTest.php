@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Integration;
+namespace webignition\BasilCliCompiler\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;

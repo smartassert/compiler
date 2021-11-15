@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilCliCompiler\Tests\Integration\Image;
 
-use webignition\BasilCliCompiler\Tests\Integration\AbstractEndToEndTest;
+use webignition\BasilCliCompiler\Tests\AbstractEndToEndTest;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\TcpCliProxyClient\Client;
