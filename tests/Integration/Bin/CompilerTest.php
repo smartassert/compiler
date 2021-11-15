@@ -75,7 +75,6 @@ class CompilerTest extends TestCase
                 $generatedTestContent,
                 [$expectedGeneratedTest->getReplacementClassName()]
             );
-            $generatedTestContent = $this->removeProjectRootPathInGeneratedTest($generatedTestContent);
 
             $this->assertSame($expectedGeneratedTest->getExpectedContent(), $generatedTestContent);
         }
@@ -102,11 +101,6 @@ class CompilerTest extends TestCase
                 ]),
             ],
         ];
-    }
-
-    private function removeProjectRootPathInGeneratedTest(string $generatedTestContent): string
-    {
-        return str_replace((string) getcwd(), '', $generatedTestContent);
     }
 
     private function getCompilationOutput(CliArguments $cliArguments): CompilationOutput
