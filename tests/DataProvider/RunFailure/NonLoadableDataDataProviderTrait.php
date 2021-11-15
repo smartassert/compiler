@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilCliCompiler\Tests\DataProvider\RunFailure;
 
-use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
-use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
-use webignition\BasilCompilerModels\Configuration;
-use webignition\BasilCompilerModels\ErrorOutput;
 
 trait NonLoadableDataDataProviderTrait
 {
@@ -21,34 +17,20 @@ trait NonLoadableDataDataProviderTrait
             'test contains invalid yaml' => [
                 'sourceRelativePath' => '/InvalidTest/invalid.unparseable.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
-                'expectedCommandOutput' => new ErrorOutput(
-                    new Configuration(
-                        FixturePaths::getInvalidTest() . '/invalid.unparseable.yml',
-                        FixturePaths::getTarget(),
-                        AbstractBaseTest::class
-                    ),
-                    'Malformed inline YAML string at line 3 (near "- "chrome")',
-                    ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
-                    [
-                        'path' => FixturePaths::getInvalidTest() . '/invalid.unparseable.yml',
-                    ]
-                ),
+                'expectedErrorOutputMessage' => 'Malformed inline YAML string at line 3 (near "- "chrome")',
+                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
+                'expectedErrorOutputData' => [
+                    'path' => '{{ remoteSourcePrefix }}/InvalidTest/invalid.unparseable.yml',
+                ],
             ],
             'test file contains non-array data' => [
                 'sourceRelativePath' => '/InvalidTest/invalid.not-an-array.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
-                'expectedCommandOutput' => new ErrorOutput(
-                    new Configuration(
-                        FixturePaths::getInvalidTest() . '/invalid.not-an-array.yml',
-                        FixturePaths::getTarget(),
-                        AbstractBaseTest::class
-                    ),
-                    'Data is not an array',
-                    ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
-                    [
-                        'path' => FixturePaths::getInvalidTest() . '/invalid.not-an-array.yml',
-                    ]
-                ),
+                'expectedErrorOutputMessage' => 'Data is not an array',
+                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
+                'expectedErrorOutputData' => [
+                    'path' => '{{ remoteSourcePrefix }}/InvalidTest/invalid.not-an-array.yml',
+                ],
             ],
         ];
     }

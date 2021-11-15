@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace webignition\BasilCliCompiler\Tests\Functional\Command;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Command\GenerateCommand;
@@ -16,91 +14,62 @@ use webignition\BasilCliCompiler\Services\CommandFactory;
 use webignition\BasilCliCompiler\Services\CompiledClassResolver;
 use webignition\BasilCliCompiler\Services\Compiler;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
-use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\CircularStepImportDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\EmptyTestDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\InvalidPageDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\InvalidTestDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\NonLoadableDataDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\NonRetrievableImportDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\ParseExceptionDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownElementDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
+use webignition\BasilCliCompiler\Tests\AbstractEndToEndFailureTest;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
+use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
-use webignition\BasilCompilerModels\ErrorOutputInterface;
 use webignition\BasilModels\Step\Step;
 use webignition\BasilParser\ActionParser;
 use webignition\BasilParser\AssertionParser;
 use webignition\ObjectReflector\ObjectReflector;
 
-class GenerateCommandFailureTest extends TestCase
+class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
 {
-    use NonLoadableDataDataProviderTrait;
-    use CircularStepImportDataProviderTrait;
-    use EmptyTestDataProviderTrait;
-    use InvalidPageDataProviderTrait;
-    use InvalidTestDataProviderTrait;
-    use NonRetrievableImportDataProviderTrait;
-    use ParseExceptionDataProviderTrait;
-    use UnknownElementDataProviderTrait;
-    use UnknownItemDataProviderTrait;
-    use UnknownPageElementDataProviderTrait;
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        $directoryIterator = new \DirectoryIterator(FixturePaths::getTarget());
-
-        foreach ($directoryIterator as $item) {
-            /** @var \DirectoryIterator $item */
-            if ('php' === $item->getExtension() && $item->isFile() && $item->isWritable()) {
-                unlink($item->getPathname());
-            }
-        }
-    }
-
     /**
-     * @dataProvider nonLoadableDataDataProvider
-     * @dataProvider circularStepImportDataProvider
-     * @dataProvider emptyTestDataProvider
-     * @dataProvider invalidPageDataProvider
-     * @dataProvider invalidTestDataProvider
-     * @dataProvider nonRetrievableImportDataProvider
-     * @dataProvider parseExceptionDataProvider
-     * @dataProvider unknownElementDataProvider
-     * @dataProvider unknownItemDataProvider
-     * @dataProvider unknownPageElementDataProvider
      * @dataProvider unresolvedPlaceholderDataProvider
+     *
+     * @param array<mixed> $expectedErrorOutputData
      */
     public function testRunFailure(
         string $sourceRelativePath,
         int $expectedExitCode,
-        ErrorOutputInterface $expectedCommandOutput,
+        string $expectedErrorOutputMessage,
+        int $expectedErrorOutputCode,
+        array $expectedErrorOutputData,
         ?callable $initializer = null
     ): void {
-        $cliArguments = new CliArguments(FixturePaths::getBase() . $sourceRelativePath, FixturePaths::getTarget());
+        $cliArguments = new CliArguments(
+            $this->getRemoteSourcePrefix() . $sourceRelativePath,
+            $this->getRemoteTarget(),
+        );
 
-        $stdout = new BufferedOutput();
-        $stderr = new BufferedOutput();
+        $compilationOutput = $this->getCompilationOutput($cliArguments, $initializer);
+        self::assertSame($expectedExitCode, $compilationOutput->getExitCode());
 
-        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $cliArguments->toArgvArray());
+        $output = $compilationOutput->getContent();
 
-        if (null !== $initializer) {
-            $initializer($command);
-        }
+        $commandOutput = ErrorOutput::fromArray((array) Yaml::parse($output));
+        $configuration = $commandOutput->getConfiguration();
+        self::assertSame($cliArguments->getSource(), $configuration->getSource());
+        self::assertSame($cliArguments->getTarget(), $configuration->getTarget());
+        self::assertSame(AbstractBaseTest::class, $configuration->getBaseClass());
 
-        $exitCode = $command->run(new ArrayInput($cliArguments->getOptions()), new NullOutput());
-        self::assertSame($expectedExitCode, $exitCode);
-        self::assertSame('', $stdout->fetch());
+        $expectedErrorOutputData = $this->replaceConfigurationPlaceholders($expectedErrorOutputData);
 
-        $commandOutput = ErrorOutput::fromArray((array) Yaml::parse($stderr->fetch()));
+        $expectedCommandOutput = new ErrorOutput(
+            new Configuration(
+                $cliArguments->getSource(),
+                $cliArguments->getTarget(),
+                AbstractBaseTest::class
+            ),
+            $this->replaceConfigurationPlaceholdersInString($expectedErrorOutputMessage),
+            $expectedErrorOutputCode,
+            $expectedErrorOutputData
+        );
 
         self::assertEquals($expectedCommandOutput, $commandOutput);
     }
@@ -114,20 +83,13 @@ class GenerateCommandFailureTest extends TestCase
             'placeholder CLIENT is not defined' => [
                 'sourceRelativePath' => '/Test/example.com.verify-open-literal.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_GENERATOR_UNRESOLVED_PLACEHOLDER,
-                'expectedCommandOutput' => new ErrorOutput(
-                    new Configuration(
-                        FixturePaths::getTest() . '/example.com.verify-open-literal.yml',
-                        FixturePaths::getTarget(),
-                        AbstractBaseTest::class
-                    ),
-                    'Unresolved variable "CLIENT" in template ' .
+                'expectedErrorOutputMessage' => 'Unresolved variable "CLIENT" in template ' .
                     '"{{ CLIENT }}->request(\'GET\', \'https://example.com/\');"',
-                    ErrorOutputFactory::CODE_GENERATOR_UNRESOLVED_PLACEHOLDER,
-                    [
-                        'placeholder' => 'CLIENT',
-                        'content' => '{{ CLIENT }}->request(\'GET\', \'https://example.com/\');',
-                    ]
-                ),
+                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_GENERATOR_UNRESOLVED_PLACEHOLDER,
+                'expectedErrorOutputData' => [
+                    'placeholder' => 'CLIENT',
+                    'content' => '{{ CLIENT }}->request(\'GET\', \'https://example.com/\');',
+                ],
                 'initializer' => function (GenerateCommand $command) {
                     $mockExternalVariableIdentifiers = \Mockery::mock(ExternalVariableIdentifiers::class);
                     $mockExternalVariableIdentifiers
@@ -155,32 +117,28 @@ class GenerateCommandFailureTest extends TestCase
     ): void {
         $root = getcwd();
 
-        $input = [
-            '--source' => $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
-            '--target' => $root . '/tests/build/target',
-        ];
+        $compilationOutput = $this->getCompilationOutput(
+            new CliArguments(
+                $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
+                $root . '/tests/build/target'
+            ),
+            function (GenerateCommand $command) use ($unsupportedStepException) {
+                $compiler = \Mockery::mock(Compiler::class);
+                $compiler
+                    ->shouldReceive('compile')
+                    ->andThrow($unsupportedStepException)
+                ;
 
-        $compiler = \Mockery::mock(Compiler::class);
-        $compiler
-            ->shouldReceive('compile')
-            ->andThrow($unsupportedStepException)
-        ;
-
-        $stdout = new BufferedOutput();
-        $stderr = new BufferedOutput();
-
-        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $this->createArgvFromInput($input));
-
-        ObjectReflector::setProperty(
-            $command,
-            GenerateCommand::class,
-            'compiler',
-            $compiler
+                ObjectReflector::setProperty(
+                    $command,
+                    GenerateCommand::class,
+                    'compiler',
+                    $compiler
+                );
+            }
         );
 
-        $exitCode = $command->run(new ArrayInput($input), new NullOutput());
-        self::assertSame(ErrorOutputFactory::CODE_GENERATOR_UNSUPPORTED_STEP, $exitCode);
-        self::assertSame('', $stdout->fetch());
+        self::assertSame(ErrorOutputFactory::CODE_GENERATOR_UNSUPPORTED_STEP, $compilationOutput->getExitCode());
 
         $expectedCommandOutput = new ErrorOutput(
             new Configuration(
@@ -193,7 +151,7 @@ class GenerateCommandFailureTest extends TestCase
             $expectedErrorOutputContext
         );
 
-        $commandOutput = ErrorOutput::fromArray((array) Yaml::parse($stderr->fetch()));
+        $commandOutput = ErrorOutput::fromArray((array) Yaml::parse($compilationOutput->getContent()));
 
         self::assertEquals($expectedCommandOutput, $commandOutput);
     }
@@ -296,6 +254,33 @@ class GenerateCommandFailureTest extends TestCase
         ];
     }
 
+    protected function getRemoteSourcePrefix(): string
+    {
+        return getcwd() . '/tests/Fixtures/basil';
+    }
+
+    protected function getRemoteTarget(): string
+    {
+        return getcwd() . '/tests/build/target';
+    }
+
+    protected function getCompilationOutput(
+        CliArguments $cliArguments,
+        ?callable $initializer = null
+    ): CompilationOutput {
+        $stdout = new BufferedOutput();
+        $stderr = new BufferedOutput();
+        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $cliArguments->toArgvArray());
+
+        if (null !== $initializer) {
+            $initializer($command);
+        }
+
+        $exitCode = $command->run(new ArrayInput($cliArguments->getOptions()), $stderr);
+
+        return new CompilationOutput($stderr->fetch(), $exitCode);
+    }
+
     private function mockCompilerCompiledClassResolverExternalVariableIdentifiers(
         GenerateCommand $command,
         ExternalVariableIdentifiers $updatedExternalVariableIdentifiers
@@ -316,20 +301,5 @@ class GenerateCommandFailureTest extends TestCase
             'compiler',
             $compiler
         );
-    }
-
-    /**
-     * @param array<mixed> $input
-     *
-     * @return array<mixed>
-     */
-    private function createArgvFromInput(array $input): array
-    {
-        $argv = [];
-        foreach ($input as $key => $value) {
-            $argv[] = $key . '=' . $value;
-        }
-
-        return $argv;
     }
 }

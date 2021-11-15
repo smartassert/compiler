@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilCliCompiler\Tests\DataProvider\RunFailure;
 
-use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
-use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
-use webignition\BasilCompilerModels\Configuration;
-use webignition\BasilCompilerModels\ErrorOutput;
 
 trait UnknownItemDataProviderTrait
 {
@@ -21,62 +17,41 @@ trait UnknownItemDataProviderTrait
             'test declares step, step uses unknown dataset' => [
                 'sourceRelativePath' => '/InvalidTest/step-uses-unknown-dataset.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
-                'expectedCommandOutput' => new ErrorOutput(
-                    new Configuration(
-                        FixturePaths::getInvalidTest() . '/step-uses-unknown-dataset.yml',
-                        FixturePaths::getTarget(),
-                        AbstractBaseTest::class
-                    ),
-                    'Unknown dataset "unknown_data_provider_name"',
-                    ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
-                    [
-                        'type' => 'dataset',
-                        'name' => 'unknown_data_provider_name',
-                        'test_path' => FixturePaths::getInvalidTest() . '/step-uses-unknown-dataset.yml',
-                        'step_name' => 'step name',
-                        'statement' => '',
-                    ]
-                ),
+                'expectedErrorOutputMessage' => 'Unknown dataset "unknown_data_provider_name"',
+                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
+                'expectedErrorOutputData' => [
+                    'type' => 'dataset',
+                    'name' => 'unknown_data_provider_name',
+                    'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/step-uses-unknown-dataset.yml',
+                    'step_name' => 'step name',
+                    'statement' => '',
+                ],
             ],
             'test declares step, step uses unknown page' => [
                 'sourceRelativePath' => '/InvalidTest/step-uses-unknown-page.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
-                'expectedCommandOutput' => new ErrorOutput(
-                    new Configuration(
-                        FixturePaths::getInvalidTest() . '/step-uses-unknown-page.yml',
-                        FixturePaths::getTarget(),
-                        AbstractBaseTest::class
-                    ),
-                    'Unknown page "unknown_page_import"',
-                    ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
-                    [
-                        'type' => 'page',
-                        'name' => 'unknown_page_import',
-                        'test_path' => FixturePaths::getInvalidTest() . '/step-uses-unknown-page.yml',
-                        'step_name' => 'step name',
-                        'statement' => '',
-                    ]
-                ),
+                'expectedErrorOutputMessage' => 'Unknown page "unknown_page_import"',
+                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
+                'expectedErrorOutputData' => [
+                    'type' => 'page',
+                    'name' => 'unknown_page_import',
+                    'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/step-uses-unknown-page.yml',
+                    'step_name' => 'step name',
+                    'statement' => '',
+                ],
             ],
             'test declares step, step uses step' => [
                 'sourceRelativePath' => '/InvalidTest/step-uses-unknown-step.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
-                'expectedCommandOutput' => new ErrorOutput(
-                    new Configuration(
-                        FixturePaths::getInvalidTest() . '/step-uses-unknown-step.yml',
-                        FixturePaths::getTarget(),
-                        AbstractBaseTest::class
-                    ),
-                    'Unknown step "unknown_step"',
-                    ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
-                    [
-                        'type' => 'step',
-                        'name' => 'unknown_step',
-                        'test_path' => FixturePaths::getInvalidTest() . '/step-uses-unknown-step.yml',
-                        'step_name' => 'step name',
-                        'statement' => '',
-                    ]
-                ),
+                'expectedErrorOutputMessage' => 'Unknown step "unknown_step"',
+                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
+                'expectedErrorOutputData' => [
+                    'type' => 'step',
+                    'name' => 'unknown_step',
+                    'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/step-uses-unknown-step.yml',
+                    'step_name' => 'step name',
+                    'statement' => '',
+                ],
             ],
         ];
     }

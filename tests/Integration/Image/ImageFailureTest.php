@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Integration;
+namespace webignition\BasilCliCompiler\Tests\Integration\Image;
 
-use webignition\BasilCliCompiler\Tests\AbstractEndToEndTest;
+use webignition\BasilCliCompiler\Tests\AbstractEndToEndFailureTest;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\TcpCliProxyClient\Client;
 use webignition\TcpCliProxyClient\HandlerFactory;
 
-class ImageTest extends AbstractEndToEndTest
+class ImageFailureTest extends AbstractEndToEndFailureTest
 {
     protected function getRemoteSourcePrefix(): string
     {
@@ -22,8 +22,10 @@ class ImageTest extends AbstractEndToEndTest
         return '/app/tests';
     }
 
-    protected function getCompilationOutput(CliArguments $cliArguments): CompilationOutput
-    {
+    protected function getCompilationOutput(
+        CliArguments $cliArguments,
+        ?callable $initializer = null
+    ): CompilationOutput {
         $output = '';
         $exitCode = 0;
 

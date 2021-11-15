@@ -8,11 +8,11 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use webignition\BasilCliCompiler\Services\CommandFactory;
-use webignition\BasilCliCompiler\Tests\AbstractEndToEndTest;
+use webignition\BasilCliCompiler\Tests\AbstractEndToEndSuccessTest;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 
-class GenerateCommandSuccessTest extends AbstractEndToEndTest
+class GenerateCommandSuccessTest extends AbstractEndToEndSuccessTest
 {
     protected function getRemoteSourcePrefix(): string
     {
@@ -24,8 +24,10 @@ class GenerateCommandSuccessTest extends AbstractEndToEndTest
         return getcwd() . '/tests/build/target';
     }
 
-    protected function getCompilationOutput(CliArguments $cliArguments): CompilationOutput
-    {
+    protected function getCompilationOutput(
+        CliArguments $cliArguments,
+        ?callable $initializer = null
+    ): CompilationOutput {
         $stdout = new BufferedOutput();
         $command = CommandFactory::createGenerateCommand($stdout, new NullOutput(), $cliArguments->toArgvArray());
 
