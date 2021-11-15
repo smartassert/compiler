@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilCliCompiler\Tests\DataProvider\RunFailure;
 
-use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
-use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
-use webignition\BasilCompilerModels\Configuration;
-use webignition\BasilCompilerModels\ErrorOutput;
 
 trait CircularStepImportDataProviderTrait
 {
@@ -21,34 +17,20 @@ trait CircularStepImportDataProviderTrait
             'test imports step which imports self' => [
                 'sourceRelativePath' => '/InvalidTest/invalid.import-circular-reference-self.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_CIRCULAR_STEP_IMPORT,
-                'expectedCommandOutput' => new ErrorOutput(
-                    new Configuration(
-                        FixturePaths::getInvalidTest() . '/invalid.import-circular-reference-self.yml',
-                        FixturePaths::getTarget(),
-                        AbstractBaseTest::class
-                    ),
-                    'Circular step import "circular_reference_self"',
-                    ErrorOutputFactory::CODE_LOADER_CIRCULAR_STEP_IMPORT,
-                    [
-                        'import_name' => 'circular_reference_self',
-                    ]
-                ),
+                'expectedErrorOutputMessage' => 'Circular step import "circular_reference_self"',
+                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_CIRCULAR_STEP_IMPORT,
+                'expectedErrorOutputData' => [
+                    'import_name' => 'circular_reference_self',
+                ],
             ],
             'test imports step which step imports self' => [
                 'sourceRelativePath' => '/InvalidTest/invalid.import-circular-reference-indirect.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_CIRCULAR_STEP_IMPORT,
-                'expectedCommandOutput' => new ErrorOutput(
-                    new Configuration(
-                        FixturePaths::getInvalidTest() . '/invalid.import-circular-reference-indirect.yml',
-                        FixturePaths::getTarget(),
-                        AbstractBaseTest::class
-                    ),
-                    'Circular step import "circular_reference_self"',
-                    ErrorOutputFactory::CODE_LOADER_CIRCULAR_STEP_IMPORT,
-                    [
-                        'import_name' => 'circular_reference_self',
-                    ]
-                ),
+                'expectedErrorOutputMessage' => 'Circular step import "circular_reference_self"',
+                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_CIRCULAR_STEP_IMPORT,
+                'expectedErrorOutputData' => [
+                    'import_name' => 'circular_reference_self',
+                ],
             ],
         ];
     }
