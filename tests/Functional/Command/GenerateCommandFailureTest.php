@@ -88,7 +88,10 @@ class GenerateCommandFailureTest extends TestCase
         array $expectedErrorOutputData,
         ?callable $initializer = null
     ): void {
-        $cliArguments = new CliArguments(FixturePaths::getBase() . $sourceRelativePath, FixturePaths::getTarget());
+        $cliArguments = new CliArguments(
+            $this->getRemoteSourcePrefix() . $sourceRelativePath,
+            $this->getRemoteTarget(),
+        );
 
         $compilationOutput = $this->getCompilationOutput($cliArguments, $initializer);
         self::assertSame($expectedExitCode, $compilationOutput->getExitCode());
