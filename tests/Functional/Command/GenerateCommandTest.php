@@ -111,7 +111,10 @@ class GenerateCommandTest extends TestCase
         );
         self::assertEquals($expectedOutput, $suiteManifestForClassNameModifiedOutput);
 
-        foreach ($suiteManifestForOutput->getTestManifests() as $index => $testManifest) {
+        $testManifests = $suiteManifestForOutput->getTestManifests();
+        self::assertCount(count($expectedGeneratedTests), $testManifests);
+
+        foreach ($testManifests as $index => $testManifest) {
             $testPath = $testManifest->getTarget();
             $localTestPath = str_replace($cliArguments->getTarget(), $cliArguments->getTarget(), $testPath);
             self::assertFileExists($localTestPath);

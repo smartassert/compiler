@@ -40,7 +40,7 @@ class CompilerTest extends TestCase
         $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($compilationOutput->getContent()));
 
         $testManifests = $suiteManifest->getTestManifests();
-        self::assertNotEmpty($testManifests);
+        self::assertCount(count($expectedGeneratedTests), $testManifests);
 
         foreach ($testManifests as $index => $testManifest) {
             $testPath = $testManifest->getTarget();

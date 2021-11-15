@@ -7,7 +7,7 @@ namespace webignition\BasilCliCompiler\Tests\Model;
 /**
  * @implements \ArrayAccess<int, ExpectedGeneratedTest>
  */
-class ExpectedGeneratedTestCollection implements \ArrayAccess
+class ExpectedGeneratedTestCollection implements \ArrayAccess, \Countable
 {
     /**
      * @param ExpectedGeneratedTest[] $expectedGeneratedTests
@@ -49,5 +49,10 @@ class ExpectedGeneratedTestCollection implements \ArrayAccess
     public function offsetUnset($offset): void
     {
         unset($this->expectedGeneratedTests[$offset]);
+    }
+
+    public function count(): int
+    {
+        return count($this->expectedGeneratedTests);
     }
 }
