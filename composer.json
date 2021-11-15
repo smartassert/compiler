@@ -40,8 +40,8 @@
         ],
         "test-unit": "./vendor/bin/phpunit --colors=always tests/Unit",
         "test-functional": "./vendor/bin/phpunit --colors=always tests/Functional",
-        "test-integration-console": "./vendor/bin/phpunit --colors=always tests/Integration/ConsoleTest.php",
-        "test-integration-image": "./vendor/bin/phpunit --colors=always tests/Integration/ImageTest.php",
+        "test-integration-console": "./vendor/bin/phpunit --colors=always tests/Integration/Console",
+        "test-integration-image": "./vendor/bin/phpunit --colors=always tests/Integration/Image",
         "test": [
             "@test-unit",
             "@test-functional",

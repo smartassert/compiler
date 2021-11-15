@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Integration;
+namespace webignition\BasilCliCompiler\Tests\Integration\Image;
 
 use webignition\BasilCliCompiler\Tests\AbstractEndToEndFailureTest;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;

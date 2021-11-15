@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace webignition\BasilCliCompiler\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
-use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTest;
 use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTestCollection;
 use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;

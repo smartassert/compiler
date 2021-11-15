@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Integration;
+namespace webignition\BasilCliCompiler\Tests\Integration\Console;
 
 use Symfony\Component\Process\Process;
-use webignition\BasilCliCompiler\Tests\AbstractEndToEndSuccessTest;
+use webignition\BasilCliCompiler\Tests\AbstractEndToEndFailureTest;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 
-class ConsoleTest extends AbstractEndToEndSuccessTest
+class ConsoleFailureTest extends AbstractEndToEndFailureTest
 {
     protected function getRemoteSourcePrefix(): string
     {
@@ -29,6 +29,6 @@ class ConsoleTest extends AbstractEndToEndSuccessTest
         $process = new Process($processArguments);
         $exitCode = $process->run();
 
-        return new CompilationOutput($process->getOutput(), $exitCode);
+        return new CompilationOutput($process->getErrorOutput(), $exitCode);
     }
 }
