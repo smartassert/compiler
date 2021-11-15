@@ -36,7 +36,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function compileDataProvider(): array
     {

@@ -13,7 +13,7 @@ use webignition\BasilCompilerModels\ErrorOutput;
 trait InvalidTestDataProviderTrait
 {
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function invalidTestDataProvider(): array
     {

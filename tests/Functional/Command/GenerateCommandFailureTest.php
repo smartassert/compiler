@@ -28,7 +28,6 @@ use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownElementDat
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
-use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
@@ -52,15 +51,6 @@ class GenerateCommandFailureTest extends TestCase
     use UnknownElementDataProviderTrait;
     use UnknownItemDataProviderTrait;
     use UnknownPageElementDataProviderTrait;
-
-    private ClassNameReplacer $classNameReplacer;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->classNameReplacer = new ClassNameReplacer();
-    }
 
     protected function tearDown(): void
     {
@@ -116,7 +106,7 @@ class GenerateCommandFailureTest extends TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function unresolvedPlaceholderDataProvider(): array
     {
@@ -209,7 +199,7 @@ class GenerateCommandFailureTest extends TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function runFailureUnsupportedStepDataProvider(): array
     {

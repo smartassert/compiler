@@ -30,7 +30,7 @@ class VariablePlaceholderResolverTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function resolveDataProvider(): array
     {

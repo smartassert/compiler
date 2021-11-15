@@ -13,7 +13,7 @@ use webignition\BasilCompilerModels\ErrorOutput;
 trait InvalidPageDataProviderTrait
 {
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function invalidPageDataProvider(): array
     {
