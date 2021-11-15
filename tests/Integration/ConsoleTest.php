@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Integration\Bin;
+namespace webignition\BasilCliCompiler\Tests\Integration;
 
 use Symfony\Component\Process\Process;
 use webignition\BasilCliCompiler\Tests\AbstractEndToEndTest;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 
-class CompilerTest extends AbstractEndToEndTest
+class ConsoleTest extends AbstractEndToEndTest
 {
     protected function getRemoteSourcePrefix(): string
     {

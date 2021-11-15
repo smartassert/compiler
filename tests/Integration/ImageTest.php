@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Integration\Image;
+namespace webignition\BasilCliCompiler\Tests\Integration;
 
 use webignition\BasilCliCompiler\Tests\AbstractEndToEndTest;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
@@ -10,7 +10,7 @@ use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\TcpCliProxyClient\Client;
 use webignition\TcpCliProxyClient\HandlerFactory;
 
-class CompilerTest extends AbstractEndToEndTest
+class ImageTest extends AbstractEndToEndTest
 {
     protected function getRemoteSourcePrefix(): string
     {

@@ -40,12 +40,12 @@
         ],
         "test-unit": "./vendor/bin/phpunit --colors=always tests/Unit",
         "test-functional": "./vendor/bin/phpunit --colors=always tests/Functional",
-        "test-integration-bin": "./vendor/bin/phpunit --colors=always tests/Integration/Bin",
-        "test-integration-image": "./vendor/bin/phpunit --colors=always tests/Integration/Image",
+        "test-integration-console": "./vendor/bin/phpunit --colors=always tests/Integration/ConsoleTest.php",
+        "test-integration-image": "./vendor/bin/phpunit --colors=always tests/Integration/ImageTest.php",
         "test": [
             "@test-unit",
             "@test-functional",
-            "@test-integration-bin"
+            "@test-integration-console"
         ],
         "ci": [
             "@cs",
