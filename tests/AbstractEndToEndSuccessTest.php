@@ -15,7 +15,7 @@ use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTestCollection;
 use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilerModels\SuiteManifest;
 
-abstract class AbstractEndToEndTest extends TestCase
+abstract class AbstractEndToEndSuccessTest extends TestCase
 {
     private ClassNameReplacer $classNameReplacer;
 

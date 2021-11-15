@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace webignition\BasilCliCompiler\Tests\Integration;
 
-use webignition\BasilCliCompiler\Tests\AbstractEndToEndTest;
+use webignition\BasilCliCompiler\Tests\AbstractEndToEndSuccessTest;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\TcpCliProxyClient\Client;
 use webignition\TcpCliProxyClient\HandlerFactory;
 
-class ImageTest extends AbstractEndToEndTest
+class ImageTest extends AbstractEndToEndSuccessTest
 {
     protected function getRemoteSourcePrefix(): string
     {
