@@ -80,7 +80,7 @@ abstract class AbstractEndToEndTest extends TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function generateDataProvider(): array
     {
