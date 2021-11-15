@@ -19,6 +19,11 @@ class CliArguments
         return implode(' ', $this->toArgvArray());
     }
 
+    public function getSource(): string
+    {
+        return $this->source;
+    }
+
     public function getTarget(): string
     {
         return $this->target;

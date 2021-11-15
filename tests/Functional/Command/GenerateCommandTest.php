@@ -85,7 +85,6 @@ class GenerateCommandTest extends TestCase
      */
     public function testRunSuccess(
         CliArguments $cliArguments,
-        SuiteManifest $expectedOutput,
         ExpectedGeneratedTestCollection $expectedGeneratedTests
     ): void {
         $stdout = new BufferedOutput();
@@ -99,19 +98,14 @@ class GenerateCommandTest extends TestCase
 
         $output = $stdout->fetch();
 
-        $classNameReplacer = new ClassNameReplacer();
-        $outputWithClassNamesReplaced = $classNameReplacer->replaceNamesInContent(
-            $output,
-            $expectedGeneratedTests->getReplacementClassNames()
-        );
+        $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($output));
 
-        $suiteManifestForOutput = SuiteManifest::fromArray((array) Yaml::parse($output));
-        $suiteManifestForClassNameModifiedOutput = SuiteManifest::fromArray(
-            (array) Yaml::parse($outputWithClassNamesReplaced)
-        );
-        self::assertEquals($expectedOutput, $suiteManifestForClassNameModifiedOutput);
+        $suiteManifestConfiguration = $suiteManifest->getConfiguration();
+        self::assertSame($cliArguments->getSource(), $suiteManifestConfiguration->getSource());
+        self::assertSame($cliArguments->getTarget(), $suiteManifestConfiguration->getTarget());
+        self::assertSame(AbstractBaseTest::class, $suiteManifestConfiguration->getBaseClass());
 
-        $testManifests = $suiteManifestForOutput->getTestManifests();
+        $testManifests = $suiteManifest->getTestManifests();
         self::assertCount(count($expectedGeneratedTests), $testManifests);
 
         foreach ($testManifests as $index => $testManifest) {

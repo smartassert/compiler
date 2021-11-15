@@ -7,6 +7,7 @@ namespace webignition\BasilCliCompiler\Tests\Integration\Bin;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
+use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
@@ -52,6 +53,11 @@ class CompilerTest extends TestCase
         $this->assertSame(0, $compilationOutput->getExitCode());
 
         $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($compilationOutput->getContent()));
+
+        $suiteManifestConfiguration = $suiteManifest->getConfiguration();
+        self::assertSame($cliArguments->getSource(), $suiteManifestConfiguration->getSource());
+        self::assertSame($cliArguments->getTarget(), $suiteManifestConfiguration->getTarget());
+        self::assertSame(AbstractBaseTest::class, $suiteManifestConfiguration->getBaseClass());
 
         $testManifests = $suiteManifest->getTestManifests();
         self::assertCount(count($expectedGeneratedTests), $testManifests);
