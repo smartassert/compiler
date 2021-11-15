@@ -29,6 +29,7 @@ use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownItemDataPr
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunSuccess\SuccessDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
+use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTestCollection;
 use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementException;
@@ -56,18 +57,37 @@ class GenerateCommandTest extends TestCase
     use UnknownPageElementDataProviderTrait;
     use SuccessDataProviderTrait;
 
+    private ClassNameReplacer $classNameReplacer;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->classNameReplacer = new ClassNameReplacer();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $directoryIterator = new \DirectoryIterator(FixturePaths::getTarget());
+
+        foreach ($directoryIterator as $item) {
+            /** @var \DirectoryIterator $item */
+            if ('php' === $item->getExtension() && $item->isFile() && $item->isWritable()) {
+                unlink($item->getPathname());
+            }
+        }
+    }
+
     /**
-     * @param string[] $expectedGeneratedCodePaths
-     * @param string[] $classNames
-     *
      * @dataProvider successDataProvider
      */
     public function testRunSuccess(
         CliArguments $cliArguments,
         int $expectedExitCode,
         SuiteManifest $expectedOutput,
-        array $expectedGeneratedCodePaths,
-        array $classNames
+        ExpectedGeneratedTestCollection $expectedGeneratedTests
     ): void {
         $stdout = new BufferedOutput();
         $stderr = new BufferedOutput();
@@ -81,7 +101,10 @@ class GenerateCommandTest extends TestCase
         $output = $stdout->fetch();
 
         $classNameReplacer = new ClassNameReplacer();
-        $outputWithClassNamesReplaced = $classNameReplacer->replaceNamesInContent($output, $classNames);
+        $outputWithClassNamesReplaced = $classNameReplacer->replaceNamesInContent(
+            $output,
+            $expectedGeneratedTests->getReplacementClassNames()
+        );
 
         $suiteManifestForOutput = SuiteManifest::fromArray((array) Yaml::parse($output));
         $suiteManifestForClassNameModifiedOutput = SuiteManifest::fromArray(
@@ -89,38 +112,21 @@ class GenerateCommandTest extends TestCase
         );
         self::assertEquals($expectedOutput, $suiteManifestForClassNameModifiedOutput);
 
-        $generatedTestsToRemove = [];
-        foreach ($suiteManifestForOutput->getTestManifests() as $testManifestIndex => $testManifest) {
-            $expectedCodePath = $testManifest->getTarget();
+        foreach ($suiteManifestForOutput->getTestManifests() as $index => $testManifest) {
+            $testPath = $testManifest->getTarget();
+            $localTestPath = str_replace($cliArguments->getTarget(), $cliArguments->getTarget(), $testPath);
+            self::assertFileExists($localTestPath);
 
-            self::assertFileExists($expectedCodePath);
-            self::assertFileIsReadable($expectedCodePath);
+            $expectedGeneratedTest = $expectedGeneratedTests[$index];
+            $generatedTestContent = (string) file_get_contents($localTestPath);
 
-            $generatedCode = (string) file_get_contents($expectedCodePath);
-            self::assertNotSame('', $generatedCode);
-
-            $generatedCodeWithModifiedClassName = $classNameReplacer->replaceNamesInContent(
-                $generatedCode,
-                [
-                    $classNames[$testManifestIndex],
-                ]
+            $generatedTestContent = $this->classNameReplacer->replaceNamesInContent(
+                $generatedTestContent,
+                [$expectedGeneratedTest->getReplacementClassName()]
             );
+            $generatedTestContent = $this->removeProjectRootPathInGeneratedTest($generatedTestContent);
 
-            $expectedGeneratedCodePath = $expectedGeneratedCodePaths[$testManifestIndex];
-            $expectedGeneratedCode = (string) file_get_contents($expectedGeneratedCodePath);
-
-            self::assertSame($expectedGeneratedCode, $generatedCodeWithModifiedClassName);
-
-            $generatedTestsToRemove[] = $expectedCodePath;
-        }
-
-        $generatedTestsToRemove = array_unique($generatedTestsToRemove);
-
-        foreach ($generatedTestsToRemove as $path) {
-            self::assertFileExists($path);
-            self::assertFileIsReadable($path);
-
-            unlink($path);
+            $this->assertSame($expectedGeneratedTest->getExpectedContent(), $generatedTestContent);
         }
     }
 
@@ -390,5 +396,10 @@ class GenerateCommandTest extends TestCase
         }
 
         return $argv;
+    }
+
+    private function removeProjectRootPathInGeneratedTest(string $generatedTestContent): string
+    {
+        return str_replace((string) getcwd(), '', $generatedTestContent);
     }
 }

@@ -7,6 +7,8 @@ namespace webignition\BasilCliCompiler\Tests\DataProvider\RunSuccess;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
+use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTest;
+use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTestCollection;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\SuiteManifest;
 use webignition\BasilCompilerModels\TestManifest;
@@ -43,12 +45,12 @@ trait SuccessDataProviderTrait
                         ),
                     ]
                 ),
-                'expectedGeneratedCodePaths' => [
-                    'tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralChrome.php',
-                ],
-                'classNames' => [
-                    'GeneratedVerifyOpenLiteralChrome',
-                ],
+                'expectedGeneratedTests' => new ExpectedGeneratedTestCollection([
+                    new ExpectedGeneratedTest(
+                        'GeneratedVerifyOpenLiteralChrome',
+                        '/tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralChrome.php',
+                    ),
+                ]),
             ],
             'single test, verify open literal with page import' => [
                 'cliArguments' => new CliArguments(
@@ -71,12 +73,12 @@ trait SuccessDataProviderTrait
                         ),
                     ]
                 ),
-                'expectedGeneratedCodePaths' => [
-                    'tests/Fixtures/php/Test/GeneratedImportPage.php',
-                ],
-                'classNames' => [
-                    'GeneratedImportPage',
-                ],
+                'expectedGeneratedTests' => new ExpectedGeneratedTestCollection([
+                    new ExpectedGeneratedTest(
+                        'GeneratedImportPage',
+                        '/tests/Fixtures/php/Test/GeneratedImportPage.php',
+                    ),
+                ]),
             ],
             'single test with multiple browsers' => [
                 'cliArguments' => new CliArguments(
@@ -105,14 +107,16 @@ trait SuccessDataProviderTrait
                         ),
                     ]
                 ),
-                'expectedGeneratedCodePaths' => [
-                    'tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralChrome.php',
-                    'tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralFirefox.php',
-                ],
-                'classNames' => [
-                    'GeneratedVerifyOpenLiteralChrome',
-                    'GeneratedVerifyOpenLiteralFirefox',
-                ],
+                'expectedGeneratedTests' => new ExpectedGeneratedTestCollection([
+                    new ExpectedGeneratedTest(
+                        'GeneratedVerifyOpenLiteralChrome',
+                        '/tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralChrome.php',
+                    ),
+                    new ExpectedGeneratedTest(
+                        'GeneratedVerifyOpenLiteralFirefox',
+                        '/tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralFirefox.php',
+                    ),
+                ]),
             ],
         ];
     }
