@@ -44,9 +44,14 @@ abstract class AbstractEndToEndTest extends TestCase
      * @dataProvider generateDataProvider
      */
     public function testGenerate(
-        CliArguments $cliArguments,
+        string $sourceRelativePath,
         ExpectedGeneratedTestCollection $expectedGeneratedTests
     ): void {
+        $cliArguments = new CliArguments(
+            $this->getRemoteSourcePrefix() . $sourceRelativePath,
+            $this->getRemoteTarget(),
+        );
+
         $compilationOutput = $this->getCompilationOutput($cliArguments);
         $this->assertSame(0, $compilationOutput->getExitCode());
 
@@ -86,10 +91,7 @@ abstract class AbstractEndToEndTest extends TestCase
     {
         return [
             'single test' => [
-                'cliArguments' => new CliArguments(
-                    $this->getRemoteSourcePrefix() . '/Test/example.com.verify-open-literal.yml',
-                    $this->getRemoteTarget(),
-                ),
+                'sourceRelativePath' => '/Test/example.com.verify-open-literal.yml',
                 'expectedGeneratedTests' => new ExpectedGeneratedTestCollection([
                     new ExpectedGeneratedTest(
                         'GeneratedVerifyOpenLiteralChrome',
@@ -98,10 +100,7 @@ abstract class AbstractEndToEndTest extends TestCase
                 ]),
             ],
             'single test, verify open literal with page import' => [
-                'cliArguments' => new CliArguments(
-                    $this->getRemoteSourcePrefix() . '/Test/example.com.import-page.yml',
-                    $this->getRemoteTarget(),
-                ),
+                'sourceRelativePath' => '/Test/example.com.import-page.yml',
                 'expectedGeneratedTests' => new ExpectedGeneratedTestCollection([
                     new ExpectedGeneratedTest(
                         'GeneratedImportPage',
@@ -110,10 +109,7 @@ abstract class AbstractEndToEndTest extends TestCase
                 ]),
             ],
             'single test with multiple browsers' => [
-                'cliArguments' => new CliArguments(
-                    $this->getRemoteSourcePrefix() . '/Test/example.com.verify-open-literal-multiple-browsers.yml',
-                    $this->getRemoteTarget(),
-                ),
+                '/Test/example.com.verify-open-literal-multiple-browsers.yml',
                 'expectedGeneratedTests' => new ExpectedGeneratedTestCollection([
                     new ExpectedGeneratedTest(
                         'GeneratedVerifyOpenLiteralChrome',
