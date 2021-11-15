@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace webignition\BasilCliCompiler\Tests\Functional\Command;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Yaml\Yaml;
@@ -15,17 +14,7 @@ use webignition\BasilCliCompiler\Services\CommandFactory;
 use webignition\BasilCliCompiler\Services\CompiledClassResolver;
 use webignition\BasilCliCompiler\Services\Compiler;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
-use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\CircularStepImportDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\EmptyTestDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\InvalidPageDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\InvalidTestDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\NonLoadableDataDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\NonRetrievableImportDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\ParseExceptionDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownElementDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
+use webignition\BasilCliCompiler\Tests\AbstractEndToEndFailureTest;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
@@ -38,44 +27,9 @@ use webignition\BasilParser\ActionParser;
 use webignition\BasilParser\AssertionParser;
 use webignition\ObjectReflector\ObjectReflector;
 
-class GenerateCommandFailureTest extends TestCase
+class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
 {
-    use NonLoadableDataDataProviderTrait;
-    use CircularStepImportDataProviderTrait;
-    use EmptyTestDataProviderTrait;
-    use InvalidPageDataProviderTrait;
-    use InvalidTestDataProviderTrait;
-    use NonRetrievableImportDataProviderTrait;
-    use ParseExceptionDataProviderTrait;
-    use UnknownElementDataProviderTrait;
-    use UnknownItemDataProviderTrait;
-    use UnknownPageElementDataProviderTrait;
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        $directoryIterator = new \DirectoryIterator(FixturePaths::getTarget());
-
-        foreach ($directoryIterator as $item) {
-            /** @var \DirectoryIterator $item */
-            if ('php' === $item->getExtension() && $item->isFile() && $item->isWritable()) {
-                unlink($item->getPathname());
-            }
-        }
-    }
-
     /**
-     * @dataProvider nonLoadableDataDataProvider
-     * @dataProvider circularStepImportDataProvider
-     * @dataProvider emptyTestDataProvider
-     * @dataProvider invalidPageDataProvider
-     * @dataProvider invalidTestDataProvider
-     * @dataProvider nonRetrievableImportDataProvider
-     * @dataProvider parseExceptionDataProvider
-     * @dataProvider unknownElementDataProvider
-     * @dataProvider unknownItemDataProvider
-     * @dataProvider unknownPageElementDataProvider
      * @dataProvider unresolvedPlaceholderDataProvider
      *
      * @param array<mixed> $expectedErrorOutputData
@@ -300,6 +254,33 @@ class GenerateCommandFailureTest extends TestCase
         ];
     }
 
+    protected function getRemoteSourcePrefix(): string
+    {
+        return getcwd() . '/tests/Fixtures/basil';
+    }
+
+    protected function getRemoteTarget(): string
+    {
+        return getcwd() . '/tests/build/target';
+    }
+
+    protected function getCompilationOutput(
+        CliArguments $cliArguments,
+        ?callable $initializer = null
+    ): CompilationOutput {
+        $stdout = new BufferedOutput();
+        $stderr = new BufferedOutput();
+        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $cliArguments->toArgvArray());
+
+        if (null !== $initializer) {
+            $initializer($command);
+        }
+
+        $exitCode = $command->run(new ArrayInput($cliArguments->getOptions()), $stderr);
+
+        return new CompilationOutput($stderr->fetch(), $exitCode);
+    }
+
     private function mockCompilerCompiledClassResolverExternalVariableIdentifiers(
         GenerateCommand $command,
         ExternalVariableIdentifiers $updatedExternalVariableIdentifiers
@@ -320,65 +301,5 @@ class GenerateCommandFailureTest extends TestCase
             'compiler',
             $compiler
         );
-    }
-
-    private function getRemoteSourcePrefix(): string
-    {
-        return getcwd() . '/tests/Fixtures/basil';
-    }
-
-    private function getRemoteTarget(): string
-    {
-        return getcwd() . '/tests/build/target';
-    }
-
-    private function getCompilationOutput(CliArguments $cliArguments, ?callable $initializer = null): CompilationOutput
-    {
-        $stdout = new BufferedOutput();
-        $stderr = new BufferedOutput();
-        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $cliArguments->toArgvArray());
-
-        if (null !== $initializer) {
-            $initializer($command);
-        }
-
-        $exitCode = $command->run(new ArrayInput($cliArguments->getOptions()), $stderr);
-
-        return new CompilationOutput($stderr->fetch(), $exitCode);
-    }
-
-    private function replaceConfigurationPlaceholdersInString(string $value): string
-    {
-        return str_replace(
-            [
-                '{{ remoteSourcePrefix }}',
-                '{{ remoteTarget }}',
-            ],
-            [
-                $this->getRemoteSourcePrefix(),
-                $this->getRemoteTarget(),
-            ],
-            $value
-        );
-    }
-
-    /**
-     * @param array<mixed> $data
-     *
-     * @return array<mixed>
-     */
-    private function replaceConfigurationPlaceholders(array $data): array
-    {
-        foreach ($data as $key => $value) {
-            if (is_string($value)) {
-                $data[$key] = $this->replaceConfigurationPlaceholdersInString($value);
-            }
-
-            if (is_array($value)) {
-                $data[$key] = $this->replaceConfigurationPlaceholders($value);
-            }
-        }
-
-        return $data;
     }
 }

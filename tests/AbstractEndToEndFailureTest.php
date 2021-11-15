@@ -94,7 +94,7 @@ abstract class AbstractEndToEndFailureTest extends TestCase
 
     abstract protected function getCompilationOutput(CliArguments $cliArguments): CompilationOutput;
 
-    private function replaceConfigurationPlaceholdersInString(string $value): string
+    protected function replaceConfigurationPlaceholdersInString(string $value): string
     {
         return str_replace(
             [
@@ -114,7 +114,7 @@ abstract class AbstractEndToEndFailureTest extends TestCase
      *
      * @return array<mixed>
      */
-    private function replaceConfigurationPlaceholders(array $data): array
+    protected function replaceConfigurationPlaceholders(array $data): array
     {
         foreach ($data as $key => $value) {
             if (is_string($value)) {
