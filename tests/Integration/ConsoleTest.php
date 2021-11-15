@@ -21,8 +21,10 @@ class ConsoleTest extends AbstractEndToEndSuccessTest
         return getcwd() . '/tests/build/target';
     }
 
-    protected function getCompilationOutput(CliArguments $cliArguments): CompilationOutput
-    {
+    protected function getCompilationOutput(
+        CliArguments $cliArguments,
+        ?callable $initializer = null
+    ): CompilationOutput {
         $processArguments = array_merge(['./bin/compiler'], $cliArguments->toArgvArray());
         $process = new Process($processArguments);
         $exitCode = $process->run();

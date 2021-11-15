@@ -15,7 +15,7 @@ use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTestCollection;
 use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilerModels\SuiteManifest;
 
-abstract class AbstractEndToEndSuccessTest extends TestCase
+abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
 {
     private ClassNameReplacer $classNameReplacer;
 
@@ -123,10 +123,4 @@ abstract class AbstractEndToEndSuccessTest extends TestCase
             ],
         ];
     }
-
-    abstract protected function getRemoteSourcePrefix(): string;
-
-    abstract protected function getRemoteTarget(): string;
-
-    abstract protected function getCompilationOutput(CliArguments $cliArguments): CompilationOutput;
 }

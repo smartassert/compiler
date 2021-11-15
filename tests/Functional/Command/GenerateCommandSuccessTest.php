@@ -24,8 +24,10 @@ class GenerateCommandSuccessTest extends AbstractEndToEndSuccessTest
         return getcwd() . '/tests/build/target';
     }
 
-    protected function getCompilationOutput(CliArguments $cliArguments): CompilationOutput
-    {
+    protected function getCompilationOutput(
+        CliArguments $cliArguments,
+        ?callable $initializer = null
+    ): CompilationOutput {
         $stdout = new BufferedOutput();
         $command = CommandFactory::createGenerateCommand($stdout, new NullOutput(), $cliArguments->toArgvArray());
 

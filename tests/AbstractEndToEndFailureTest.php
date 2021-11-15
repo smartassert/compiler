@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace webignition\BasilCliCompiler\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\CircularStepImportDataProviderTrait;
@@ -18,11 +17,10 @@ use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownElementDat
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
-use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 
-abstract class AbstractEndToEndFailureTest extends TestCase
+abstract class AbstractEndToEndFailureTest extends AbstractEndToEndTest
 {
     use NonLoadableDataDataProviderTrait;
     use CircularStepImportDataProviderTrait;
@@ -87,12 +85,6 @@ abstract class AbstractEndToEndFailureTest extends TestCase
 
         self::assertEquals($expectedCommandOutput, $commandOutput);
     }
-
-    abstract protected function getRemoteSourcePrefix(): string;
-
-    abstract protected function getRemoteTarget(): string;
-
-    abstract protected function getCompilationOutput(CliArguments $cliArguments): CompilationOutput;
 
     protected function replaceConfigurationPlaceholdersInString(string $value): string
     {

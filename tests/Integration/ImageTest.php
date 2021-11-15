@@ -22,8 +22,10 @@ class ImageTest extends AbstractEndToEndSuccessTest
         return '/app/tests';
     }
 
-    protected function getCompilationOutput(CliArguments $cliArguments): CompilationOutput
-    {
+    protected function getCompilationOutput(
+        CliArguments $cliArguments,
+        ?callable $initializer = null
+    ): CompilationOutput {
         $output = '';
         $exitCode = 0;
 
