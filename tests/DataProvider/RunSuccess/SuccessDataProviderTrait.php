@@ -29,7 +29,6 @@ trait SuccessDataProviderTrait
                     FixturePaths::getTest() . '/example.com.verify-open-literal.yml',
                     FixturePaths::getTarget()
                 ),
-                'expectedExitCode' => 0,
                 'expectedOutput' => new SuiteManifest(
                     new Configuration(
                         FixturePaths::getTest() . '/example.com.verify-open-literal.yml',
@@ -57,7 +56,6 @@ trait SuccessDataProviderTrait
                     FixturePaths::getTest() . '/example.com.import-page.yml',
                     FixturePaths::getTarget()
                 ),
-                'expectedExitCode' => 0,
                 'expectedOutput' => new SuiteManifest(
                     new Configuration(
                         FixturePaths::getTest() . '/example.com.import-page.yml',
@@ -85,7 +83,6 @@ trait SuccessDataProviderTrait
                     FixturePaths::getTest() . '/example.com.verify-open-literal-multiple-browsers.yml',
                     FixturePaths::getTarget()
                 ),
-                'expectedExitCode' => 0,
                 'expectedOutput' => new SuiteManifest(
                     new Configuration(
                         FixturePaths::getTest() . '/example.com.verify-open-literal-multiple-browsers.yml',

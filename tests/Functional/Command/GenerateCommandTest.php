@@ -85,7 +85,6 @@ class GenerateCommandTest extends TestCase
      */
     public function testRunSuccess(
         CliArguments $cliArguments,
-        int $expectedExitCode,
         SuiteManifest $expectedOutput,
         ExpectedGeneratedTestCollection $expectedGeneratedTests
     ): void {
@@ -95,7 +94,7 @@ class GenerateCommandTest extends TestCase
         $command = CommandFactory::createGenerateCommand($stdout, $stderr, $cliArguments->toArgvArray());
 
         $exitCode = $command->run(new ArrayInput($cliArguments->getOptions()), new NullOutput());
-        self::assertSame($expectedExitCode, $exitCode);
+        self::assertSame(0, $exitCode);
         self::assertSame('', $stderr->fetch());
 
         $output = $stdout->fetch();
