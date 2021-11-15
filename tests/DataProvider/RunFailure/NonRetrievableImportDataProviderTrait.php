@@ -13,7 +13,7 @@ use webignition\BasilCompilerModels\ErrorOutput;
 trait NonRetrievableImportDataProviderTrait
 {
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function nonRetrievableImportDataProvider(): array
     {

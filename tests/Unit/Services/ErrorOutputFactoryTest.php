@@ -42,7 +42,7 @@ class ErrorOutputFactoryTest extends AbstractBaseTest
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function createFromInvalidConfigurationDataProvider(): array
     {

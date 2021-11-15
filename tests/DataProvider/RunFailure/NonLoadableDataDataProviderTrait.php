@@ -13,7 +13,7 @@ use webignition\BasilCompilerModels\ErrorOutput;
 trait NonLoadableDataDataProviderTrait
 {
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function nonLoadableDataDataProvider(): array
     {

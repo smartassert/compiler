@@ -13,7 +13,7 @@ use webignition\BasilCompilerModels\ErrorOutput;
 trait ParseExceptionDataProviderTrait
 {
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function parseExceptionDataProvider(): array
     {

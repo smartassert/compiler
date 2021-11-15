@@ -13,7 +13,7 @@ use webignition\BasilCompilerModels\ErrorOutput;
 trait CircularStepImportDataProviderTrait
 {
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function circularStepImportDataProvider(): array
     {

@@ -40,7 +40,7 @@ class ValidatorInvalidResultSerializerTest extends AbstractBaseTest
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function serializeToArrayDataProvider(): array
     {

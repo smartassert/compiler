@@ -32,7 +32,7 @@ class TestWriterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function generateDataProvider(): array
     {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d31e72e57abbcd150c3869e018469eef",
+    "content-hash": "311f633db63f58fbacc5e34b4dfdde9d",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -3860,16 +3860,16 @@
         },
         {
             "name": "webignition/basil-loader",
-            "version": "0.33",
+            "version": "0.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webignition/basil-loader.git",
-                "reference": "38578f0d0fa66af245dc6ce0bcca5f97cb470217"
+                "reference": "0465cd9f1f7259436077d8f9a1b777d8b6a00859"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webignition/basil-loader/zipball/38578f0d0fa66af245dc6ce0bcca5f97cb470217",
-                "reference": "38578f0d0fa66af245dc6ce0bcca5f97cb470217",
+                "url": "https://api.github.com/repos/webignition/basil-loader/zipball/0465cd9f1f7259436077d8f9a1b777d8b6a00859",
+                "reference": "0465cd9f1f7259436077d8f9a1b777d8b6a00859",
                 "shasum": ""
             },
             "require": {
@@ -3879,7 +3879,7 @@
                 "webignition/basil-data-validator": ">=0.16,<1",
                 "webignition/basil-model-provider": ">=0.9,<1",
                 "webignition/basil-models": ">=0.58,<1",
-                "webignition/basil-parser": ">=0.26,<1",
+                "webignition/basil-parser": "^1",
                 "webignition/basil-resolver": ">=0.12,<1",
                 "webignition/php-basil-context-aware-exception": ">=0.4,<1",
                 "webignition/php-path-resolver": ">=0.3,<1"
@@ -3913,9 +3913,9 @@
             "homepage": "https://github.com/webignition/basil-loader",
             "support": {
                 "issues": "https://github.com/webignition/basil-loader/issues",
-                "source": "https://github.com/webignition/basil-loader/tree/0.33"
+                "source": "https://github.com/webignition/basil-loader/tree/0.34"
             },
-            "time": "2021-05-28T15:41:25+00:00"
+            "time": "2021-11-15T09:54:00+00:00"
         },
         {
             "name": "webignition/basil-model-provider",
@@ -4016,31 +4016,31 @@
         },
         {
             "name": "webignition/basil-parser",
-            "version": "0.26",
+            "version": "1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webignition/basil-parser.git",
-                "reference": "c0533896db45f80b516ccd9cead97a84d0612b6c"
+                "reference": "f4a519af6692241bf41f3394095f59f5fb3f5c60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webignition/basil-parser/zipball/c0533896db45f80b516ccd9cead97a84d0612b6c",
-                "reference": "c0533896db45f80b516ccd9cead97a84d0612b6c",
+                "url": "https://api.github.com/repos/webignition/basil-parser/zipball/f4a519af6692241bf41f3394095f59f5fb3f5c60",
+                "reference": "f4a519af6692241bf41f3394095f59f5fb3f5c60",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": ">=7.4|^8",
+                "php": ">=8",
                 "webignition/basil-dom-identifier-factory": ">=0.14,<1",
                 "webignition/basil-models": ">=0.58,<1",
                 "webignition/basil-value-extractor": ">=0.5,<1",
                 "webignition/php-path-resolver": ">=0.3,<1"
             },
             "require-dev": {
-                "phpstan/phpstan": "^0.12.77",
+                "friendsofphp/php-cs-fixer": "^3.2",
+                "phpstan/phpstan": "^1.1",
                 "phpunit/phpunit": "^9.5",
-                "squizlabs/php_codesniffer": "^3.5",
-                "symplify/easy-coding-standard": "^9.1"
+                "squizlabs/php_codesniffer": "^3.5"
             },
             "type": "library",
             "autoload": {
@@ -4062,9 +4062,9 @@
             "homepage": "https://github.com/webignition/basil-parser",
             "support": {
                 "issues": "https://github.com/webignition/basil-parser/issues",
-                "source": "https://github.com/webignition/basil-parser/tree/0.26"
+                "source": "https://github.com/webignition/basil-parser/tree/1.1"
             },
-            "time": "2021-02-19T12:18:10+00:00"
+            "time": "2021-11-12T18:33:14+00:00"
         },
         {
             "name": "webignition/basil-resolver",
@@ -5861,16 +5861,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.77",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "1f10b8c8d118d01e7b492f9707999d456be5812c"
+                "reference": "bcea0ae85868a89d5789c75f012c93129f842934"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/1f10b8c8d118d01e7b492f9707999d456be5812c",
-                "reference": "1f10b8c8d118d01e7b492f9707999d456be5812c",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/bcea0ae85868a89d5789c75f012c93129f842934",
+                "reference": "bcea0ae85868a89d5789c75f012c93129f842934",
                 "shasum": ""
             },
             "require": {
@@ -5886,7 +5886,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.12-dev"
+                    "dev-master": "1.0-dev"
                 }
             },
             "autoload": {
@@ -5901,11 +5901,15 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.77"
+                "source": "https://github.com/phpstan/phpstan/tree/1.1.2"
             },
             "funding": [
                 {
                     "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/phpstan",
                     "type": "github"
                 },
                 {
@@ -5917,38 +5921,38 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-17T16:22:19+00:00"
+            "time": "2021-11-09T12:41:09+00:00"
         },
         {
             "name": "phpstan/phpstan-mockery",
-            "version": "0.12.12",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-mockery.git",
-                "reference": "053bf9e3ffc4ff906e411636a43d440bace5b914"
+                "reference": "1767581e025d830d9288702761ad3cc7b72ecca4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-mockery/zipball/053bf9e3ffc4ff906e411636a43d440bace5b914",
-                "reference": "053bf9e3ffc4ff906e411636a43d440bace5b914",
+                "url": "https://api.github.com/repos/phpstan/phpstan-mockery/zipball/1767581e025d830d9288702761ad3cc7b72ecca4",
+                "reference": "1767581e025d830d9288702761ad3cc7b72ecca4",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0",
-                "phpstan/phpstan": "^0.12.60"
+                "phpstan/phpstan": "^1.0"
             },
             "require-dev": {
                 "mockery/mockery": "^1.2.4",
-                "phing/phing": "^2.16.3",
+                "nikic/php-parser": "^4.13.0",
                 "php-parallel-lint/php-parallel-lint": "^1.2",
-                "phpstan/phpstan-phpunit": "^0.12.16",
-                "phpstan/phpstan-strict-rules": "^0.12.5",
-                "phpunit/phpunit": "^7.5.20"
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpstan/phpstan-strict-rules": "^1.0",
+                "phpunit/phpunit": "^9.5"
             },
             "type": "phpstan-extension",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.12-dev"
+                    "dev-master": "1.0-dev"
                 },
                 "phpstan": {
                     "includes": [
@@ -5968,9 +5972,9 @@
             "description": "PHPStan Mockery extension",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-mockery/issues",
-                "source": "https://github.com/phpstan/phpstan-mockery/tree/0.12.12"
+                "source": "https://github.com/phpstan/phpstan-mockery/tree/1.0.0"
             },
-            "time": "2021-02-05T12:12:41+00:00"
+            "time": "2021-09-20T16:03:58+00:00"
         },
         {
             "name": "psr/cache",

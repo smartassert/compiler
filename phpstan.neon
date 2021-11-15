@@ -5,6 +5,6 @@ parameters:
     - src
     - tests
   inferPrivatePropertyTypeFromConstructor: true
-  excludes_analyse:
+  excludePaths:
     - '*/tests/build/*'
     - '*/tests/Fixtures/php/*'

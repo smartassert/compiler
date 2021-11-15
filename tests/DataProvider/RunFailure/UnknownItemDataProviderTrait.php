@@ -13,7 +13,7 @@ use webignition\BasilCompilerModels\ErrorOutput;
 trait UnknownItemDataProviderTrait
 {
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function unknownItemDataProvider(): array
     {

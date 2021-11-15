@@ -13,7 +13,7 @@ use webignition\BasilCompilerModels\ErrorOutput;
 trait UnknownPageElementDataProviderTrait
 {
     /**
-     * @return array[]
+     * @return array<mixed>
      */
     public function unknownPageElementDataProvider(): array
     {
