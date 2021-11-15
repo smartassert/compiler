@@ -11,6 +11,7 @@ use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTest;
+use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTestCollection;
 use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilerModels\SuiteManifest;
 
@@ -41,13 +42,11 @@ class CompilerTest extends TestCase
 
     /**
      * @dataProvider generateDataProvider
-     *
-     * @param ExpectedGeneratedTest[] $expectedGeneratedTests
      */
     public function testGenerate(
         CliArguments $cliArguments,
         string $localTarget,
-        array $expectedGeneratedTests
+        ExpectedGeneratedTestCollection $expectedGeneratedTests
     ): void {
         $compilationOutput = $this->getCompilationOutput($cliArguments);
         $this->assertSame(0, $compilationOutput->getExitCode());
@@ -89,12 +88,12 @@ class CompilerTest extends TestCase
                     $root . '/tests/build/target',
                 ),
                 'localTarget' => $root . '/tests/build/target',
-                'expectedGeneratedTests' => [
+                'expectedGeneratedTests' => new ExpectedGeneratedTestCollection([
                     new ExpectedGeneratedTest(
                         'GeneratedVerifyOpenLiteralChrome',
                         '/tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralChrome.php',
                     ),
-                ],
+                ]),
             ],
         ];
     }
