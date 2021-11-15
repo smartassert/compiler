@@ -27,7 +27,6 @@ use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\ParseExceptionDat
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownElementDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunSuccess\SuccessDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
@@ -53,7 +52,6 @@ class GenerateCommandFailureTest extends TestCase
     use UnknownElementDataProviderTrait;
     use UnknownItemDataProviderTrait;
     use UnknownPageElementDataProviderTrait;
-    use SuccessDataProviderTrait;
 
     private ClassNameReplacer $classNameReplacer;
 
