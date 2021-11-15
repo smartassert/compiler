@@ -27,10 +27,7 @@ trait NonRetrievableImportDataProviderTrait
 
         return [
             'test imports non-parsable page' => [
-                'input' => [
-                    '--source' => $testPath,
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'sourceRelativePath' => '/InvalidTest/import-unparseable-page.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_NON_RETRIEVABLE_IMPORT,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

@@ -22,10 +22,7 @@ trait InvalidTestDataProviderTrait
 
         return [
             'test has invalid configuration' => [
-                'input' => [
-                    '--source' => $testPath,
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'sourceRelativePath' => '/InvalidTest/invalid-configuration.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_TEST,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

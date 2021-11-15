@@ -21,10 +21,7 @@ trait ParseExceptionDataProviderTrait
 
         return [
             'test declares step, step contains unparseable action' => [
-                'input' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/unparseable-action.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'sourceRelativePath' => '/InvalidTest/unparseable-action.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -45,10 +42,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test declares step, step contains unparseable assertion' => [
-                'input' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/unparseable-assertion.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'sourceRelativePath' => '/InvalidTest/unparseable-assertion.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -69,10 +63,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test imports step, step contains unparseable action' => [
-                'input' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/import-unparseable-action.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'sourceRelativePath' => '/InvalidTest/import-unparseable-action.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -93,10 +84,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test imports step, step contains unparseable assertion' => [
-                'input' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/import-unparseable-assertion.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'sourceRelativePath' => '/InvalidTest/import-unparseable-assertion.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -117,10 +105,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test declares step, step contains non-array actions data' => [
-                'input' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/non-array-actions-data.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'sourceRelativePath' => '/InvalidTest/non-array-actions-data.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -139,10 +124,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test declares step, step contains non-array assertions data' => [
-                'input' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/non-array-assertions-data.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'sourceRelativePath' => '/InvalidTest/non-array-assertions-data.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -161,10 +143,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test imports step, step contains non-array actions data' => [
-                'input' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/import-non-array-actions-data.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'sourceRelativePath' => '/InvalidTest/import-non-array-actions-data.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -183,10 +162,7 @@ trait ParseExceptionDataProviderTrait
                 ),
             ],
             'test imports step, step contains non-array assertions data' => [
-                'input' => [
-                    '--source' => FixturePaths::getInvalidTest() . '/import-non-array-assertions-data.yml',
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'sourceRelativePath' => '/InvalidTest/import-non-array-assertions-data.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

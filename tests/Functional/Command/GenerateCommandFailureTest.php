@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace webignition\BasilCliCompiler\Tests\Functional\Command;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
@@ -15,6 +16,7 @@ use webignition\BasilCliCompiler\Services\CommandFactory;
 use webignition\BasilCliCompiler\Services\CompiledClassResolver;
 use webignition\BasilCliCompiler\Services\Compiler;
 use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
+use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\CircularStepImportDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\EmptyTestDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\InvalidPageDataProviderTrait;
@@ -25,21 +27,20 @@ use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\ParseExceptionDat
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownElementDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
 use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunSuccess\SuccessDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\Services\ServiceMocker;
+use webignition\BasilCliCompiler\Tests\Model\CliArguments;
+use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 use webignition\BasilCompilerModels\ErrorOutputInterface;
-use webignition\BasilCompilerModels\SuiteManifest;
 use webignition\BasilModels\Step\Step;
 use webignition\BasilParser\ActionParser;
 use webignition\BasilParser\AssertionParser;
 use webignition\ObjectReflector\ObjectReflector;
 
-class GenerateCommandTest extends \PHPUnit\Framework\TestCase
+class GenerateCommandFailureTest extends TestCase
 {
     use NonLoadableDataDataProviderTrait;
     use CircularStepImportDataProviderTrait;
@@ -51,65 +52,31 @@ class GenerateCommandTest extends \PHPUnit\Framework\TestCase
     use UnknownElementDataProviderTrait;
     use UnknownItemDataProviderTrait;
     use UnknownPageElementDataProviderTrait;
-    use SuccessDataProviderTrait;
 
-    /**
-     * @param array<string, string> $input
-     * @param string[]              $expectedGeneratedCodePaths
-     * @param string[]              $classNames
-     *
-     * @dataProvider successDataProvider
-     */
-    public function testRunSuccess(
-        array $input,
-        int $expectedExitCode,
-        SuiteManifest $expectedCommandOutput,
-        array $expectedGeneratedCodePaths,
-        array $classNames
-    ): void {
-        $stdout = new BufferedOutput();
-        $stderr = new BufferedOutput();
+    private ClassNameReplacer $classNameReplacer;
 
-        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $this->createArgvFromInput($input));
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-        $this->mockClassNameFactoryOnCommand($command, $classNames);
+        $this->classNameReplacer = new ClassNameReplacer();
+    }
 
-        $exitCode = $command->run(new ArrayInput($input), new NullOutput());
-        self::assertSame($expectedExitCode, $exitCode);
-        self::assertSame('', $stderr->fetch());
+    protected function tearDown(): void
+    {
+        parent::tearDown();
 
-        $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($stdout->fetch()));
-        self::assertEquals($expectedCommandOutput, $suiteManifest);
+        $directoryIterator = new \DirectoryIterator(FixturePaths::getTarget());
 
-        $generatedTestsToRemove = [];
-        foreach ($suiteManifest->getTestManifests() as $testManifestIndex => $testManifest) {
-            $expectedCodePath = $testManifest->getTarget();
-
-            self::assertFileExists($expectedCodePath);
-            self::assertFileIsReadable($expectedCodePath);
-
-            $expectedGeneratedCodePath = $expectedGeneratedCodePaths[$testManifestIndex];
-            $expectedGeneratedCode = file_get_contents($expectedGeneratedCodePath);
-            $generatedCode = file_get_contents($expectedCodePath);
-
-            self::assertSame($expectedGeneratedCode, $generatedCode);
-
-            $generatedTestsToRemove[] = $expectedCodePath;
-        }
-
-        $generatedTestsToRemove = array_unique($generatedTestsToRemove);
-
-        foreach ($generatedTestsToRemove as $path) {
-            self::assertFileExists($path);
-            self::assertFileIsReadable($path);
-
-            unlink($path);
+        foreach ($directoryIterator as $item) {
+            /** @var \DirectoryIterator $item */
+            if ('php' === $item->getExtension() && $item->isFile() && $item->isWritable()) {
+                unlink($item->getPathname());
+            }
         }
     }
 
     /**
-     * @param array<mixed> $input
-     *
      * @dataProvider nonLoadableDataDataProvider
      * @dataProvider circularStepImportDataProvider
      * @dataProvider emptyTestDataProvider
@@ -123,21 +90,23 @@ class GenerateCommandTest extends \PHPUnit\Framework\TestCase
      * @dataProvider unresolvedPlaceholderDataProvider
      */
     public function testRunFailure(
-        array $input,
+        string $sourceRelativePath,
         int $expectedExitCode,
         ErrorOutputInterface $expectedCommandOutput,
         ?callable $initializer = null
     ): void {
+        $cliArguments = new CliArguments(FixturePaths::getBase() . $sourceRelativePath, FixturePaths::getTarget());
+
         $stdout = new BufferedOutput();
         $stderr = new BufferedOutput();
 
-        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $this->createArgvFromInput($input));
+        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $cliArguments->toArgvArray());
 
         if (null !== $initializer) {
             $initializer($command);
         }
 
-        $exitCode = $command->run(new ArrayInput($input), new NullOutput());
+        $exitCode = $command->run(new ArrayInput($cliArguments->getOptions()), new NullOutput());
         self::assertSame($expectedExitCode, $exitCode);
         self::assertSame('', $stdout->fetch());
 
@@ -151,19 +120,14 @@ class GenerateCommandTest extends \PHPUnit\Framework\TestCase
      */
     public function unresolvedPlaceholderDataProvider(): array
     {
-        $root = getcwd();
-
         return [
             'placeholder CLIENT is not defined' => [
-                'input' => [
-                    '--source' => $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
-                    '--target' => $root . '/tests/build/target',
-                ],
+                'sourceRelativePath' => '/Test/example.com.verify-open-literal.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_GENERATOR_UNRESOLVED_PLACEHOLDER,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
-                        $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
-                        $root . '/tests/build/target',
+                        FixturePaths::getTest() . '/example.com.verify-open-literal.yml',
+                        FixturePaths::getTarget(),
                         AbstractBaseTest::class
                     ),
                     'Unresolved variable "CLIENT" in template ' .
@@ -377,20 +341,5 @@ class GenerateCommandTest extends \PHPUnit\Framework\TestCase
         }
 
         return $argv;
-    }
-
-    /**
-     * @param string[] $classNames
-     */
-    private function mockClassNameFactoryOnCommand(GenerateCommand $command, array $classNames): void
-    {
-        $serviceMocker = new ServiceMocker();
-
-        $compiler = $serviceMocker->mockClassNameFactoryOnCompiler(
-            ObjectReflector::getProperty($command, 'compiler'),
-            $classNames
-        );
-
-        ObjectReflector::setProperty($command, GenerateCommand::class, 'compiler', $compiler);
     }
 }

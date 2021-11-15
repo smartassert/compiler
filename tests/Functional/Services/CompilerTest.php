@@ -7,9 +7,11 @@ namespace webignition\BasilCliCompiler\Tests\Functional\Services;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCliCompiler\Model\CompiledTest;
 use webignition\BasilCliCompiler\Services\Compiler;
-use webignition\BasilCliCompiler\Tests\Services\ServiceMocker;
+use webignition\BasilCompilableSourceFactory\ClassDefinitionFactory;
+use webignition\BasilCompilableSourceFactory\ClassNameFactory;
 use webignition\BasilModels\Test\TestInterface;
 use webignition\BasilParser\Test\TestParser;
+use webignition\ObjectReflector\ObjectReflector;
 
 class CompilerTest extends \PHPUnit\Framework\TestCase
 {
@@ -25,9 +27,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         CompiledTest $expectedCompiledTest
     ): void {
         $compiler = Compiler::createCompiler();
-
-        $serviceMocker = new ServiceMocker();
-        $compiler = $serviceMocker->mockClassNameFactoryOnCompiler($compiler, $classNameFactoryClassNames);
+        $compiler = $this->mockClassNameFactoryOnCompiler($compiler, $classNameFactoryClassNames);
 
         self::assertEquals(
             $expectedCompiledTest,
@@ -83,5 +83,35 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         array_shift($contentLines);
 
         return trim(implode("\n", $contentLines));
+    }
+
+    /**
+     * @param string[] $classNames
+     */
+    private function mockClassNameFactoryOnCompiler(Compiler $compiler, array $classNames): Compiler
+    {
+        $classDefinitionFactory = ObjectReflector::getProperty($compiler, 'classDefinitionFactory');
+
+        $classNameFactory = \Mockery::mock(ClassNameFactory::class);
+        $classNameFactory
+            ->shouldReceive('create')
+            ->andReturnValues($classNames)
+        ;
+
+        ObjectReflector::setProperty(
+            $classDefinitionFactory,
+            ClassDefinitionFactory::class,
+            'classNameFactory',
+            $classNameFactory
+        );
+
+        ObjectReflector::setProperty(
+            $compiler,
+            Compiler::class,
+            'classDefinitionFactory',
+            $classDefinitionFactory
+        );
+
+        return $compiler;
     }
 }

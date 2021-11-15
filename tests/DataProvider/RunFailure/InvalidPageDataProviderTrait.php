@@ -27,10 +27,7 @@ trait InvalidPageDataProviderTrait
 
         return [
             'test imports invalid page; url empty' => [
-                'input' => [
-                    '--source' => $testPath,
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'sourceRelativePath' => '/InvalidTest/import-empty-page.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_PAGE,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

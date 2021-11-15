@@ -22,10 +22,7 @@ trait EmptyTestDataProviderTrait
 
         return [
             'test file is empty' => [
-                'input' => [
-                    '--source' => $emptyTestPath,
-                    '--target' => FixturePaths::getTarget(),
-                ],
+                'sourceRelativePath' => '/InvalidTest/empty.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_EMPTY_TEST,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
