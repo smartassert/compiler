@@ -1,4 +1,4 @@
-FROM php:8-cli-buster
+FROM php:8-cli-alpine
 
 LABEL org.opencontainers.image.source="https://github.com/smartassert/compiler"
 
@@ -11,12 +11,8 @@ COPY bin/compiler /app/bin/compiler
 COPY src /app/src
 COPY composer.json composer.lock /app/
 
-RUN apt-get update \
-    && apt-get install -y libzip-dev nano zip \
-    && docker-php-ext-install pcntl zip > /dev/null \
-    && apt-get autoremove -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+RUN apk --no-cache add libzip-dev \
+    && docker-php-ext-install pcntl zip \
     && chmod +x /app/bin/compiler \
     && ln -s /app/bin/compiler /app/compiler \
     && composer check-platform-reqs --ansi \
