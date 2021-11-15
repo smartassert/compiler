@@ -20,10 +20,7 @@ trait NonLoadableDataDataProviderTrait
     {
         return [
             'test contains invalid yaml' => [
-                'cliArguments' => new CliArguments(
-                    FixturePaths::getInvalidTest() . '/invalid.unparseable.yml',
-                    FixturePaths::getTarget()
-                ),
+                'sourceRelativePath' => '/InvalidTest/invalid.unparseable.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -39,10 +36,7 @@ trait NonLoadableDataDataProviderTrait
                 ),
             ],
             'test file contains non-array data' => [
-                'cliArguments' => new CliArguments(
-                    FixturePaths::getInvalidTest() . '/invalid.not-an-array.yml',
-                    FixturePaths::getTarget()
-                ),
+                'sourceRelativePath' => '/InvalidTest/invalid.not-an-array.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

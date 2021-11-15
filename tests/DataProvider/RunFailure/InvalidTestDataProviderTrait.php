@@ -23,7 +23,7 @@ trait InvalidTestDataProviderTrait
 
         return [
             'test has invalid configuration' => [
-                'cliArguments' => new CliArguments($testPath, FixturePaths::getTarget()),
+                'sourceRelativePath' => '/InvalidTest/invalid-configuration.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_TEST,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

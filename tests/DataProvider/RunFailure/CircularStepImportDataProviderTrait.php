@@ -20,10 +20,7 @@ trait CircularStepImportDataProviderTrait
     {
         return [
             'test imports step which imports self' => [
-                'cliArguments' => new CliArguments(
-                    FixturePaths::getInvalidTest() . '/invalid.import-circular-reference-self.yml',
-                    FixturePaths::getTarget()
-                ),
+                'sourceRelativePath' => '/InvalidTest/invalid.import-circular-reference-self.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_CIRCULAR_STEP_IMPORT,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -39,10 +36,7 @@ trait CircularStepImportDataProviderTrait
                 ),
             ],
             'test imports step which step imports self' => [
-                'cliArguments' => new CliArguments(
-                    FixturePaths::getInvalidTest() . '/invalid.import-circular-reference-indirect.yml',
-                    FixturePaths::getTarget()
-                ),
+                'sourceRelativePath' => '/InvalidTest/invalid.import-circular-reference-indirect.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_CIRCULAR_STEP_IMPORT,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

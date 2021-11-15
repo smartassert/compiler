@@ -20,10 +20,7 @@ trait UnknownElementDataProviderTrait
     {
         return [
             'test declares step, step contains action with unknown element' => [
-                'cliArguments' => new CliArguments(
-                    FixturePaths::getInvalidTest() . '/action-contains-unknown-element.yml',
-                    FixturePaths::getTarget()
-                ),
+                'sourceRelativePath' => '/InvalidTest/action-contains-unknown-element.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ELEMENT,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -42,10 +39,7 @@ trait UnknownElementDataProviderTrait
                 ),
             ],
             'test imports step, step contains action with unknown element' => [
-                'cliArguments' => new CliArguments(
-                    FixturePaths::getInvalidTest() . '/import-action-containing-unknown-element.yml',
-                    FixturePaths::getTarget()
-                ),
+                'sourceRelativePath' => '/InvalidTest/import-action-containing-unknown-element.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ELEMENT,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

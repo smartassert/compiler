@@ -20,10 +20,7 @@ trait UnknownPageElementDataProviderTrait
     {
         return [
             'test declares step, step contains action using unknown page element' => [
-                'cliArguments' => new CliArguments(
-                    FixturePaths::getInvalidTest() . '/action-contains-unknown-page-element.yml',
-                    FixturePaths::getTarget()
-                ),
+                'sourceRelativePath' => '/InvalidTest/action-contains-unknown-page-element.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_PAGE_ELEMENT,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -43,10 +40,7 @@ trait UnknownPageElementDataProviderTrait
                 ),
             ],
             'test imports step, test passes step unknown page element' => [
-                'cliArguments' => new CliArguments(
-                    FixturePaths::getInvalidTest() . '/imports-test-passes-unknown-element.yml',
-                    FixturePaths::getTarget()
-                ),
+                'sourceRelativePath' => '/InvalidTest/imports-test-passes-unknown-element.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_PAGE_ELEMENT,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

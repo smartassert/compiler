@@ -90,11 +90,13 @@ class GenerateCommandFailureTest extends TestCase
      * @dataProvider unresolvedPlaceholderDataProvider
      */
     public function testRunFailure(
-        CliArguments $cliArguments,
+        string $sourceRelativePath,
         int $expectedExitCode,
         ErrorOutputInterface $expectedCommandOutput,
         ?callable $initializer = null
     ): void {
+        $cliArguments = new CliArguments(FixturePaths::getBase() . $sourceRelativePath, FixturePaths::getTarget());
+
         $stdout = new BufferedOutput();
         $stderr = new BufferedOutput();
 
@@ -120,10 +122,7 @@ class GenerateCommandFailureTest extends TestCase
     {
         return [
             'placeholder CLIENT is not defined' => [
-                'cliArguments' => new CliArguments(
-                    FixturePaths::getTest() . '/example.com.verify-open-literal.yml',
-                    FixturePaths::getTarget()
-                ),
+                'sourceRelativePath' => '/Test/example.com.verify-open-literal.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_GENERATOR_UNRESOLVED_PLACEHOLDER,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(

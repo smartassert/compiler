@@ -20,10 +20,7 @@ trait UnknownItemDataProviderTrait
     {
         return [
             'test declares step, step uses unknown dataset' => [
-                'cliArguments' => new CliArguments(
-                    FixturePaths::getInvalidTest() . '/step-uses-unknown-dataset.yml',
-                    FixturePaths::getTarget()
-                ),
+                'sourceRelativePath' => '/InvalidTest/step-uses-unknown-dataset.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -43,10 +40,7 @@ trait UnknownItemDataProviderTrait
                 ),
             ],
             'test declares step, step uses unknown page' => [
-                'cliArguments' => new CliArguments(
-                    FixturePaths::getInvalidTest() . '/step-uses-unknown-page.yml',
-                    FixturePaths::getTarget()
-                ),
+                'sourceRelativePath' => '/InvalidTest/step-uses-unknown-page.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
@@ -66,10 +60,7 @@ trait UnknownItemDataProviderTrait
                 ),
             ],
             'test declares step, step uses step' => [
-                'cliArguments' => new CliArguments(
-                    FixturePaths::getInvalidTest() . '/step-uses-unknown-step.yml',
-                    FixturePaths::getTarget()
-                ),
+                'sourceRelativePath' => '/InvalidTest/step-uses-unknown-step.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
                 'expectedCommandOutput' => new ErrorOutput(
                     new Configuration(
