@@ -46,7 +46,6 @@ class CompilerTest extends TestCase
      */
     public function testGenerate(
         CliArguments $cliArguments,
-        string $localTarget,
         ExpectedGeneratedTestCollection $expectedGeneratedTests
     ): void {
         $compilationOutput = $this->getCompilationOutput($cliArguments);
@@ -61,6 +60,8 @@ class CompilerTest extends TestCase
 
         $testManifests = $suiteManifest->getTestManifests();
         self::assertCount(count($expectedGeneratedTests), $testManifests);
+
+        $localTarget = getcwd() . FixturePaths::TARGET;
 
         foreach ($testManifests as $index => $testManifest) {
             $testPath = $testManifest->getTarget();
@@ -93,7 +94,6 @@ class CompilerTest extends TestCase
                     $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
                     $root . '/tests/build/target',
                 ),
-                'localTarget' => $root . '/tests/build/target',
                 'expectedGeneratedTests' => new ExpectedGeneratedTestCollection([
                     new ExpectedGeneratedTest(
                         'GeneratedVerifyOpenLiteralChrome',

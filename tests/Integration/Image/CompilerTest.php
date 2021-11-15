@@ -7,6 +7,7 @@ namespace webignition\BasilCliCompiler\Tests\Integration\Image;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
+use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
 use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTest;
@@ -32,7 +33,6 @@ class CompilerTest extends TestCase
      */
     public function testGenerate(
         CliArguments $cliArguments,
-        string $localTarget,
         ExpectedGeneratedTestCollection $expectedGeneratedTests
     ): void {
         $compilationOutput = $this->getCompilationOutput($cliArguments);
@@ -47,6 +47,8 @@ class CompilerTest extends TestCase
 
         $testManifests = $suiteManifest->getTestManifests();
         self::assertCount(count($expectedGeneratedTests), $testManifests);
+
+        $localTarget = getcwd() . FixturePaths::TARGET;
 
         foreach ($testManifests as $index => $testManifest) {
             $testPath = $testManifest->getTarget();
@@ -71,15 +73,12 @@ class CompilerTest extends TestCase
      */
     public function generateDataProvider(): array
     {
-        $root = getcwd();
-
         return [
             'single test' => [
                 'cliArguments' => new CliArguments(
                     '/app/source/Test/example.com.verify-open-literal.yml',
                     '/app/tests'
                 ),
-                'localTarget' => $root . '/tests/build/target',
                 'expectedGeneratedTests' => new ExpectedGeneratedTestCollection([
                     new ExpectedGeneratedTest(
                         'GeneratedVerifyOpenLiteralChrome',
