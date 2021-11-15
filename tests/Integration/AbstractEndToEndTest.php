@@ -97,6 +97,34 @@ abstract class AbstractEndToEndTest extends TestCase
                     ),
                 ]),
             ],
+            'single test, verify open literal with page import' => [
+                'cliArguments' => new CliArguments(
+                    $this->getRemoteSourcePrefix() . '/Test/example.com.import-page.yml',
+                    $this->getRemoteTarget(),
+                ),
+                'expectedGeneratedTests' => new ExpectedGeneratedTestCollection([
+                    new ExpectedGeneratedTest(
+                        'GeneratedImportPage',
+                        '/tests/Fixtures/php/Test/GeneratedImportPage.php',
+                    ),
+                ]),
+            ],
+            'single test with multiple browsers' => [
+                'cliArguments' => new CliArguments(
+                    $this->getRemoteSourcePrefix() . '/Test/example.com.verify-open-literal-multiple-browsers.yml',
+                    $this->getRemoteTarget(),
+                ),
+                'expectedGeneratedTests' => new ExpectedGeneratedTestCollection([
+                    new ExpectedGeneratedTest(
+                        'GeneratedVerifyOpenLiteralChrome',
+                        '/tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralChrome.php',
+                    ),
+                    new ExpectedGeneratedTest(
+                        'GeneratedVerifyOpenLiteralFirefox',
+                        '/tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralFirefox.php',
+                    ),
+                ]),
+            ],
         ];
     }
 
