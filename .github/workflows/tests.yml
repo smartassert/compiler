@@ -36,9 +36,9 @@ jobs:
         run: composer test-functional
 
       - name: Run PHPUnit integration tests
-        run: composer test-integration
+        run: composer test-integration-bin
 
-  image:
+  integration:
     name: Test Docker Image
     runs-on: ubuntu-latest
 
@@ -46,7 +46,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build test image
-        run: |
-          ./build/build.sh
-          ./build/test.sh
+      - name: Download dependencies
+        uses: php-actions/composer@v2
+        with:
+          args: --ignore-platform-reqs --quiet
+
+      - name: Setup
+        run: composer integration-setup
+
+      - name: Run
+        run: composer test-integration-image
+
+      - name: Teardown
+        run: composer integration-teardown
