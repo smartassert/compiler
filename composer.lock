@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e0089076643b29ea7a58c968347da3f",
+    "content-hash": "23eae9c2a90e1109f66b88f5b36e31f5",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -5392,65 +5392,6 @@
                 "source": "https://github.com/webignition/stubble-resolvable/tree/0.22"
             },
             "time": "2021-02-18T11:12:17+00:00"
-        },
-        {
-            "name": "webignition/symfony-console-typed-input",
-            "version": "0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webignition/symfony-console-typed-input.git",
-                "reference": "ec4976828ef7647b00ae63ce47060cc035307fc1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webignition/symfony-console-typed-input/zipball/ec4976828ef7647b00ae63ce47060cc035307fc1",
-                "reference": "ec4976828ef7647b00ae63ce47060cc035307fc1",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.4|^8",
-                "symfony/console": "^4.4|^5.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.4",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^0.12.77",
-                "phpstan/phpstan-mockery": "^0.12.12",
-                "phpunit/phpunit": "^9.5",
-                "squizlabs/php_codesniffer": "^3.5",
-                "symplify/easy-coding-standard": "^9.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "webignition\\SymfonyConsole\\TypedInput\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jon Cram",
-                    "email": "jon@webignition.net"
-                }
-            ],
-            "description": "Symfony InputInterface providing type-specific getters for options and arguments",
-            "homepage": "https://github.com/webignition/symfony-console-typed-input",
-            "keywords": [
-                "console",
-                "input",
-                "inputinterface",
-                "symfony",
-                "type",
-                "typed"
-            ],
-            "support": {
-                "issues": "https://github.com/webignition/symfony-console-typed-input/issues",
-                "source": "https://github.com/webignition/symfony-console-typed-input/tree/0.6"
-            },
-            "time": "2021-02-18T14:29:52+00:00"
         },
         {
             "name": "webignition/symfony-panther-dom-crawler-navigator",

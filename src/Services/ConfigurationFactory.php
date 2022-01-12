@@ -8,17 +8,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use webignition\BasilCliCompiler\Model\Options;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ConfigurationInterface;
-use webignition\SymfonyConsole\TypedInput\TypedInput;
 
 class ConfigurationFactory
 {
     public function create(InputInterface $input): ConfigurationInterface
     {
-        $typedInput = new TypedInput($input);
+        $rawSource = $input->getOption(Options::OPTION_SOURCE);
+        $rawSource = is_string($rawSource) ? trim($rawSource) : '';
 
-        $rawSource = trim((string) $typedInput->getStringOption(Options::OPTION_SOURCE));
-        $rawTarget = trim((string) $typedInput->getStringOption(Options::OPTION_TARGET));
-        $baseClass = trim((string) $typedInput->getStringOption(Options::OPTION_BASE_CLASS));
+        $rawTarget = $input->getOption(Options::OPTION_TARGET);
+        $rawTarget = is_string($rawTarget) ? trim($rawTarget) : '';
+
+        $baseClass = $input->getOption(Options::OPTION_BASE_CLASS);
+        $baseClass = is_string($baseClass) ? trim($baseClass) : '';
 
         return new Configuration($rawSource, $rawTarget, $baseClass);
     }
