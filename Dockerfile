@@ -1,4 +1,4 @@
-FROM php:8-cli-alpine
+FROM php:8.0-cli-alpine
 
 LABEL org.opencontainers.image.source="https://github.com/smartassert/compiler"
 
