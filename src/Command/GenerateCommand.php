@@ -93,15 +93,15 @@ class GenerateCommand extends Command
         try {
             $tests = $this->testLoader->load($configuration->getSource());
         } catch (
-            CircularStepImportException|
-            EmptyTestException|
-            InvalidPageException|
-            InvalidTestException|
-            NonRetrievableImportException|
-            ParseException|
-            UnknownElementException|
-            UnknownItemException|
-            UnknownPageElementException|
+            CircularStepImportException |
+            EmptyTestException |
+            InvalidPageException |
+            InvalidTestException |
+            NonRetrievableImportException |
+            ParseException |
+            UnknownElementException |
+            UnknownItemException |
+            UnknownPageElementException |
             YamlLoaderException $exception
         ) {
             return $this->outputRenderer->render(
