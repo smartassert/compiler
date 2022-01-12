@@ -28,7 +28,7 @@ trait NonRetrievableImportDataProviderTrait
                     'name' => 'unparseable_page',
                     'import_path' => '{{ remoteSourcePrefix }}/InvalidPage/unparseable.yml',
                     'loader_error' => [
-                        'message' => 'Malformed inline YAML string at line 2',
+                        'message' => 'Malformed inline YAML string at line 2.',
                         'path' => '{{ remoteSourcePrefix }}/InvalidPage/unparseable.yml',
                     ],
                 ],

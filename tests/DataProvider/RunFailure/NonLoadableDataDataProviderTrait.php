@@ -17,7 +17,7 @@ trait NonLoadableDataDataProviderTrait
             'test contains invalid yaml' => [
                 'sourceRelativePath' => '/InvalidTest/invalid.unparseable.yml',
                 'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
-                'expectedErrorOutputMessage' => 'Malformed inline YAML string at line 3 (near "- "chrome")',
+                'expectedErrorOutputMessage' => 'Malformed inline YAML string at line 3 (near "- "chrome").',
                 'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
                 'expectedErrorOutputData' => [
                     'path' => '{{ remoteSourcePrefix }}/InvalidTest/invalid.unparseable.yml',
