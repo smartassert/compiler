@@ -122,7 +122,7 @@ class GenerateCommand extends Command
                 );
             }
         } catch (
-            UnresolvedVariableException|
+            UnresolvedVariableException |
             UnsupportedStepException $exception
         ) {
             return $this->outputRenderer->render(
