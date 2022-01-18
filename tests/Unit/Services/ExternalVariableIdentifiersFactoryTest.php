@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Unit\Services;
+namespace SmartAssert\Compiler\Tests\Unit\Services;
 
-use webignition\BasilCliCompiler\Model\ExternalVariableIdentifiers;
-use webignition\BasilCliCompiler\Services\ExternalVariableIdentifiersFactory;
-use webignition\BasilCliCompiler\Tests\Unit\AbstractBaseTest;
+use SmartAssert\Compiler\Model\ExternalVariableIdentifiers;
+use SmartAssert\Compiler\Services\ExternalVariableIdentifiersFactory;
+use SmartAssert\Compiler\Tests\Unit\AbstractBaseTest;
 
 class ExternalVariableIdentifiersFactoryTest extends AbstractBaseTest
 {

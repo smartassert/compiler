@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\DataProvider;
+namespace SmartAssert\Compiler\Tests\DataProvider;
 
 class FixturePaths
 {

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Functional\Command;
+namespace SmartAssert\Compiler\Tests\Functional\Command;
 
+use SmartAssert\Compiler\Services\CommandFactory;
+use SmartAssert\Compiler\Tests\AbstractEndToEndSuccessTest;
+use SmartAssert\Compiler\Tests\Model\CliArguments;
+use SmartAssert\Compiler\Tests\Model\CompilationOutput;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
-use webignition\BasilCliCompiler\Services\CommandFactory;
-use webignition\BasilCliCompiler\Tests\AbstractEndToEndSuccessTest;
-use webignition\BasilCliCompiler\Tests\Model\CliArguments;
-use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 
 class GenerateCommandSuccessTest extends AbstractEndToEndSuccessTest
 {

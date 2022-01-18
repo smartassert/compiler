@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Unit;
+namespace SmartAssert\Compiler\Tests\Unit;
 
 abstract class AbstractBaseTest extends \PHPUnit\Framework\TestCase
 {

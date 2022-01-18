@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Integration\Image;
+namespace SmartAssert\Compiler\Tests\Integration\Image;
 
-use webignition\BasilCliCompiler\Tests\AbstractEndToEndFailureTest;
-use webignition\BasilCliCompiler\Tests\Model\CliArguments;
-use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
+use SmartAssert\Compiler\Tests\AbstractEndToEndFailureTest;
+use SmartAssert\Compiler\Tests\Model\CliArguments;
+use SmartAssert\Compiler\Tests\Model\CompilationOutput;
 use webignition\TcpCliProxyClient\Client;
 use webignition\TcpCliProxyClient\HandlerFactory;
 

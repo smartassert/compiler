@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Unit\Services;
+namespace SmartAssert\Compiler\Tests\Unit\Services;
 
-use webignition\BasilCliCompiler\Services\CompiledClassResolver;
-use webignition\BasilCliCompiler\Services\ExternalVariableIdentifiersFactory;
+use SmartAssert\Compiler\Services\CompiledClassResolver;
+use SmartAssert\Compiler\Services\ExternalVariableIdentifiersFactory;
 use webignition\BasilCompilableSource\VariableDependency;
 use webignition\BasilCompilableSourceFactory\VariableNames;
 use webignition\Stubble\VariableResolver;

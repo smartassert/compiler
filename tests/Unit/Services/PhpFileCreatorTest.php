@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Unit\Services;
+namespace SmartAssert\Compiler\Tests\Unit\Services;
 
 use phpmock\mockery\PHPMockery;
-use webignition\BasilCliCompiler\Services\PhpFileCreator;
-use webignition\BasilCliCompiler\Tests\Unit\AbstractBaseTest;
+use SmartAssert\Compiler\Services\PhpFileCreator;
+use SmartAssert\Compiler\Tests\Unit\AbstractBaseTest;
 
 class PhpFileCreatorTest extends AbstractBaseTest
 {
@@ -21,7 +21,7 @@ class PhpFileCreatorTest extends AbstractBaseTest
         string $expectedFilePutContentsData,
         string $expectedCreatedFilename
     ): void {
-        PHPMockery::mock('webignition\BasilCliCompiler\Services', 'file_put_contents')
+        PHPMockery::mock('SmartAssert\Compiler\Services', 'file_put_contents')
             ->with($expectedFilePutContentsFilename, $expectedFilePutContentsData)
             ->andReturn(strlen($expectedFilePutContentsData))
         ;

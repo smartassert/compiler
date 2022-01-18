@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Unit\Services;
+namespace SmartAssert\Compiler\Tests\Unit\Services;
 
-use webignition\BasilCliCompiler\Services\VariablePlaceholderResolver;
+use SmartAssert\Compiler\Services\VariablePlaceholderResolver;
 use webignition\StubbleResolvable\Resolvable;
 use webignition\StubbleResolvable\ResolvableInterface;
 

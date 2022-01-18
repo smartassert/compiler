@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Services;
+namespace SmartAssert\Compiler\Services;
 
+use SmartAssert\Compiler\Command\GenerateCommand;
+use SmartAssert\Compiler\Model\Options;
 use Symfony\Component\Console\Output\OutputInterface;
-use webignition\BasilCliCompiler\Command\GenerateCommand;
-use webignition\BasilCliCompiler\Model\Options;
 use webignition\BasilLoader\TestLoader;
 
 class CommandFactory

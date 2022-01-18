@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests;
+namespace SmartAssert\Compiler\Tests;
 
+use SmartAssert\Compiler\Tests\DataProvider\FixturePaths;
+use SmartAssert\Compiler\Tests\Model\CliArguments;
+use SmartAssert\Compiler\Tests\Model\ExpectedGeneratedTest;
+use SmartAssert\Compiler\Tests\Model\ExpectedGeneratedTestCollection;
+use SmartAssert\Compiler\Tests\Services\ClassNameReplacer;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
-use webignition\BasilCliCompiler\Tests\DataProvider\FixturePaths;
-use webignition\BasilCliCompiler\Tests\Model\CliArguments;
-use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTest;
-use webignition\BasilCliCompiler\Tests\Model\ExpectedGeneratedTestCollection;
-use webignition\BasilCliCompiler\Tests\Services\ClassNameReplacer;
 use webignition\BasilCompilerModels\SuiteManifest;
 
 abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest

@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Functional\Command;
+namespace SmartAssert\Compiler\Tests\Functional\Command;
 
+use SmartAssert\Compiler\Command\GenerateCommand;
+use SmartAssert\Compiler\Model\ExternalVariableIdentifiers;
+use SmartAssert\Compiler\Services\CommandFactory;
+use SmartAssert\Compiler\Services\CompiledClassResolver;
+use SmartAssert\Compiler\Services\Compiler;
+use SmartAssert\Compiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\Tests\AbstractEndToEndFailureTest;
+use SmartAssert\Compiler\Tests\Model\CliArguments;
+use SmartAssert\Compiler\Tests\Model\CompilationOutput;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
-use webignition\BasilCliCompiler\Command\GenerateCommand;
-use webignition\BasilCliCompiler\Model\ExternalVariableIdentifiers;
-use webignition\BasilCliCompiler\Services\CommandFactory;
-use webignition\BasilCliCompiler\Services\CompiledClassResolver;
-use webignition\BasilCliCompiler\Services\Compiler;
-use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
-use webignition\BasilCliCompiler\Tests\AbstractEndToEndFailureTest;
-use webignition\BasilCliCompiler\Tests\Model\CliArguments;
-use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;

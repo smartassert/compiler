@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Services;
+namespace SmartAssert\Compiler\Services;
 
+use SmartAssert\Compiler\Model\Options;
 use Symfony\Component\Console\Input\InputInterface;
-use webignition\BasilCliCompiler\Model\Options;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ConfigurationInterface;
 

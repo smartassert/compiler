@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Unit\Command;
+namespace SmartAssert\Compiler\Tests\Unit\Command;
 
+use SmartAssert\Compiler\Command\GenerateCommand;
+use SmartAssert\Compiler\Services\Compiler;
+use SmartAssert\Compiler\Services\ConfigurationFactory;
+use SmartAssert\Compiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\Services\OutputRenderer;
+use SmartAssert\Compiler\Services\TestWriter;
+use SmartAssert\Compiler\Services\ValidatorInvalidResultSerializer;
+use SmartAssert\Compiler\Tests\Unit\AbstractBaseTest;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BaseBasilTestCase\AbstractBaseTest as BasilBaseTest;
-use webignition\BasilCliCompiler\Command\GenerateCommand;
-use webignition\BasilCliCompiler\Services\Compiler;
-use webignition\BasilCliCompiler\Services\ConfigurationFactory;
-use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
-use webignition\BasilCliCompiler\Services\OutputRenderer;
-use webignition\BasilCliCompiler\Services\TestWriter;
-use webignition\BasilCliCompiler\Services\ValidatorInvalidResultSerializer;
-use webignition\BasilCliCompiler\Tests\Unit\AbstractBaseTest;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 use webignition\BasilLoader\TestLoader;

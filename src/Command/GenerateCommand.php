@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Command;
+namespace SmartAssert\Compiler\Command;
 
+use SmartAssert\Compiler\Model\Options;
+use SmartAssert\Compiler\Services\Compiler;
+use SmartAssert\Compiler\Services\ConfigurationFactory;
+use SmartAssert\Compiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\Services\OutputRenderer;
+use SmartAssert\Compiler\Services\TestWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface as ConsoleOutputInterface;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
-use webignition\BasilCliCompiler\Model\Options;
-use webignition\BasilCliCompiler\Services\Compiler;
-use webignition\BasilCliCompiler\Services\ConfigurationFactory;
-use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
-use webignition\BasilCliCompiler\Services\OutputRenderer;
-use webignition\BasilCliCompiler\Services\TestWriter;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\SuiteManifest;

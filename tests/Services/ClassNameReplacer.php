@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Services;
+namespace SmartAssert\Compiler\Tests\Services;
 
 class ClassNameReplacer
 {

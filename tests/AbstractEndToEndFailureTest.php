@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests;
+namespace SmartAssert\Compiler\Tests;
 
+use SmartAssert\Compiler\Tests\DataProvider\RunFailure\CircularStepImportDataProviderTrait;
+use SmartAssert\Compiler\Tests\DataProvider\RunFailure\EmptyTestDataProviderTrait;
+use SmartAssert\Compiler\Tests\DataProvider\RunFailure\InvalidPageDataProviderTrait;
+use SmartAssert\Compiler\Tests\DataProvider\RunFailure\InvalidTestDataProviderTrait;
+use SmartAssert\Compiler\Tests\DataProvider\RunFailure\NonLoadableDataDataProviderTrait;
+use SmartAssert\Compiler\Tests\DataProvider\RunFailure\NonRetrievableImportDataProviderTrait;
+use SmartAssert\Compiler\Tests\DataProvider\RunFailure\ParseExceptionDataProviderTrait;
+use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownElementDataProviderTrait;
+use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
+use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
+use SmartAssert\Compiler\Tests\Model\CliArguments;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\CircularStepImportDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\EmptyTestDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\InvalidPageDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\InvalidTestDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\NonLoadableDataDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\NonRetrievableImportDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\ParseExceptionDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownElementDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
-use webignition\BasilCliCompiler\Tests\Model\CliArguments;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 
