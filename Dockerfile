@@ -1,10 +1,13 @@
-FROM php:8.0-cli-alpine
+ARG php_version=8.0
+
+FROM php:${php_version}-cli-alpine
 
 LABEL org.opencontainers.image.source="https://github.com/smartassert/compiler"
 
 WORKDIR /app
 
-ARG proxy_server_version=0.7
+ARG proxy_server_version=0.8
+ARG php_version
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY bin/compiler /app/bin/compiler
@@ -19,13 +22,13 @@ RUN apk --no-cache add libzip-dev \
     && composer install --prefer-dist --no-dev \
     && rm composer.json \
     && rm composer.lock \
-    && curl https://raw.githubusercontent.com/webignition/docker-tcp-cli-proxy/${proxy_server_version}/composer.json --output composer.json \
-    && curl https://raw.githubusercontent.com/webignition/docker-tcp-cli-proxy/${proxy_server_version}/composer.lock --output composer.lock \
+    && curl -L https://raw.githubusercontent.com/webignition/tcp-cli-proxy-server/${proxy_server_version}/composer.json --output composer.json \
+    && curl -L https://github.com/webignition/tcp-cli-proxy-server/releases/download/${proxy_server_version}/composer-${php_version}.lock --output composer.lock \
     && composer check-platform-reqs --ansi \
     && rm composer.json \
     && rm composer.lock \
     && rm /usr/bin/composer \
-    && curl -L https://github.com/webignition/docker-tcp-cli-proxy/releases/download/${proxy_server_version}/server.phar --output ./server \
+    && curl -L https://github.com/webignition/tcp-cli-proxy-server/releases/download/${proxy_server_version}/server-${php_version}.phar --output ./server \
     && chmod +x ./server
 
 CMD ./server
