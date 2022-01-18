@@ -56,17 +56,17 @@
     "require": {
         "php": ">=8",
         "ext-json": "*",
-        "symfony/console": "5.4.*",
-        "symfony/yaml": "5.4.*",
-        "webignition/base-basil-test-case": "^0.42",
-        "webignition/basil-compilable-source": "^0.67",
-        "webignition/basil-compiler-models": "^0.15",
-        "webignition/basil-loader": "^0.34.0",
-        "webignition/basil-models": "^0.58",
-        "webignition/basil-parser": "^1.1",
-        "webignition/php-basil-compilable-source-factory": "^0.65",
-        "webignition/single-command-application-factory": "^0.2",
-        "webignition/stubble": "^0.14"
+        "symfony/console": "6.0.*",
+        "symfony/yaml": "6.0.*",
+        "webignition/base-basil-test-case": "^0.43",
+        "webignition/basil-compilable-source": "^0.68",
+        "webignition/basil-compiler-models": "^0.16",
+        "webignition/basil-loader": "^0.36",
+        "webignition/basil-models": "^0.60",
+        "webignition/basil-parser": "^1.2",
+        "webignition/php-basil-compilable-source-factory": "^0.66",
+        "webignition/single-command-application-factory": "^0.5",
+        "webignition/stubble": "^0.15"
     },
     "require-dev": {
         "mockery/mockery": "^1.4",
@@ -76,11 +76,11 @@
         "phpstan/phpstan": "^1.1",
         "phpstan/phpstan-mockery": "^1.0",
         "squizlabs/php_codesniffer": "^3.6",
-        "symfony/process": "5.4.*",
-        "webignition/basil-data-validator": ">=0.16,<1",
+        "symfony/process": "6.0.*",
+        "webignition/basil-data-validator": ">=0.17,<1",
         "webignition/object-reflector": ">=1,<2",
-        "webignition/symfony-panther-webserver-runner": ">=0.5,<1",
-        "webignition/tcp-cli-proxy-client": "^0.12.0"
+        "webignition/symfony-panther-webserver-runner": ">=0.6,<1",
+        "webignition/tcp-cli-proxy-client": "^0.13"
     },
     "bin": [
         "bin/compiler"
