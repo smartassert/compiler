@@ -54,7 +54,7 @@
         ]
     },
     "require": {
-        "php": ">=8",
+        "php": "^8.0|^8.1",
         "ext-json": "*",
         "symfony/console": "6.0.*",
         "symfony/yaml": "6.0.*",
