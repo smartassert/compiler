@@ -43,8 +43,8 @@ class GeneratedImportPage extends AbstractBaseTest
                 "statement-type": "assertion",
                 "source": "$page.url is $example_com.url",
                 "identifier": "$page.url",
-                "operator": "is",
-                "value": "$example_com.url"
+                "value": "$example_com.url",
+                "operator": "is"
             }
         }');
         $this->setExpectedValue("http://example.com" ?? null);
