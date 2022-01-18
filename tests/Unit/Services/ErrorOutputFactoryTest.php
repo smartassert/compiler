@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Unit\Services;
+namespace SmartAssert\Compiler\Tests\Unit\Services;
 
-use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
-use webignition\BasilCliCompiler\Services\ValidatorInvalidResultSerializer;
-use webignition\BasilCliCompiler\Tests\Unit\AbstractBaseTest;
+use SmartAssert\Compiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\Services\ValidatorInvalidResultSerializer;
+use SmartAssert\Compiler\Tests\Unit\AbstractBaseTest;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ConfigurationInterface;
 use webignition\BasilCompilerModels\ErrorOutput;

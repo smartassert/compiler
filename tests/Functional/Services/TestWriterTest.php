@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Functional\Services;
+namespace SmartAssert\Compiler\Tests\Functional\Services;
 
-use webignition\BasilCliCompiler\Model\CompiledTest;
-use webignition\BasilCliCompiler\Services\TestWriter;
+use SmartAssert\Compiler\Model\CompiledTest;
+use SmartAssert\Compiler\Services\TestWriter;
 
 class TestWriterTest extends \PHPUnit\Framework\TestCase
 {
@@ -47,7 +47,7 @@ class TestWriterTest extends \PHPUnit\Framework\TestCase
                 'outputDirectory' => $root . '/tests/build/target',
                 'expectedGeneratedCode' => '<?php' . "\n" .
                     "\n" .
-                    'namespace webignition\BasilCliCompiler\Generated;' . "\n" .
+                    'namespace SmartAssert\Compiler\Generated;' . "\n" .
                     "\n" .
                     'compiled test code' . "\n",
             ],

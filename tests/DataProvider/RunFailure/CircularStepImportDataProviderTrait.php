@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\DataProvider\RunFailure;
+namespace SmartAssert\Compiler\Tests\DataProvider\RunFailure;
 
-use webignition\BasilCliCompiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\Services\ErrorOutputFactory;
 
 trait CircularStepImportDataProviderTrait
 {

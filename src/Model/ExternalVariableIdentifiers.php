@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Model;
+namespace SmartAssert\Compiler\Model;
 
 use webignition\BasilCompilableSourceFactory\VariableNames;
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Unit\Services;
+namespace SmartAssert\Compiler\Tests\Unit\Services;
 
-use webignition\BasilCliCompiler\Services\ValidatorInvalidResultSerializer;
-use webignition\BasilCliCompiler\Tests\Unit\AbstractBaseTest;
+use SmartAssert\Compiler\Services\ValidatorInvalidResultSerializer;
+use SmartAssert\Compiler\Tests\Unit\AbstractBaseTest;
 use webignition\BasilDataValidator\Action\ActionValidator;
 use webignition\BasilDataValidator\Assertion\AssertionValidator;
 use webignition\BasilDataValidator\ResultType;

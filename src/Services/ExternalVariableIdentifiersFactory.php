@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Services;
+namespace SmartAssert\Compiler\Services;
 
-use webignition\BasilCliCompiler\Model\ExternalVariableIdentifiers;
+use SmartAssert\Compiler\Model\ExternalVariableIdentifiers;
 
 class ExternalVariableIdentifiersFactory
 {

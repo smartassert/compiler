@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Model;
+namespace SmartAssert\Compiler\Tests\Model;
 
-use webignition\BasilCliCompiler\Model\Options;
+use SmartAssert\Compiler\Model\Options;
 
 class CliArguments
 {

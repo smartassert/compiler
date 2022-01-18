@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Services;
+namespace SmartAssert\Compiler\Services;
 
-use webignition\BasilCliCompiler\Model\CompiledTest;
+use SmartAssert\Compiler\Model\CompiledTest;
 
 class TestWriter
 {

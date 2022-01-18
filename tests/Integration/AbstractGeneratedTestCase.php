@@ -1,6 +1,6 @@
 <?php
 
-namespace webignition\BasilCliCompiler\Tests\Integration;
+namespace SmartAssert\Compiler\Tests\Integration;
 
 use Facebook\WebDriver\WebDriverDimension;
 use webignition\BaseBasilTestCase\AbstractBaseTest;

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Services;
+namespace SmartAssert\Compiler\Services;
 
 class PhpFileCreator
 {
     private const TEMPLATE = <<< 'EOT'
 <?php
 
-namespace webignition\BasilCliCompiler\Generated;
+namespace SmartAssert\Compiler\Generated;
 
 %s
 

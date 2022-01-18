@@ -1,8 +1,8 @@
 {
-    "name": "webignition/basil-cli-compiler",
+    "name": "smartassert/compiler",
     "description": "CLI compiler to generate executable tests from basil source",
     "keywords": [],
-    "homepage": "https://github.com/webignition/basil-cli-compiler",
+    "homepage": "https://github.com/smartassert/compiler",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -13,13 +13,13 @@
     ],
     "autoload": {
         "psr-4": {
-            "webignition\\BasilCliCompiler\\": "src",
-            "webignition\\BasilCliCompiler\\Bin\\": "bin"
+            "SmartAssert\\Compiler\\": "src",
+            "SmartAssert\\Compiler\\Bin\\": "bin"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "webignition\\BasilCliCompiler\\Tests\\": "tests"
+            "SmartAssert\\Compiler\\Tests\\": "tests"
         }
     },
     "scripts": {

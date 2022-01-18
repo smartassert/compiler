@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Model;
+namespace SmartAssert\Compiler\Tests\Model;
 
 /**
  * @implements \ArrayAccess<int, ExpectedGeneratedTest>

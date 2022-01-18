@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Functional\Services;
+namespace SmartAssert\Compiler\Tests\Functional\Services;
 
+use SmartAssert\Compiler\Model\CompiledTest;
+use SmartAssert\Compiler\Services\Compiler;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
-use webignition\BasilCliCompiler\Model\CompiledTest;
-use webignition\BasilCliCompiler\Services\Compiler;
 use webignition\BasilCompilableSourceFactory\ClassDefinitionFactory;
 use webignition\BasilCompilableSourceFactory\ClassNameFactory;
 use webignition\BasilModels\Test\TestInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace webignition\BasilCliCompiler\Generated;
+namespace SmartAssert\Compiler\Generated;
 
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BaseBasilTestCase\ClientManager;

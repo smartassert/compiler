@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Services;
+namespace SmartAssert\Compiler\Services;
 
-use webignition\BasilCliCompiler\Model\CompiledTest;
+use SmartAssert\Compiler\Model\CompiledTest;
 use webignition\BasilCompilableSourceFactory\ClassDefinitionFactory;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilModels\Test\TestInterface;

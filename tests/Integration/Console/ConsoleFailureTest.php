@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace webignition\BasilCliCompiler\Tests\Integration\Console;
+namespace SmartAssert\Compiler\Tests\Integration\Console;
 
+use SmartAssert\Compiler\Tests\AbstractEndToEndFailureTest;
+use SmartAssert\Compiler\Tests\Model\CliArguments;
+use SmartAssert\Compiler\Tests\Model\CompilationOutput;
 use Symfony\Component\Process\Process;
-use webignition\BasilCliCompiler\Tests\AbstractEndToEndFailureTest;
-use webignition\BasilCliCompiler\Tests\Model\CliArguments;
-use webignition\BasilCliCompiler\Tests\Model\CompilationOutput;
 
 class ConsoleFailureTest extends AbstractEndToEndFailureTest
 {
