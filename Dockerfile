@@ -1,4 +1,4 @@
-ARG php_version=8.0
+ARG php_version=8.1
 
 FROM php:${php_version}-cli-alpine
 
