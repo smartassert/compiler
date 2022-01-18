@@ -37,8 +37,8 @@ class GeneratedVerifyOpenLiteralFirefox extends AbstractBaseTest
             "statement-type": "assertion",
             "source": "$page.url is \\"https:\\/\\/example.com\\/\\"",
             "identifier": "$page.url",
-            "operator": "is",
-            "value": "\\"https:\\/\\/example.com\\/\\""
+            "value": "\\"https:\\/\\/example.com\\/\\"",
+            "operator": "is"
         }');
         $this->setExpectedValue("https://example.com/" ?? null);
         $this->setExaminedValue(self::$client->getCurrentURL() ?? null);
