@@ -111,6 +111,11 @@ class GenerateCommand extends Command
 
         try {
             foreach ($tests as $test) {
+                $stepNames = [];
+                foreach ($test->getSteps() as $stepName => $step) {
+                    $stepNames[] = $stepName;
+                }
+
                 $compiledTest = $this->compiler->compile($test, $configuration->getBaseClass());
                 $target = $this->testWriter->write($compiledTest, $configuration->getTarget());
 
