@@ -75,7 +75,7 @@ class ErrorOutputFactory
     public const MESSAGE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE = 'target invalid: path must be absolute';
 
     /**
-     * @var array<mixed>
+     * @var array{action: array<int, string>, assertion: array<int, string>}
      */
     private array $unparseableStatementErrorMessages = [
         'action' => [

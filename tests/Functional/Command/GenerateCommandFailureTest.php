@@ -287,6 +287,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
     ): void {
         $compiledClassResolver = CompiledClassResolver::createResolver($updatedExternalVariableIdentifiers);
         $compiler = ObjectReflector::getProperty($command, 'compiler');
+        \assert($compiler instanceof Compiler);
 
         ObjectReflector::setProperty(
             $compiler,

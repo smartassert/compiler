@@ -59,6 +59,8 @@ class PhpFileCreatorTest extends AbstractBaseTest
 
     private function getPhpFileCreatorTemplate(): string
     {
-        return (new \ReflectionClass(PhpFileCreator::class))->getConstant('TEMPLATE');
+        $template = (new \ReflectionClass(PhpFileCreator::class))->getConstant('TEMPLATE');
+
+        return is_string($template) ? $template : '';
     }
 }
