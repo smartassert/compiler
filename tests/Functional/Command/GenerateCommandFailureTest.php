@@ -22,7 +22,7 @@ use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementExcep
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
-use webignition\BasilModels\Step\Step;
+use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilParser\ActionParser;
 use webignition\BasilParser\AssertionParser;
 use webignition\ObjectReflector\ObjectReflector;

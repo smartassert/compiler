@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SmartAssert\Compiler\Services;
 
 use JsonSerializable;
-use webignition\BasilValidationResult\InvalidResultInterface;
+use webignition\BasilLoader\Validator\InvalidResultInterface;
 
 class ValidatorInvalidResultSerializer
 {

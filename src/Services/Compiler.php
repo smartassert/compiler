@@ -7,7 +7,7 @@ namespace SmartAssert\Compiler\Services;
 use SmartAssert\Compiler\Model\CompiledTest;
 use webignition\BasilCompilableSourceFactory\ClassDefinitionFactory;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
-use webignition\BasilModels\Test\TestInterface;
+use webignition\BasilModels\Model\Test\TestInterface;
 use webignition\Stubble\UnresolvedVariableException;
 use webignition\Stubble\VariableResolver;
 

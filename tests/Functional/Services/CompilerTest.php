@@ -9,7 +9,7 @@ use SmartAssert\Compiler\Services\Compiler;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCompilableSourceFactory\ClassDefinitionFactory;
 use webignition\BasilCompilableSourceFactory\ClassNameFactory;
-use webignition\BasilModels\Test\TestInterface;
+use webignition\BasilModels\Model\Test\TestInterface;
 use webignition\BasilParser\Test\TestParser;
 use webignition\ObjectReflector\ObjectReflector;
 

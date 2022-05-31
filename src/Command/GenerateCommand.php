@@ -25,11 +25,11 @@ use webignition\BasilLoader\Exception\InvalidTestException;
 use webignition\BasilLoader\Exception\NonRetrievableImportException;
 use webignition\BasilLoader\Exception\ParseException;
 use webignition\BasilLoader\Exception\YamlLoaderException;
+use webignition\BasilLoader\Resolver\CircularStepImportException;
+use webignition\BasilLoader\Resolver\UnknownElementException;
+use webignition\BasilLoader\Resolver\UnknownPageElementException;
 use webignition\BasilLoader\TestLoader;
-use webignition\BasilModelProvider\Exception\UnknownItemException;
-use webignition\BasilResolver\CircularStepImportException;
-use webignition\BasilResolver\UnknownElementException;
-use webignition\BasilResolver\UnknownPageElementException;
+use webignition\BasilModels\Provider\Exception\UnknownItemException;
 use webignition\Stubble\UnresolvedVariableException;
 
 class GenerateCommand extends Command
@@ -118,7 +118,7 @@ class GenerateCommand extends Command
                     $test->getConfiguration(),
                     $test->getPath() ?? '',
                     $target,
-                    count($test->getSteps())
+                    $test->getSteps()->getStepNames()
                 );
             }
         } catch (
