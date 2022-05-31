@@ -18,8 +18,8 @@ RUN apk --no-cache add libzip-dev \
     && docker-php-ext-install pcntl zip \
     && chmod +x /app/bin/compiler \
     && ln -s /app/bin/compiler /app/compiler \
-    && composer check-platform-reqs --ansi \
     && composer install --prefer-dist --no-dev \
+    && composer check-platform-reqs --ansi \
     && rm composer.json \
     && curl -L https://raw.githubusercontent.com/webignition/tcp-cli-proxy-server/${proxy_server_version}/composer.json --output composer.json \
     && curl -L https://github.com/webignition/tcp-cli-proxy-server/releases/download/${proxy_server_version}/composer-${php_version}.lock --output composer.lock \
