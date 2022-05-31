@@ -144,16 +144,6 @@ class ErrorOutputFactory
         return $this->createForConfigurationErrorCode($configuration, $errorCode);
     }
 
-    public function createForEmptySource(ConfigurationInterface $configuration): ErrorOutputInterface
-    {
-        return $this->createForConfigurationErrorCode($configuration, self::CODE_COMMAND_CONFIG_SOURCE_EMPTY);
-    }
-
-    public function createForEmptyTarget(ConfigurationInterface $configuration): ErrorOutputInterface
-    {
-        return $this->createForConfigurationErrorCode($configuration, self::CODE_COMMAND_CONFIG_TARGET_EMPTY);
-    }
-
     public function createForException(
         \Exception $exception,
         ConfigurationInterface $configuration
