@@ -91,6 +91,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     private function mockClassNameFactoryOnCompiler(Compiler $compiler, array $classNames): Compiler
     {
         $classDefinitionFactory = ObjectReflector::getProperty($compiler, 'classDefinitionFactory');
+        \assert($classDefinitionFactory instanceof ClassDefinitionFactory);
 
         $classNameFactory = \Mockery::mock(ClassNameFactory::class);
         $classNameFactory
