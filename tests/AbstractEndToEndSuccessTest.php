@@ -40,10 +40,13 @@ abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
 
     /**
      * @dataProvider generateDataProvider
+     *
+     * @param array<string, string[]> $expectedStepNames
      */
     public function testGenerate(
         string $sourceRelativePath,
-        ExpectedGeneratedTestCollection $expectedGeneratedTests
+        ExpectedGeneratedTestCollection $expectedGeneratedTests,
+        array $expectedStepNames,
     ): void {
         $cliArguments = new CliArguments(
             $this->getRemoteSourcePrefix() . $sourceRelativePath,
@@ -79,6 +82,14 @@ abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
             );
 
             $this->assertSame($expectedGeneratedTest->getExpectedContent(), $generatedTestContent);
+
+            $stepNames = $testManifest->getStepNames();
+            self::assertIsArray($stepNames);
+
+            $expectedManifestStepNamesKey = $sourceRelativePath . '.' . $testManifest->getConfiguration()->getBrowser();
+            $expectedManifestStepNames = $expectedStepNames[$expectedManifestStepNamesKey];
+
+            self::assertSame($expectedManifestStepNames, $stepNames);
         }
     }
 
@@ -96,6 +107,11 @@ abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
                         '/tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralChrome.php',
                     ),
                 ]),
+                'expectedStepNames' => [
+                    '/Test/example.com.verify-open-literal.yml.chrome' => [
+                        'verify page is open',
+                    ],
+                ],
             ],
             'single test, verify open literal with page import' => [
                 'sourceRelativePath' => '/Test/example.com.import-page.yml',
@@ -105,6 +121,11 @@ abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
                         '/tests/Fixtures/php/Test/GeneratedImportPage.php',
                     ),
                 ]),
+                'expectedStepNames' => [
+                    '/Test/example.com.import-page.yml.chrome' => [
+                        'verify page is open',
+                    ],
+                ],
             ],
             'single test with multiple browsers' => [
                 '/Test/example.com.verify-open-literal-multiple-browsers.yml',
@@ -118,6 +139,14 @@ abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
                         '/tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralFirefox.php',
                     ),
                 ]),
+                'expectedStepNames' => [
+                    '/Test/example.com.verify-open-literal-multiple-browsers.yml.chrome' => [
+                        'verify page is open',
+                    ],
+                    '/Test/example.com.verify-open-literal-multiple-browsers.yml.firefox' => [
+                        'verify page is open',
+                    ],
+                ],
             ],
         ];
     }
