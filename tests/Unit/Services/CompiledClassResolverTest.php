@@ -6,7 +6,7 @@ namespace SmartAssert\Compiler\Tests\Unit\Services;
 
 use SmartAssert\Compiler\Services\CompiledClassResolver;
 use SmartAssert\Compiler\Services\ExternalVariableIdentifiersFactory;
-use webignition\BasilCompilableSource\VariableDependency;
+use webignition\BasilCompilableSourceFactory\Model\VariableDependency;
 use webignition\BasilCompilableSourceFactory\VariableNames;
 use webignition\Stubble\VariableResolver;
 use webignition\StubbleResolvable\ResolvableCollection;
