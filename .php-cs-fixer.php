@@ -12,6 +12,7 @@ return $config->setRules([
     'concat_space' => [
         'spacing' => 'one',
     ],
+    'class_definition' => false,
     'types_spaces' => false,
     'trailing_comma_in_multiline' => false,
     'php_unit_internal_class' => false,
