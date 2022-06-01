@@ -6,17 +6,17 @@ namespace SmartAssert\Compiler\Tests\Unit\Services;
 
 use SmartAssert\Compiler\Services\ValidatorInvalidResultSerializer;
 use SmartAssert\Compiler\Tests\Unit\AbstractBaseTest;
-use webignition\BasilDataValidator\Action\ActionValidator;
-use webignition\BasilDataValidator\Assertion\AssertionValidator;
-use webignition\BasilDataValidator\ResultType;
-use webignition\BasilDataValidator\Step\StepValidator;
-use webignition\BasilDataValidator\Test\TestValidator;
-use webignition\BasilDataValidator\ValueValidator;
+use webignition\BasilLoader\Validator\Action\ActionValidator;
+use webignition\BasilLoader\Validator\Assertion\AssertionValidator;
+use webignition\BasilLoader\Validator\InvalidResultInterface;
+use webignition\BasilLoader\Validator\ResultType;
+use webignition\BasilLoader\Validator\Step\StepValidator;
+use webignition\BasilLoader\Validator\Test\TestValidator;
+use webignition\BasilLoader\Validator\ValueValidator;
 use webignition\BasilParser\ActionParser;
 use webignition\BasilParser\AssertionParser;
 use webignition\BasilParser\StepParser;
 use webignition\BasilParser\Test\TestParser;
-use webignition\BasilValidationResult\InvalidResultInterface;
 
 class ValidatorInvalidResultSerializerTest extends AbstractBaseTest
 {

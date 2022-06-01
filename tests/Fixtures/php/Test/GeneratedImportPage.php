@@ -4,7 +4,7 @@ namespace SmartAssert\Compiler\Generated;
 
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BaseBasilTestCase\ClientManager;
-use webignition\BasilModels\Test\Configuration;
+use webignition\BasilModels\Model\Test\Configuration;
 
 class GeneratedImportPage extends AbstractBaseTest
 {
