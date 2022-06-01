@@ -59,12 +59,11 @@
         "symfony/console": "6.0.*",
         "symfony/yaml": "6.0.*",
         "webignition/base-basil-test-case": "^2.0",
-        "webignition/basil-compilable-source": "^0.68",
         "webignition/basil-compiler-models": "^3.0",
         "webignition/basil-loader": "^2.0",
         "webignition/basil-models": "^2.0",
         "webignition/basil-parser": "^3.0",
-        "webignition/php-basil-compilable-source-factory": "^2.0",
+        "webignition/php-basil-compilable-source-factory": "^2.1",
         "webignition/single-command-application-factory": "^0.5",
         "webignition/stubble": "^0.16"
     },
