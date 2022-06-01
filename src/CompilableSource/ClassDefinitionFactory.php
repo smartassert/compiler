@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\CompilableSource;
 
-use webignition\BaseBasilTestCase\ClientManager;
 use SmartAssert\Compiler\CompilableSource\Exception\UnsupportedStepException;
 use SmartAssert\Compiler\CompilableSource\Model\Block\TryCatch\CatchBlock;
 use SmartAssert\Compiler\CompilableSource\Model\Block\TryCatch\TryBlock;
@@ -28,6 +27,7 @@ use SmartAssert\Compiler\CompilableSource\Model\TypeDeclaration\ObjectTypeDeclar
 use SmartAssert\Compiler\CompilableSource\Model\TypeDeclaration\ObjectTypeDeclarationCollection;
 use SmartAssert\Compiler\CompilableSource\Model\VariableDependency;
 use SmartAssert\Compiler\CompilableSource\Model\VariableName;
+use webignition\BaseBasilTestCase\ClientManager;
 use webignition\BasilModels\Model\Step\StepInterface;
 use webignition\BasilModels\Model\Test\Configuration;
 use webignition\BasilModels\Model\Test\TestInterface;
