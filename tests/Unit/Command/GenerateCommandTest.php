@@ -16,8 +16,6 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Yaml\Yaml;
-use webignition\BaseBasilTestCase\AbstractBaseTest as BasilBaseTest;
-use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 use webignition\BasilLoader\TestLoader;
 
@@ -44,10 +42,19 @@ class GenerateCommandTest extends AbstractBaseTest
         $exitCode = $command->run(new ArrayInput($input), new NullOutput());
 
         self::assertSame($expectedValidationErrorCode, $exitCode);
-        self::assertSame('', $stdout->fetch());
+        self::assertSame(
+            <<< 'EOF'
+            ---
+            source: ''
+            target: ''
+            base-class: webignition\BaseBasilTestCase\AbstractBaseTest
+            ...
+            
+            EOF,
+            $stdout->fetch()
+        );
 
         $expectedCommandOutput = new ErrorOutput(
-            new Configuration('', '', BasilBaseTest::class),
             'source empty; call with --source=SOURCE',
             ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_EMPTY
         );

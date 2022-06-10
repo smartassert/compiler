@@ -26,6 +26,7 @@ use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilParser\ActionParser;
 use webignition\BasilParser\AssertionParser;
 use webignition\ObjectReflector\ObjectReflector;
+use webignition\YamlDocument\Document;
 
 class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
 {
@@ -50,28 +51,33 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
         $compilationOutput = $this->getCompilationOutput($cliArguments, $initializer);
         self::assertSame($expectedExitCode, $compilationOutput->getExitCode());
 
-        $output = $compilationOutput->getContent();
+        $outputContent = trim($compilationOutput->getOutputContent());
+        $outputDocuments = $this->processYamlCollectionOutput($outputContent);
+        self::assertCount(1, $outputDocuments);
 
-        $commandOutput = ErrorOutput::fromArray((array) Yaml::parse($output));
-        $configuration = $commandOutput->getConfiguration();
+        $outputDocument = $outputDocuments[0];
+        self::assertInstanceOf(Document::class, $outputDocument);
+
+        $configuration = Configuration::fromArray((array) $outputDocument->parse());
         self::assertSame($cliArguments->getSource(), $configuration->getSource());
         self::assertSame($cliArguments->getTarget(), $configuration->getTarget());
         self::assertSame(AbstractBaseTest::class, $configuration->getBaseClass());
 
-        $expectedErrorOutputData = $this->replaceConfigurationPlaceholders($expectedErrorOutputData);
+        $errorContent = trim($compilationOutput->getErrorContent());
+        $errorDocuments = $this->processYamlCollectionOutput($errorContent);
+        self::assertCount(1, $errorDocuments);
 
-        $expectedCommandOutput = new ErrorOutput(
-            new Configuration(
-                $cliArguments->getSource(),
-                $cliArguments->getTarget(),
-                AbstractBaseTest::class
-            ),
+        $errorDocument = $errorDocuments[0];
+        self::assertInstanceOf(Document::class, $errorDocument);
+
+        $expectedErrorOutput = new ErrorOutput(
             $this->replaceConfigurationPlaceholdersInString($expectedErrorOutputMessage),
             $expectedErrorOutputCode,
             $expectedErrorOutputData
         );
 
-        self::assertEquals($expectedCommandOutput, $commandOutput);
+        $errorOutput = ErrorOutput::fromArray((array) $errorDocument->parse());
+        self::assertEquals($expectedErrorOutput, $errorOutput);
     }
 
     /**
@@ -117,11 +123,13 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
     ): void {
         $root = getcwd();
 
+        $cliArguments = new CliArguments(
+            $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
+            $root . '/tests/build/target'
+        );
+
         $compilationOutput = $this->getCompilationOutput(
-            new CliArguments(
-                $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
-                $root . '/tests/build/target'
-            ),
+            $cliArguments,
             function (GenerateCommand $command) use ($unsupportedStepException) {
                 $compiler = \Mockery::mock(Compiler::class);
                 $compiler
@@ -140,20 +148,26 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
 
         self::assertSame(ErrorOutputFactory::CODE_GENERATOR_UNSUPPORTED_STEP, $compilationOutput->getExitCode());
 
-        $expectedCommandOutput = new ErrorOutput(
-            new Configuration(
-                $root . '/tests/Fixtures/basil/Test/example.com.verify-open-literal.yml',
-                $root . '/tests/build/target',
-                AbstractBaseTest::class
-            ),
+        $outputContent = trim($compilationOutput->getOutputContent());
+        self::assertStringStartsWith('---', $outputContent);
+        self::assertStringEndsWith('...', $outputContent);
+        self::assertSame(1, substr_count($outputContent, '---'));
+        self::assertSame(1, substr_count($outputContent, '...'));
+
+        $configuration = Configuration::fromArray((array) Yaml::parse($outputContent));
+        self::assertSame($cliArguments->getSource(), $configuration->getSource());
+        self::assertSame($cliArguments->getTarget(), $configuration->getTarget());
+        self::assertSame(AbstractBaseTest::class, $configuration->getBaseClass());
+
+        $expectedErrorOutput = new ErrorOutput(
             'Unsupported step',
             ErrorOutputFactory::CODE_GENERATOR_UNSUPPORTED_STEP,
             $expectedErrorOutputContext
         );
 
-        $commandOutput = ErrorOutput::fromArray((array) Yaml::parse($compilationOutput->getContent()));
+        $errorOutput = ErrorOutput::fromArray((array) Yaml::parse($compilationOutput->getErrorContent()));
 
-        self::assertEquals($expectedCommandOutput, $commandOutput);
+        self::assertEquals($expectedErrorOutput, $errorOutput);
     }
 
     /**
@@ -278,7 +292,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
 
         $exitCode = $command->run(new ArrayInput($cliArguments->getOptions()), $stderr);
 
-        return new CompilationOutput($stderr->fetch(), $exitCode);
+        return new CompilationOutput($stdout->fetch(), $stderr->fetch(), $exitCode);
     }
 
     private function mockCompilerCompiledClassResolverExternalVariableIdentifiers(

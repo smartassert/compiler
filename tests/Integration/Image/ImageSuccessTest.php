@@ -34,6 +34,6 @@ class ImageSuccessTest extends AbstractEndToEndSuccessTest
         $client = Client::createFromHostAndPort('localhost', 8000);
         $client->request('./compiler ' . $cliArguments, $handler);
 
-        return new CompilationOutput($output, $exitCode);
+        return new CompilationOutput($output, '', $exitCode);
     }
 }

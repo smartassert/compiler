@@ -17,7 +17,6 @@ use Symfony\Component\Console\Output\OutputInterface as ConsoleOutputInterface;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilCompilerModels\Configuration;
-use webignition\BasilCompilerModels\SuiteManifest;
 use webignition\BasilCompilerModels\TestManifest;
 use webignition\BasilLoader\Exception\EmptyTestException;
 use webignition\BasilLoader\Exception\InvalidPageException;
@@ -81,11 +80,15 @@ class GenerateCommand extends Command
     {
         $configuration = $this->configurationFactory->create($input);
 
+        $this->outputRenderer->renderConfiguration($configuration);
+
         $configurationValidationState = $configuration->validate();
         if (Configuration::VALIDATION_STATE_VALID !== $configurationValidationState) {
-            return $this->outputRenderer->render(
-                $this->errorOutputFactory->createFromInvalidConfiguration($configuration, $configurationValidationState)
-            );
+            $errorOutput = $this->errorOutputFactory->createFromInvalidConfiguration($configurationValidationState);
+
+            $this->outputRenderer->renderErrorOutput($errorOutput);
+
+            return $errorOutput->getCode();
         }
 
         $testManifests = [];
@@ -104,9 +107,11 @@ class GenerateCommand extends Command
             UnknownPageElementException |
             YamlLoaderException $exception
         ) {
-            return $this->outputRenderer->render(
-                $this->errorOutputFactory->createForException($exception, $configuration)
-            );
+            $errorOutput = $this->errorOutputFactory->createForException($exception);
+
+            $this->outputRenderer->renderErrorOutput($errorOutput);
+
+            return $errorOutput->getCode();
         }
 
         try {
@@ -115,7 +120,8 @@ class GenerateCommand extends Command
                 $target = $this->testWriter->write($compiledTest, $configuration->getTarget());
 
                 $testManifests[] = new TestManifest(
-                    $test->getConfiguration(),
+                    $test->getConfiguration()->getBrowser(),
+                    $test->getConfiguration()->getUrl(),
                     $test->getPath() ?? '',
                     $target,
                     $test->getSteps()->getStepNames()
@@ -125,12 +131,14 @@ class GenerateCommand extends Command
             UnresolvedVariableException |
             UnsupportedStepException $exception
         ) {
-            return $this->outputRenderer->render(
-                $this->errorOutputFactory->createForException($exception, $configuration)
-            );
+            $errorOutput = $this->errorOutputFactory->createForException($exception);
+
+            $this->outputRenderer->renderErrorOutput($errorOutput);
+
+            return $errorOutput->getCode();
         }
 
-        $this->outputRenderer->render(new SuiteManifest($configuration, $testManifests));
+        $this->outputRenderer->renderTestManifests($testManifests);
 
         return 0;
     }

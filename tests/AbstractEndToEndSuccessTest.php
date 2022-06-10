@@ -9,9 +9,10 @@ use SmartAssert\Compiler\Tests\Model\CliArguments;
 use SmartAssert\Compiler\Tests\Model\ExpectedGeneratedTest;
 use SmartAssert\Compiler\Tests\Model\ExpectedGeneratedTestCollection;
 use SmartAssert\Compiler\Tests\Services\ClassNameReplacer;
-use Symfony\Component\Yaml\Yaml;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
-use webignition\BasilCompilerModels\SuiteManifest;
+use webignition\BasilCompilerModels\Configuration;
+use webignition\BasilCompilerModels\TestManifest;
+use webignition\YamlDocument\Document;
 
 abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
 {
@@ -56,15 +57,27 @@ abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
         $compilationOutput = $this->getCompilationOutput($cliArguments);
         $this->assertSame(0, $compilationOutput->getExitCode());
 
-        $suiteManifest = SuiteManifest::fromArray((array) Yaml::parse($compilationOutput->getContent()));
+        self::assertSame('', $compilationOutput->getErrorContent());
 
-        $suiteManifestConfiguration = $suiteManifest->getConfiguration();
-        self::assertSame($cliArguments->getSource(), $suiteManifestConfiguration->getSource());
-        self::assertSame($cliArguments->getTarget(), $suiteManifestConfiguration->getTarget());
-        self::assertSame(AbstractBaseTest::class, $suiteManifestConfiguration->getBaseClass());
+        $outputContent = trim($compilationOutput->getOutputContent());
+        $outputDocuments = $this->processYamlCollectionOutput($outputContent);
+        self::assertCount(count($expectedGeneratedTests) + 1, $outputDocuments);
 
-        $testManifests = $suiteManifest->getTestManifests();
-        self::assertCount(count($expectedGeneratedTests), $testManifests);
+        $configurationDocument = array_shift($outputDocuments);
+        self::assertInstanceOf(Document::class, $configurationDocument);
+
+        $configuration = Configuration::fromArray((array) $configurationDocument->parse());
+        self::assertSame($cliArguments->getSource(), $configuration->getSource());
+        self::assertSame($cliArguments->getTarget(), $configuration->getTarget());
+        self::assertSame(AbstractBaseTest::class, $configuration->getBaseClass());
+
+        /**
+         * @var TestManifest[]
+         */
+        $testManifests = [];
+        foreach ($outputDocuments as $outputDocument) {
+            $testManifests[] = TestManifest::fromArray((array) $outputDocument->parse());
+        }
 
         $localTarget = getcwd() . FixturePaths::TARGET;
 
@@ -86,7 +99,7 @@ abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
             $stepNames = $testManifest->getStepNames();
             self::assertIsArray($stepNames);
 
-            $expectedManifestStepNamesKey = $sourceRelativePath . '.' . $testManifest->getConfiguration()->getBrowser();
+            $expectedManifestStepNamesKey = $sourceRelativePath . '.' . $testManifest->getBrowser();
             $expectedManifestStepNames = $expectedStepNames[$expectedManifestStepNamesKey];
 
             self::assertSame($expectedManifestStepNames, $stepNames);

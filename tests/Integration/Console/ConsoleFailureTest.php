@@ -29,6 +29,6 @@ class ConsoleFailureTest extends AbstractEndToEndFailureTest
         $process = new Process($processArguments);
         $exitCode = $process->run();
 
-        return new CompilationOutput($process->getErrorOutput(), $exitCode);
+        return new CompilationOutput($process->getOutput(), $process->getErrorOutput(), $exitCode);
     }
 }

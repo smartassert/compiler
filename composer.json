@@ -59,7 +59,7 @@
         "symfony/console": "6.0.*",
         "symfony/yaml": "6.0.*",
         "webignition/base-basil-test-case": "^2.0",
-        "webignition/basil-compiler-models": "^3.0",
+        "webignition/basil-compiler-models": "^5.0",
         "webignition/basil-loader": "^2.0",
         "webignition/basil-models": "^2.0",
         "webignition/basil-parser": "^3.0",
@@ -74,11 +74,13 @@
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.7",
         "phpstan/phpstan-mockery": "^1.1",
+        "phpstan/phpstan-phpunit": "^1.1",
         "squizlabs/php_codesniffer": "^3.6",
         "symfony/process": "6.0.*",
         "webignition/object-reflector": ">=1,<2",
         "webignition/symfony-panther-webserver-runner": ">=0.6,<1",
-        "webignition/tcp-cli-proxy-client": "^0.13"
+        "webignition/tcp-cli-proxy-client": "^0.13",
+        "webignition/yaml-document": "^1.1"
     },
     "bin": [
         "bin/compiler"
