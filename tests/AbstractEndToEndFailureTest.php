@@ -15,10 +15,10 @@ use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownElementDataProvide
 use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
 use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
 use SmartAssert\Compiler\Tests\Model\CliArguments;
-use Symfony\Component\Yaml\Yaml;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
+use webignition\YamlDocument\Document;
 
 abstract class AbstractEndToEndFailureTest extends AbstractEndToEndTest
 {
@@ -62,28 +62,36 @@ abstract class AbstractEndToEndFailureTest extends AbstractEndToEndTest
         $compilationOutput = $this->getCompilationOutput($cliArguments);
         self::assertSame($expectedExitCode, $compilationOutput->getExitCode());
 
-        $output = $compilationOutput->getContent();
+        $outputContent = trim($compilationOutput->getOutputContent());
+        $outputDocuments = $this->processYamlCollectionOutput($outputContent);
+        self::assertCount(1, $outputDocuments);
 
-        $commandOutput = ErrorOutput::fromArray((array) Yaml::parse($output));
-        $configuration = $commandOutput->getConfiguration();
+        $outputDocument = $outputDocuments[0];
+        self::assertInstanceOf(Document::class, $outputDocument);
+
+        $configuration = Configuration::fromArray((array) $outputDocument->parse());
         self::assertSame($cliArguments->getSource(), $configuration->getSource());
         self::assertSame($cliArguments->getTarget(), $configuration->getTarget());
         self::assertSame(AbstractBaseTest::class, $configuration->getBaseClass());
 
+        $errorContent = trim($compilationOutput->getErrorContent());
+        $errorDocuments = $this->processYamlCollectionOutput($errorContent);
+        self::assertCount(1, $errorDocuments);
+
+        $errorDocument = $errorDocuments[0];
+        self::assertInstanceOf(Document::class, $errorDocument);
+
         $expectedErrorOutputData = $this->replaceConfigurationPlaceholders($expectedErrorOutputData);
 
         $expectedCommandOutput = new ErrorOutput(
-            new Configuration(
-                $cliArguments->getSource(),
-                $cliArguments->getTarget(),
-                AbstractBaseTest::class
-            ),
             $this->replaceConfigurationPlaceholdersInString($expectedErrorOutputMessage),
             $expectedErrorOutputCode,
             $expectedErrorOutputData
         );
 
-        self::assertEquals($expectedCommandOutput, $commandOutput);
+        $errorOutput = ErrorOutput::fromArray((array) $errorDocument->parse());
+
+        self::assertEquals($expectedCommandOutput, $errorOutput);
     }
 
     protected function replaceConfigurationPlaceholdersInString(string $value): string

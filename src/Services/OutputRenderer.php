@@ -6,8 +6,9 @@ namespace SmartAssert\Compiler\Services;
 
 use Symfony\Component\Console\Output\OutputInterface as ConsoleOutputInterface;
 use Symfony\Component\Yaml\Yaml;
+use webignition\BasilCompilerModels\ConfigurationInterface;
 use webignition\BasilCompilerModels\ErrorOutputInterface;
-use webignition\BasilCompilerModels\OutputInterface;
+use webignition\BasilCompilerModels\TestManifest;
 
 class OutputRenderer
 {
@@ -19,21 +20,44 @@ class OutputRenderer
     ) {
     }
 
-    public function render(OutputInterface $commandOutput): int
+    public function renderConfiguration(ConfigurationInterface $configuration): void
+    {
+        $this->renderAsYamlDocument($configuration->toArray(), $this->stdout);
+    }
+
+    public function renderErrorOutput(ErrorOutputInterface $output): void
+    {
+        $this->renderAsYamlDocument($output->toArray(), $this->stderr);
+    }
+
+    /**
+     * @param TestManifest[] $testManifests
+     */
+    public function renderTestManifests(array $testManifests): void
     {
         $output = $this->stdout;
         $exitCode = 0;
 
-        if ($commandOutput instanceof ErrorOutputInterface) {
-            $output = $this->stderr;
-            $exitCode = $commandOutput->getCode();
+        foreach ($testManifests as $testManifest) {
+            $this->renderAsYamlDocument($testManifest->toArray(), $output);
         }
+    }
 
-        $output->writeln(Yaml::dump(
-            $commandOutput->getData(),
-            self::YAML_DUMP_INLINE_DEPTH
+    /**
+     * @param array<mixed> $data
+     */
+    private function renderAsYamlDocument(array $data, ConsoleOutputInterface $output): void
+    {
+        $output->writeln(sprintf(
+            <<< 'EOF'
+            ---
+            %s
+            ...
+            EOF,
+            trim(Yaml::dump(
+                $data,
+                self::YAML_DUMP_INLINE_DEPTH
+            ))
         ));
-
-        return $exitCode;
     }
 }

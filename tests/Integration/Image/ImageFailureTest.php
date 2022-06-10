@@ -34,6 +34,10 @@ class ImageFailureTest extends AbstractEndToEndFailureTest
         $client = Client::createFromHostAndPort('localhost', 8000);
         $client->request('./compiler ' . $cliArguments, $handler);
 
-        return new CompilationOutput($output, $exitCode);
+        $yamlDocuments = explode('...', $output, 2);
+        $outputContent = $yamlDocuments[0] . '...';
+        $errorContent = $yamlDocuments[1] . '...';
+
+        return new CompilationOutput($outputContent, $errorContent, $exitCode);
     }
 }

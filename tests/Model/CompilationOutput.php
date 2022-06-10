@@ -7,14 +7,20 @@ namespace SmartAssert\Compiler\Tests\Model;
 class CompilationOutput
 {
     public function __construct(
-        private string $content,
-        private int $exitCode,
+        private readonly string $outputContent,
+        private readonly string $errorContent,
+        private readonly int $exitCode,
     ) {
     }
 
-    public function getContent(): string
+    public function getOutputContent(): string
     {
-        return $this->content;
+        return $this->outputContent;
+    }
+
+    public function getErrorContent(): string
+    {
+        return $this->errorContent;
     }
 
     public function getExitCode(): int

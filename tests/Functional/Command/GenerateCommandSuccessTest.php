@@ -10,7 +10,6 @@ use SmartAssert\Compiler\Tests\Model\CliArguments;
 use SmartAssert\Compiler\Tests\Model\CompilationOutput;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
-use Symfony\Component\Console\Output\NullOutput;
 
 class GenerateCommandSuccessTest extends AbstractEndToEndSuccessTest
 {
@@ -29,10 +28,11 @@ class GenerateCommandSuccessTest extends AbstractEndToEndSuccessTest
         ?callable $initializer = null
     ): CompilationOutput {
         $stdout = new BufferedOutput();
-        $command = CommandFactory::createGenerateCommand($stdout, new NullOutput(), $cliArguments->toArgvArray());
+        $stderr = new BufferedOutput();
+        $command = CommandFactory::createGenerateCommand($stdout, $stderr, $cliArguments->toArgvArray());
 
-        $exitCode = $command->run(new ArrayInput($cliArguments->getOptions()), new NullOutput());
+        $exitCode = $command->run(new ArrayInput($cliArguments->getOptions()), $stderr);
 
-        return new CompilationOutput($stdout->fetch(), $exitCode);
+        return new CompilationOutput($stdout->fetch(), $stderr->fetch(), $exitCode);
     }
 }
