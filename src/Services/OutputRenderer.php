@@ -29,11 +29,8 @@ class OutputRenderer
      */
     public function renderTestManifests(array $testManifests): void
     {
-        $output = $this->stdout;
-        $exitCode = 0;
-
         foreach ($testManifests as $testManifest) {
-            $this->renderAsYamlDocument($testManifest->toArray(), $output);
+            $this->renderAsYamlDocument($testManifest->toArray(), $this->stdout);
         }
     }
 
