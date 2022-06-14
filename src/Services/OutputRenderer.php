@@ -7,7 +7,7 @@ namespace SmartAssert\Compiler\Services;
 use Symfony\Component\Console\Output\OutputInterface as ConsoleOutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BasilCompilerModels\ErrorOutputInterface;
-use webignition\BasilCompilerModels\TestManifest;
+use webignition\BasilCompilerModels\OutputInterface;
 
 class OutputRenderer
 {
@@ -19,19 +19,12 @@ class OutputRenderer
     ) {
     }
 
-    public function renderErrorOutput(ErrorOutputInterface $output): void
+    public function render(OutputInterface $output): void
     {
-        $this->renderAsYamlDocument($output->toArray(), $this->stderr);
-    }
-
-    /**
-     * @param TestManifest[] $testManifests
-     */
-    public function renderTestManifests(array $testManifests): void
-    {
-        foreach ($testManifests as $testManifest) {
-            $this->renderAsYamlDocument($testManifest->toArray(), $this->stdout);
-        }
+        $this->renderAsYamlDocument(
+            $output->toArray(),
+            $output instanceof ErrorOutputInterface ? $this->stderr : $this->stdout
+        );
     }
 
     /**

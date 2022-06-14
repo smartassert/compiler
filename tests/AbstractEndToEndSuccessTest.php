@@ -9,7 +9,8 @@ use SmartAssert\Compiler\Tests\Model\CliArguments;
 use SmartAssert\Compiler\Tests\Model\ExpectedGeneratedTest;
 use SmartAssert\Compiler\Tests\Model\ExpectedGeneratedTestCollection;
 use SmartAssert\Compiler\Tests\Services\ClassNameReplacer;
-use webignition\BasilCompilerModels\TestManifest;
+use Symfony\Component\Yaml\Yaml;
+use webignition\BasilCompilerModels\TestManifestCollection;
 
 abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
 {
@@ -57,20 +58,14 @@ abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
         self::assertSame('', $compilationOutput->getErrorContent());
 
         $outputContent = trim($compilationOutput->getOutputContent());
-        $outputDocuments = $this->processYamlCollectionOutput($outputContent);
-        self::assertCount(count($expectedGeneratedTests), $outputDocuments);
+        $outputData = Yaml::parse($outputContent);
+        self::assertIsArray($outputData);
 
-        /**
-         * @var TestManifest[]
-         */
-        $testManifests = [];
-        foreach ($outputDocuments as $outputDocument) {
-            $testManifests[] = TestManifest::fromArray((array) $outputDocument->parse());
-        }
+        $testManifestCollection = TestManifestCollection::fromArray($outputData);
 
         $localTarget = getcwd() . FixturePaths::TARGET;
 
-        foreach ($testManifests as $index => $testManifest) {
+        foreach ($testManifestCollection->getManifests() as $index => $testManifest) {
             $testPath = $testManifest->getTarget();
             $localTestPath = str_replace($cliArguments->getTarget(), $localTarget, $testPath);
             self::assertFileExists($localTestPath);
