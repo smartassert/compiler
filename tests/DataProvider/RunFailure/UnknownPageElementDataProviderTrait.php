@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\DataProvider\RunFailure;
 
-use SmartAssert\Compiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\ExitCode;
 
 trait UnknownPageElementDataProviderTrait
 {
@@ -16,9 +16,9 @@ trait UnknownPageElementDataProviderTrait
         return [
             'test declares step, step contains action using unknown page element' => [
                 'sourceRelativePath' => '/InvalidTest/action-contains-unknown-page-element.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_PAGE_ELEMENT,
+                'expectedExitCode' => ExitCode::UNKNOWN_PAGE_ELEMENT->value,
                 'expectedErrorOutputMessage' => 'Unknown page element "unknown_element" in page "page_import_name"',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_PAGE_ELEMENT,
+                'expectedErrorOutputCode' => ExitCode::UNKNOWN_PAGE_ELEMENT->value,
                 'expectedErrorOutputData' => [
                     'import_name' => 'page_import_name',
                     'element_name' => 'unknown_element',
@@ -29,9 +29,9 @@ trait UnknownPageElementDataProviderTrait
             ],
             'test imports step, test passes step unknown page element' => [
                 'sourceRelativePath' => '/InvalidTest/imports-test-passes-unknown-element.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_PAGE_ELEMENT,
+                'expectedExitCode' => ExitCode::UNKNOWN_PAGE_ELEMENT->value,
                 'expectedErrorOutputMessage' => 'Unknown page element "unknown_element" in page "page_import_name"',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_PAGE_ELEMENT,
+                'expectedErrorOutputCode' => ExitCode::UNKNOWN_PAGE_ELEMENT->value,
                 'expectedErrorOutputData' => [
                     'import_name' => 'page_import_name',
                     'element_name' => 'unknown_element',

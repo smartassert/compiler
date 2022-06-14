@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\DataProvider\RunFailure;
 
-use SmartAssert\Compiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\ExitCode;
 
 trait InvalidTestDataProviderTrait
 {
@@ -16,12 +16,12 @@ trait InvalidTestDataProviderTrait
         return [
             'test has invalid configuration' => [
                 'sourceRelativePath' => '/InvalidTest/invalid-configuration.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_TEST,
+                'expectedExitCode' => ExitCode::INVALID_TEST->value,
                 'expectedErrorOutputMessage' => sprintf(
                     'Invalid test at path "%s": test-configuration-invalid',
                     '{{ remoteSourcePrefix }}/InvalidTest/invalid-configuration.yml'
                 ),
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_INVALID_TEST,
+                'expectedErrorOutputCode' => ExitCode::INVALID_TEST->value,
                 'expectedErrorOutputData' => [
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/invalid-configuration.yml',
                     'validation_result' => [

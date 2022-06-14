@@ -6,6 +6,7 @@ namespace SmartAssert\Compiler\Tests\Unit\Command;
 
 use phpmock\mockery\PHPMockery;
 use SmartAssert\Compiler\Command\GenerateCommand;
+use SmartAssert\Compiler\ExitCode;
 use SmartAssert\Compiler\Model\Options;
 use SmartAssert\Compiler\Services\Compiler;
 use SmartAssert\Compiler\Services\ErrorOutputFactory;
@@ -18,40 +19,10 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
-use webignition\BasilCompilerModels\ErrorOutput;
 use webignition\BasilLoader\TestLoader;
 
 class GenerateCommandTest extends AbstractBaseTest
 {
-    public function testRunFailureInvalidConfiguration(): void
-    {
-        $input = [];
-
-        $stderr = new BufferedOutput();
-
-        $command = new GenerateCommand(
-            TestLoader::createLoader(),
-            \Mockery::mock(Compiler::class),
-            \Mockery::mock(TestWriter::class),
-            new ErrorOutputFactory(new ValidatorInvalidResultSerializer()),
-            new OutputRenderer(\Mockery::mock(OutputInterface::class), $stderr)
-        );
-
-        $expectedValidationErrorCode = ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_EMPTY;
-
-        $exitCode = $command->run(new ArrayInput($input), new NullOutput());
-
-        self::assertSame($expectedValidationErrorCode, $exitCode);
-
-        $expectedCommandOutput = new ErrorOutput(
-            'source empty; call with --source=SOURCE',
-            ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_EMPTY
-        );
-
-        $commandOutput = ErrorOutput::fromArray((array) Yaml::parse($stderr->fetch()));
-        self::assertEquals($expectedCommandOutput, $commandOutput);
-    }
-
     /**
      * @dataProvider runInvalidConfigurationDataProvider
      *
@@ -109,10 +80,10 @@ class GenerateCommandTest extends AbstractBaseTest
                 ],
                 'initializer' => function () {
                 },
-                'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_EMPTY,
+                'expectedExitCode' => ExitCode::CONFIG_SOURCE_EMPTY->value,
                 'expectedErrorData' => [
                     'message' => 'source empty; call with --source=SOURCE',
-                    'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_EMPTY,
+                    'code' => ExitCode::CONFIG_SOURCE_EMPTY->value,
                 ],
             ],
             'source not absolute' => [
@@ -123,10 +94,10 @@ class GenerateCommandTest extends AbstractBaseTest
                 ],
                 'initializer' => function () {
                 },
-                'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_ABSOLUTE,
+                'expectedExitCode' => ExitCode::CONFIG_SOURCE_NOT_ABSOLUTE->value,
                 'expectedErrorData' => [
                     'message' => 'source invalid: path must be absolute',
-                    'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_ABSOLUTE,
+                    'code' => ExitCode::CONFIG_SOURCE_NOT_ABSOLUTE->value,
                 ],
             ],
             'source not readable' => [
@@ -141,10 +112,10 @@ class GenerateCommandTest extends AbstractBaseTest
                         ->andReturnFalse()
                     ;
                 },
-                'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_READABLE,
+                'expectedExitCode' => ExitCode::CONFIG_SOURCE_NOT_READABLE->value,
                 'expectedErrorData' => [
                     'message' => 'source invalid; file is not readable',
-                    'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_READABLE,
+                    'code' => ExitCode::CONFIG_SOURCE_NOT_READABLE->value,
                 ],
             ],
             'target empty' => [
@@ -155,10 +126,10 @@ class GenerateCommandTest extends AbstractBaseTest
                 ],
                 'initializer' => function () {
                 },
-                'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_EMPTY,
+                'expectedExitCode' => ExitCode::CONFIG_TARGET_EMPTY->value,
                 'expectedErrorData' => [
                     'message' => 'target empty; call with --target=TARGET',
-                    'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_EMPTY,
+                    'code' => ExitCode::CONFIG_TARGET_EMPTY->value,
                 ],
             ],
             'target not absolute' => [
@@ -169,10 +140,10 @@ class GenerateCommandTest extends AbstractBaseTest
                 ],
                 'initializer' => function () {
                 },
-                'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE,
+                'expectedExitCode' => ExitCode::CONFIG_TARGET_NOT_ABSOLUTE->value,
                 'expectedErrorData' => [
                     'message' => 'target invalid: path must be absolute',
-                    'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE,
+                    'code' => ExitCode::CONFIG_TARGET_NOT_ABSOLUTE->value,
                 ],
             ],
             'target not directory' => [
@@ -197,10 +168,10 @@ class GenerateCommandTest extends AbstractBaseTest
                         ->andReturnFalse()
                     ;
                 },
-                'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_A_DIRECTORY,
+                'expectedExitCode' => ExitCode::CONFIG_TARGET_NOT_A_DIRECTORY->value,
                 'expectedErrorData' => [
                     'message' => 'target invalid; is not a directory (is it a file?)',
-                    'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_A_DIRECTORY,
+                    'code' => ExitCode::CONFIG_TARGET_NOT_A_DIRECTORY->value,
                 ],
             ],
             'target not writable' => [
@@ -231,10 +202,10 @@ class GenerateCommandTest extends AbstractBaseTest
                         ->andReturnFalse()
                     ;
                 },
-                'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_WRITABLE,
+                'expectedExitCode' => ExitCode::CONFIG_TARGET_NOT_WRITABLE->value,
                 'expectedErrorData' => [
                     'message' => 'target invalid; directory is not writable',
-                    'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_WRITABLE,
+                    'code' => ExitCode::CONFIG_TARGET_NOT_WRITABLE->value,
                 ],
             ],
         ];

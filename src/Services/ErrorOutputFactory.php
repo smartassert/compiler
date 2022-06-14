@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Services;
 
+use SmartAssert\Compiler\ExitCode;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilCompilerModels\ErrorOutput;
@@ -39,26 +40,6 @@ class ErrorOutputFactory
     public const UNPARSEABLE_STEP_INVALID_ACTIONS_DATA = 'invalid-actions-data';
     public const UNPARSEABLE_STEP_INVALID_ASSERTIONS_DATA = 'invalid-assertions-data';
     public const REASON_UNKNOWN = 'unknown';
-
-    public const CODE_COMMAND_CONFIG_SOURCE_EMPTY = 100;
-    public const CODE_COMMAND_CONFIG_SOURCE_NOT_READABLE = 102;
-    public const CODE_COMMAND_CONFIG_TARGET_EMPTY = 103;
-    public const CODE_COMMAND_CONFIG_TARGET_NOT_A_DIRECTORY = 105;
-    public const CODE_COMMAND_CONFIG_TARGET_NOT_WRITABLE = 106;
-    public const CODE_COMMAND_CONFIG_SOURCE_NOT_ABSOLUTE = 107;
-    public const CODE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE = 108;
-    public const CODE_LOADER_INVALID_YAML = 200;
-    public const CODE_LOADER_CIRCULAR_STEP_IMPORT = 201;
-    public const CODE_LOADER_EMPTY_TEST = 202;
-    public const CODE_LOADER_INVALID_PAGE = 203;
-    public const CODE_LOADER_INVALID_TEST = 204;
-    public const CODE_LOADER_NON_RETRIEVABLE_IMPORT = 205;
-    public const CODE_LOADER_UNPARSEABLE_DATA = 206;
-    public const CODE_LOADER_UNKNOWN_ELEMENT = 207;
-    public const CODE_LOADER_UNKNOWN_ITEM = 208;
-    public const CODE_LOADER_UNKNOWN_PAGE_ELEMENT = 209;
-    public const CODE_GENERATOR_UNRESOLVED_PLACEHOLDER = 211;
-    public const CODE_GENERATOR_UNSUPPORTED_STEP = 212;
 
     /**
      * @var array{action: array<int, string>, assertion: array<int, string>}
@@ -144,65 +125,45 @@ class ErrorOutputFactory
             $message = $previousException->getMessage();
         }
 
-        return new ErrorOutput(
-            $message,
-            self::CODE_LOADER_INVALID_YAML,
-            [
-                'path' => $exception->getPath()
-            ]
-        );
+        return new ErrorOutput($message, ExitCode::INVALID_YAML->value, [
+            'path' => $exception->getPath()
+        ]);
     }
 
     public function createForCircularStepImportException(CircularStepImportException $exception): ErrorOutputInterface
     {
-        return new ErrorOutput(
-            $exception->getMessage(),
-            self::CODE_LOADER_CIRCULAR_STEP_IMPORT,
-            [
-                'import_name' => $exception->getImportName(),
-            ]
-        );
+        return new ErrorOutput($exception->getMessage(), ExitCode::CIRCULAR_STEP_IMPORT->value, [
+            'import_name' => $exception->getImportName(),
+        ]);
     }
 
     public function createForEmptyTestException(EmptyTestException $exception): ErrorOutputInterface
     {
-        return new ErrorOutput(
-            $exception->getMessage(),
-            self::CODE_LOADER_EMPTY_TEST,
-            [
-                'path' => $exception->getPath(),
-            ]
-        );
+        return new ErrorOutput($exception->getMessage(), ExitCode::EMPTY_TEST->value, [
+            'path' => $exception->getPath(),
+        ]);
     }
 
     public function createForInvalidPageException(InvalidPageException $exception): ErrorOutputInterface
     {
-        return new ErrorOutput(
-            $exception->getMessage(),
-            self::CODE_LOADER_INVALID_PAGE,
-            [
-                'test_path' => $exception->getTestPath(),
-                'import_name' => $exception->getImportName(),
-                'page_path' => $exception->getPath(),
-                'validation_result' => $this->validatorInvalidResultSerializer->serializeToArray(
-                    $exception->getValidationResult()
-                )
-            ]
-        );
+        return new ErrorOutput($exception->getMessage(), ExitCode::INVALID_PAGE->value, [
+            'test_path' => $exception->getTestPath(),
+            'import_name' => $exception->getImportName(),
+            'page_path' => $exception->getPath(),
+            'validation_result' => $this->validatorInvalidResultSerializer->serializeToArray(
+                $exception->getValidationResult()
+            )
+        ]);
     }
 
     public function createForInvalidTestException(InvalidTestException $exception): ErrorOutputInterface
     {
-        return new ErrorOutput(
-            $exception->getMessage(),
-            self::CODE_LOADER_INVALID_TEST,
-            [
-                'test_path' => $exception->getPath(),
-                'validation_result' => $this->validatorInvalidResultSerializer->serializeToArray(
-                    $exception->getValidationResult()
-                )
-            ]
-        );
+        return new ErrorOutput($exception->getMessage(), ExitCode::INVALID_TEST->value, [
+            'test_path' => $exception->getPath(),
+            'validation_result' => $this->validatorInvalidResultSerializer->serializeToArray(
+                $exception->getValidationResult()
+            )
+        ]);
     }
 
     public function createForNonRetrievableImportException(
@@ -217,20 +178,16 @@ class ErrorOutputFactory
             $loaderMessage = $loaderPreviousException->getMessage();
         }
 
-        return new ErrorOutput(
-            $exception->getMessage(),
-            self::CODE_LOADER_NON_RETRIEVABLE_IMPORT,
-            [
-                'test_path' => $exception->getTestPath(),
-                'type' => $exception->getType(),
-                'name' => $exception->getName(),
-                'import_path' => $exception->getPath(),
-                'loader_error' => [
-                    'message' => $loaderMessage,
-                    'path' => $yamlLoaderException->getPath(),
-                ]
+        return new ErrorOutput($exception->getMessage(), ExitCode::NON_RETRIEVABLE_IMPORT->value, [
+            'test_path' => $exception->getTestPath(),
+            'type' => $exception->getType(),
+            'name' => $exception->getName(),
+            'import_path' => $exception->getPath(),
+            'loader_error' => [
+                'message' => $loaderMessage,
+                'path' => $yamlLoaderException->getPath(),
             ]
-        );
+        ]);
     }
 
     public function createForParseException(ParseException $parseException): ErrorOutputInterface
@@ -271,70 +228,54 @@ class ErrorOutputFactory
                 $this->unparseableStatementErrorMessages[$statementType][$code] ?? self::REASON_UNKNOWN;
         }
 
-        return new ErrorOutput($unparseableDataException->getMessage(), self::CODE_LOADER_UNPARSEABLE_DATA, $context);
+        return new ErrorOutput($unparseableDataException->getMessage(), ExitCode::UNPARSEABLE_DATA->value, $context);
     }
 
     public function createForUnknownElementException(UnknownElementException $exception): ErrorOutputInterface
     {
-        return new ErrorOutput(
-            $exception->getMessage(),
-            self::CODE_LOADER_UNKNOWN_ELEMENT,
-            array_merge(
-                [
-                    'element_name' => $exception->getElementName(),
-                ],
-                $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
-            )
-        );
+        return new ErrorOutput($exception->getMessage(), ExitCode::UNKNOWN_ELEMENT->value, array_merge(
+            [
+                'element_name' => $exception->getElementName(),
+            ],
+            $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
+        ));
     }
 
     public function createForUnknownItemException(UnknownItemException $exception): ErrorOutputInterface
     {
-        return new ErrorOutput(
-            $exception->getMessage(),
-            self::CODE_LOADER_UNKNOWN_ITEM,
-            array_merge(
-                [
-                    'type' => $exception->getType(),
-                    'name' => $exception->getName(),
-                ],
-                $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
-            )
-        );
+        return new ErrorOutput($exception->getMessage(), ExitCode::UNKNOWN_ITEM->value, array_merge(
+            [
+                'type' => $exception->getType(),
+                'name' => $exception->getName(),
+            ],
+            $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
+        ));
     }
 
     public function createForUnknownPageElementException(UnknownPageElementException $exception): ErrorOutputInterface
     {
-        return new ErrorOutput(
-            $exception->getMessage(),
-            self::CODE_LOADER_UNKNOWN_PAGE_ELEMENT,
-            array_merge(
-                [
-                    'import_name' => $exception->getImportName(),
-                    'element_name' => $exception->getElementName(),
-                ],
-                $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
-            )
-        );
+        return new ErrorOutput($exception->getMessage(), ExitCode::UNKNOWN_PAGE_ELEMENT->value, array_merge(
+            [
+                'import_name' => $exception->getImportName(),
+                'element_name' => $exception->getElementName(),
+            ],
+            $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
+        ));
     }
 
     public function createForUnresolvedVariableException(UnresolvedVariableException $exception): ErrorOutputInterface
     {
-        return new ErrorOutput(
-            $exception->getMessage(),
-            self::CODE_GENERATOR_UNRESOLVED_PLACEHOLDER,
-            [
-                'placeholder' => $exception->getVariable(),
-                'content' => $exception->getTemplate(),
-            ]
-        );
+        return new ErrorOutput($exception->getMessage(), ExitCode::UNRESOLVED_PLACEHOLDER->value, [
+            'placeholder' => $exception->getVariable(),
+            'content' => $exception->getTemplate(),
+        ]);
     }
 
     public function createForUnsupportedStepException(UnsupportedStepException $exception): ErrorOutputInterface
     {
         return new ErrorOutput(
             $exception->getMessage(),
-            self::CODE_GENERATOR_UNSUPPORTED_STEP,
+            ExitCode::UNSUPPORTED_STEP->value,
             $this->createErrorOutputContextFromUnsupportedStepException($exception)
         );
     }

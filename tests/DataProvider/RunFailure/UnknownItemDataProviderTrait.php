@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\DataProvider\RunFailure;
 
-use SmartAssert\Compiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\ExitCode;
 
 trait UnknownItemDataProviderTrait
 {
@@ -16,9 +16,9 @@ trait UnknownItemDataProviderTrait
         return [
             'test declares step, step uses unknown dataset' => [
                 'sourceRelativePath' => '/InvalidTest/step-uses-unknown-dataset.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
+                'expectedExitCode' => ExitCode::UNKNOWN_ITEM->value,
                 'expectedErrorOutputMessage' => 'Unknown dataset "unknown_data_provider_name"',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
+                'expectedErrorOutputCode' => ExitCode::UNKNOWN_ITEM->value,
                 'expectedErrorOutputData' => [
                     'type' => 'dataset',
                     'name' => 'unknown_data_provider_name',
@@ -29,9 +29,9 @@ trait UnknownItemDataProviderTrait
             ],
             'test declares step, step uses unknown page' => [
                 'sourceRelativePath' => '/InvalidTest/step-uses-unknown-page.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
+                'expectedExitCode' => ExitCode::UNKNOWN_ITEM->value,
                 'expectedErrorOutputMessage' => 'Unknown page "unknown_page_import"',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
+                'expectedErrorOutputCode' => ExitCode::UNKNOWN_ITEM->value,
                 'expectedErrorOutputData' => [
                     'type' => 'page',
                     'name' => 'unknown_page_import',
@@ -42,9 +42,9 @@ trait UnknownItemDataProviderTrait
             ],
             'test declares step, step uses step' => [
                 'sourceRelativePath' => '/InvalidTest/step-uses-unknown-step.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
+                'expectedExitCode' => ExitCode::UNKNOWN_ITEM->value,
                 'expectedErrorOutputMessage' => 'Unknown step "unknown_step"',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ITEM,
+                'expectedErrorOutputCode' => ExitCode::UNKNOWN_ITEM->value,
                 'expectedErrorOutputData' => [
                     'type' => 'step',
                     'name' => 'unknown_step',

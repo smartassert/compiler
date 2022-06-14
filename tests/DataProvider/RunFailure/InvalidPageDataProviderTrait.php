@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\DataProvider\RunFailure;
 
-use SmartAssert\Compiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\ExitCode;
 
 trait InvalidPageDataProviderTrait
 {
@@ -16,12 +16,12 @@ trait InvalidPageDataProviderTrait
         return [
             'test imports invalid page; url empty' => [
                 'sourceRelativePath' => '/InvalidTest/import-empty-page.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_PAGE,
+                'expectedExitCode' => ExitCode::INVALID_PAGE->value,
                 'expectedErrorOutputMessage' => sprintf(
                     'Invalid page "empty_url_page" at path "%s": page-url-empty',
                     '{{ remoteSourcePrefix }}/InvalidPage/url-empty.yml'
                 ),
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_INVALID_PAGE,
+                'expectedErrorOutputCode' => ExitCode::INVALID_PAGE->value,
                 'expectedErrorOutputData' => [
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/import-empty-page.yml',
                     'import_name' => 'empty_url_page',

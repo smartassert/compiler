@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Command;
 
+use SmartAssert\Compiler\ExitCode;
 use SmartAssert\Compiler\Model\Options;
 use SmartAssert\Compiler\Services\Compiler;
 use SmartAssert\Compiler\Services\ErrorOutputFactory;
@@ -83,21 +84,21 @@ class GenerateCommand extends Command
         if ('' === $source) {
             return $this->outputRenderer->render(new ErrorOutput(
                 'source empty; call with --source=SOURCE',
-                ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_EMPTY
+                ExitCode::CONFIG_SOURCE_EMPTY->value
             ));
         }
 
         if (!str_starts_with($source, '/')) {
             return $this->outputRenderer->render(new ErrorOutput(
                 'source invalid: path must be absolute',
-                ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_ABSOLUTE
+                ExitCode::CONFIG_SOURCE_NOT_ABSOLUTE->value
             ));
         }
 
         if (!is_readable($source)) {
             return $this->outputRenderer->render(new ErrorOutput(
                 'source invalid; file is not readable',
-                ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_READABLE
+                ExitCode::CONFIG_SOURCE_NOT_READABLE->value
             ));
         }
 
@@ -107,28 +108,28 @@ class GenerateCommand extends Command
         if ('' === $target) {
             return $this->outputRenderer->render(new ErrorOutput(
                 'target empty; call with --target=TARGET',
-                ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_EMPTY
+                ExitCode::CONFIG_TARGET_EMPTY->value
             ));
         }
 
         if (!str_starts_with($target, '/')) {
             return $this->outputRenderer->render(new ErrorOutput(
                 'target invalid: path must be absolute',
-                ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE
+                ExitCode::CONFIG_TARGET_NOT_ABSOLUTE->value
             ));
         }
 
         if (!is_dir($target)) {
             return $this->outputRenderer->render(new ErrorOutput(
                 'target invalid; is not a directory (is it a file?)',
-                ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_A_DIRECTORY
+                ExitCode::CONFIG_TARGET_NOT_A_DIRECTORY->value
             ));
         }
 
         if (!is_writable($target)) {
             return $this->outputRenderer->render(new ErrorOutput(
                 'target invalid; directory is not writable',
-                ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_WRITABLE
+                ExitCode::CONFIG_TARGET_NOT_WRITABLE->value
             ));
         }
 

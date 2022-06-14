@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace SmartAssert\Compiler\Tests\Functional\Command;
 
 use SmartAssert\Compiler\Command\GenerateCommand;
+use SmartAssert\Compiler\ExitCode;
 use SmartAssert\Compiler\Model\ExternalVariableIdentifiers;
 use SmartAssert\Compiler\Services\CommandFactory;
 use SmartAssert\Compiler\Services\CompiledClassResolver;
 use SmartAssert\Compiler\Services\Compiler;
-use SmartAssert\Compiler\Services\ErrorOutputFactory;
 use SmartAssert\Compiler\Tests\AbstractEndToEndFailureTest;
 use SmartAssert\Compiler\Tests\Model\CliArguments;
 use SmartAssert\Compiler\Tests\Model\CompilationOutput;
@@ -77,10 +77,10 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
         return [
             'placeholder CLIENT is not defined' => [
                 'sourceRelativePath' => '/Test/example.com.verify-open-literal.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_GENERATOR_UNRESOLVED_PLACEHOLDER,
+                'expectedExitCode' => ExitCode::UNRESOLVED_PLACEHOLDER->value,
                 'expectedErrorOutputMessage' => 'Unresolved variable "CLIENT" in template ' .
                     '"{{ CLIENT }}->request(\'GET\', \'https://example.com/\');"',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_GENERATOR_UNRESOLVED_PLACEHOLDER,
+                'expectedErrorOutputCode' => ExitCode::UNRESOLVED_PLACEHOLDER->value,
                 'expectedErrorOutputData' => [
                     'placeholder' => 'CLIENT',
                     'content' => '{{ CLIENT }}->request(\'GET\', \'https://example.com/\');',
@@ -135,14 +135,14 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
             }
         );
 
-        self::assertSame(ErrorOutputFactory::CODE_GENERATOR_UNSUPPORTED_STEP, $compilationOutput->getExitCode());
+        self::assertSame(ExitCode::UNSUPPORTED_STEP->value, $compilationOutput->getExitCode());
 
         $outputContent = trim($compilationOutput->getOutputContent());
         self::assertSame('', $outputContent);
 
         $expectedErrorOutput = new ErrorOutput(
             'Unsupported step',
-            ErrorOutputFactory::CODE_GENERATOR_UNSUPPORTED_STEP,
+            ExitCode::UNSUPPORTED_STEP->value,
             $expectedErrorOutputContext
         );
 
