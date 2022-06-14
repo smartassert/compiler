@@ -18,6 +18,7 @@ use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\TestManifest;
+use webignition\BasilCompilerModels\TestManifestCollection;
 use webignition\BasilLoader\Exception\EmptyTestException;
 use webignition\BasilLoader\Exception\InvalidPageException;
 use webignition\BasilLoader\Exception\InvalidTestException;
@@ -84,7 +85,7 @@ class GenerateCommand extends Command
         if (Configuration::VALIDATION_STATE_VALID !== $configurationValidationState) {
             $errorOutput = $this->errorOutputFactory->createFromInvalidConfiguration($configurationValidationState);
 
-            $this->outputRenderer->renderErrorOutput($errorOutput);
+            $this->outputRenderer->render($errorOutput);
 
             return $errorOutput->getCode();
         }
@@ -107,7 +108,7 @@ class GenerateCommand extends Command
         ) {
             $errorOutput = $this->errorOutputFactory->createForException($exception);
 
-            $this->outputRenderer->renderErrorOutput($errorOutput);
+            $this->outputRenderer->render($errorOutput);
 
             return $errorOutput->getCode();
         }
@@ -131,12 +132,12 @@ class GenerateCommand extends Command
         ) {
             $errorOutput = $this->errorOutputFactory->createForException($exception);
 
-            $this->outputRenderer->renderErrorOutput($errorOutput);
+            $this->outputRenderer->render($errorOutput);
 
             return $errorOutput->getCode();
         }
 
-        $this->outputRenderer->renderTestManifests($testManifests);
+        $this->outputRenderer->render(new TestManifestCollection($testManifests));
 
         return 0;
     }

@@ -59,7 +59,7 @@
         "symfony/console": "6.0.*",
         "symfony/yaml": "6.0.*",
         "webignition/base-basil-test-case": "^2.0",
-        "webignition/basil-compiler-models": "^5.0",
+        "webignition/basil-compiler-models": "^5.2",
         "webignition/basil-loader": "^2.0",
         "webignition/basil-models": "^2.0",
         "webignition/basil-parser": "^3.0",
