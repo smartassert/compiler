@@ -15,8 +15,6 @@ use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownElementDataProvide
 use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
 use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
 use SmartAssert\Compiler\Tests\Model\CliArguments;
-use webignition\BaseBasilTestCase\AbstractBaseTest;
-use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 use webignition\YamlDocument\Document;
 
@@ -63,16 +61,7 @@ abstract class AbstractEndToEndFailureTest extends AbstractEndToEndTest
         self::assertSame($expectedExitCode, $compilationOutput->getExitCode());
 
         $outputContent = trim($compilationOutput->getOutputContent());
-        $outputDocuments = $this->processYamlCollectionOutput($outputContent);
-        self::assertCount(1, $outputDocuments);
-
-        $outputDocument = $outputDocuments[0];
-        self::assertInstanceOf(Document::class, $outputDocument);
-
-        $configuration = Configuration::fromArray((array) $outputDocument->parse());
-        self::assertSame($cliArguments->getSource(), $configuration->getSource());
-        self::assertSame($cliArguments->getTarget(), $configuration->getTarget());
-        self::assertSame(AbstractBaseTest::class, $configuration->getBaseClass());
+        self::assertSame('', $outputContent);
 
         $errorContent = trim($compilationOutput->getErrorContent());
         $errorDocuments = $this->processYamlCollectionOutput($errorContent);

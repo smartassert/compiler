@@ -80,8 +80,6 @@ class GenerateCommand extends Command
     {
         $configuration = $this->configurationFactory->create($input);
 
-        $this->outputRenderer->renderConfiguration($configuration);
-
         $configurationValidationState = $configuration->validate();
         if (Configuration::VALIDATION_STATE_VALID !== $configurationValidationState) {
             $errorOutput = $this->errorOutputFactory->createFromInvalidConfiguration($configurationValidationState);
