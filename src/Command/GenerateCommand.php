@@ -82,21 +82,21 @@ class GenerateCommand extends Command
 
         if ('' === $source) {
             return $this->outputRenderer->render(new ErrorOutput(
-                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_SOURCE_EMPTY,
+                'source empty; call with --source=SOURCE',
                 ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_EMPTY
             ));
         }
 
         if (!str_starts_with($source, '/')) {
             return $this->outputRenderer->render(new ErrorOutput(
-                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_SOURCE_NOT_ABSOLUTE,
+                'source invalid: path must be absolute',
                 ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_ABSOLUTE
             ));
         }
 
         if (!is_readable($source)) {
             return $this->outputRenderer->render(new ErrorOutput(
-                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_SOURCE_NOT_READABLE,
+                'source invalid; file is not readable',
                 ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_READABLE
             ));
         }
@@ -106,28 +106,28 @@ class GenerateCommand extends Command
 
         if ('' === $target) {
             return $this->outputRenderer->render(new ErrorOutput(
-                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_TARGET_EMPTY,
+                'target empty; call with --target=TARGET',
                 ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_EMPTY
             ));
         }
 
         if (!str_starts_with($target, '/')) {
             return $this->outputRenderer->render(new ErrorOutput(
-                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE,
+                'target invalid: path must be absolute',
                 ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE
             ));
         }
 
         if (!is_dir($target)) {
             return $this->outputRenderer->render(new ErrorOutput(
-                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_TARGET_NOT_A_DIRECTORY,
+                'target invalid; is not a directory (is it a file?)',
                 ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_A_DIRECTORY
             ));
         }
 
         if (!is_writable($target)) {
             return $this->outputRenderer->render(new ErrorOutput(
-                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_TARGET_NOT_WRITABLE,
+                'target invalid; directory is not writable',
                 ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_WRITABLE
             ));
         }

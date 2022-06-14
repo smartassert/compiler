@@ -111,7 +111,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 },
                 'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_EMPTY,
                 'expectedErrorData' => [
-                    'message' => ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_SOURCE_EMPTY,
+                    'message' => 'source empty; call with --source=SOURCE',
                     'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_EMPTY,
                 ],
             ],
@@ -125,7 +125,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 },
                 'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_ABSOLUTE,
                 'expectedErrorData' => [
-                    'message' => ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_SOURCE_NOT_ABSOLUTE,
+                    'message' => 'source invalid: path must be absolute',
                     'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_ABSOLUTE,
                 ],
             ],
@@ -143,7 +143,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 },
                 'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_READABLE,
                 'expectedErrorData' => [
-                    'message' => ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_SOURCE_NOT_READABLE,
+                    'message' => 'source invalid; file is not readable',
                     'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_READABLE,
                 ],
             ],
@@ -157,7 +157,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 },
                 'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_EMPTY,
                 'expectedErrorData' => [
-                    'message' => ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_TARGET_EMPTY,
+                    'message' => 'target empty; call with --target=TARGET',
                     'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_EMPTY,
                 ],
             ],
@@ -171,7 +171,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 },
                 'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE,
                 'expectedErrorData' => [
-                    'message' => ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE,
+                    'message' => 'target invalid: path must be absolute',
                     'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE,
                 ],
             ],
@@ -199,7 +199,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 },
                 'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_A_DIRECTORY,
                 'expectedErrorData' => [
-                    'message' => ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_TARGET_NOT_A_DIRECTORY,
+                    'message' => 'target invalid; is not a directory (is it a file?)',
                     'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_A_DIRECTORY,
                 ],
             ],
@@ -233,7 +233,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 },
                 'expectedExitCode' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_WRITABLE,
                 'expectedErrorData' => [
-                    'message' => ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_TARGET_NOT_WRITABLE,
+                    'message' => 'target invalid; directory is not writable',
                     'code' => ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_WRITABLE,
                 ],
             ],

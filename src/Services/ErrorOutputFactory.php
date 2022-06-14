@@ -60,14 +60,6 @@ class ErrorOutputFactory
     public const CODE_GENERATOR_UNRESOLVED_PLACEHOLDER = 211;
     public const CODE_GENERATOR_UNSUPPORTED_STEP = 212;
 
-    public const MESSAGE_COMMAND_CONFIG_SOURCE_EMPTY = 'source empty; call with --source=SOURCE';
-    public const MESSAGE_COMMAND_CONFIG_SOURCE_NOT_READABLE = 'source invalid; file is not readable';
-    public const MESSAGE_COMMAND_CONFIG_TARGET_EMPTY = 'target empty; call with --target=TARGET';
-    public const MESSAGE_COMMAND_CONFIG_TARGET_NOT_A_DIRECTORY = 'target invalid; is not a directory (is it a file?)';
-    public const MESSAGE_COMMAND_CONFIG_TARGET_NOT_WRITABLE = 'target invalid; directory is not writable';
-    public const MESSAGE_COMMAND_CONFIG_SOURCE_NOT_ABSOLUTE = 'source invalid: path must be absolute';
-    public const MESSAGE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE = 'target invalid: path must be absolute';
-
     /**
      * @var array{action: array<int, string>, assertion: array<int, string>}
      */
