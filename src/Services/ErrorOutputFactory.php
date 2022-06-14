@@ -30,13 +30,6 @@ use webignition\Stubble\UnresolvedVariableException;
 
 class ErrorOutputFactory
 {
-    public const UNPARSEABLE_ACTION_EMPTY = 'empty';
-    public const UNPARSEABLE_ACTION_EMPTY_VALUE = 'empty-value';
-    public const UNPARSEABLE_ACTION_INVALID_IDENTIFIER = 'invalid-identifier';
-    public const UNPARSEABLE_ASSERTION_EMPTY = 'empty';
-    public const UNPARSEABLE_ASSERTION_EMPTY_COMPARISON = 'empty-comparison';
-    public const UNPARSEABLE_ASSERTION_EMPTY_IDENTIFIER = 'empty-identifier';
-    public const UNPARSEABLE_ASSERTION_EMPTY_VALUE = 'empty-value';
     public const UNPARSEABLE_STEP_INVALID_ACTIONS_DATA = 'invalid-actions-data';
     public const UNPARSEABLE_STEP_INVALID_ASSERTIONS_DATA = 'invalid-assertions-data';
     public const REASON_UNKNOWN = 'unknown';
@@ -46,15 +39,15 @@ class ErrorOutputFactory
      */
     private array $unparseableStatementErrorMessages = [
         'action' => [
-            UnparseableActionException::CODE_EMPTY => self::UNPARSEABLE_ACTION_EMPTY,
-            UnparseableActionException::CODE_EMPTY_INPUT_ACTION_VALUE => self::UNPARSEABLE_ACTION_EMPTY_VALUE,
-            UnparseableActionException::CODE_INVALID_IDENTIFIER => self::UNPARSEABLE_ACTION_INVALID_IDENTIFIER,
+            UnparseableActionException::CODE_EMPTY => 'empty',
+            UnparseableActionException::CODE_EMPTY_INPUT_ACTION_VALUE => 'empty-value',
+            UnparseableActionException::CODE_INVALID_IDENTIFIER => 'invalid-identifier',
         ],
         'assertion' => [
-            UnparseableAssertionException::CODE_EMPTY => self::UNPARSEABLE_ASSERTION_EMPTY,
-            UnparseableAssertionException::CODE_EMPTY_COMPARISON => self::UNPARSEABLE_ASSERTION_EMPTY_COMPARISON,
-            UnparseableAssertionException::CODE_EMPTY_IDENTIFIER => self::UNPARSEABLE_ASSERTION_EMPTY_IDENTIFIER,
-            UnparseableAssertionException::CODE_EMPTY_VALUE => self::UNPARSEABLE_ASSERTION_EMPTY_VALUE,
+            UnparseableAssertionException::CODE_EMPTY => 'empty',
+            UnparseableAssertionException::CODE_EMPTY_COMPARISON => 'empty-comparison',
+            UnparseableAssertionException::CODE_EMPTY_IDENTIFIER => 'empty-identifier',
+            UnparseableAssertionException::CODE_EMPTY_VALUE => 'empty-value',
         ],
     ];
 
