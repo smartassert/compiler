@@ -26,8 +26,7 @@ class CommandFactory
             Compiler::createCompiler(),
             TestWriter::createWriter(self::getOutputDirectory($cliArguments)),
             new ErrorOutputFactory(new ValidatorInvalidResultSerializer()),
-            new OutputRenderer($stdout, $stderr),
-            new ConfigurationFactory()
+            new OutputRenderer($stdout, $stderr)
         );
     }
 

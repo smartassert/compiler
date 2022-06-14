@@ -8,7 +8,6 @@ use phpmock\mockery\PHPMockery;
 use SmartAssert\Compiler\Command\GenerateCommand;
 use SmartAssert\Compiler\Model\Options;
 use SmartAssert\Compiler\Services\Compiler;
-use SmartAssert\Compiler\Services\ConfigurationFactory;
 use SmartAssert\Compiler\Services\ErrorOutputFactory;
 use SmartAssert\Compiler\Services\OutputRenderer;
 use SmartAssert\Compiler\Services\TestWriter;
@@ -35,8 +34,7 @@ class GenerateCommandTest extends AbstractBaseTest
             \Mockery::mock(Compiler::class),
             \Mockery::mock(TestWriter::class),
             new ErrorOutputFactory(new ValidatorInvalidResultSerializer()),
-            new OutputRenderer(\Mockery::mock(OutputInterface::class), $stderr),
-            new ConfigurationFactory()
+            new OutputRenderer(\Mockery::mock(OutputInterface::class), $stderr)
         );
 
         $expectedValidationErrorCode = ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_EMPTY;
@@ -75,8 +73,7 @@ class GenerateCommandTest extends AbstractBaseTest
             \Mockery::mock(Compiler::class),
             \Mockery::mock(TestWriter::class),
             new ErrorOutputFactory(new ValidatorInvalidResultSerializer()),
-            new OutputRenderer(\Mockery::mock(OutputInterface::class), $stderr),
-            new ConfigurationFactory()
+            new OutputRenderer(\Mockery::mock(OutputInterface::class), $stderr)
         );
 
         $exitCode = $command->run(new ArrayInput($input), new NullOutput());
@@ -95,7 +92,7 @@ class GenerateCommandTest extends AbstractBaseTest
      */
     public function runInvalidConfigurationDataProvider(): array
     {
-        $mockNamespace = 'webignition\BasilCompilerModels';
+        $mockNamespace = 'SmartAssert\Compiler\Command';
         $isReadableMockArguments = [$mockNamespace, 'is_readable'];
         $isDirMockArguments = [$mockNamespace, 'is_dir'];
         $isWritableMockArguments = [$mockNamespace, 'is_writable'];

@@ -6,7 +6,6 @@ namespace SmartAssert\Compiler\Command;
 
 use SmartAssert\Compiler\Model\Options;
 use SmartAssert\Compiler\Services\Compiler;
-use SmartAssert\Compiler\Services\ConfigurationFactory;
 use SmartAssert\Compiler\Services\ErrorOutputFactory;
 use SmartAssert\Compiler\Services\OutputRenderer;
 use SmartAssert\Compiler\Services\TestWriter;
@@ -16,7 +15,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface as ConsoleOutputInterface;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
-use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 use webignition\BasilCompilerModels\TestManifest;
 use webignition\BasilCompilerModels\TestManifestCollection;
@@ -43,7 +41,6 @@ class GenerateCommand extends Command
         private TestWriter $testWriter,
         private ErrorOutputFactory $errorOutputFactory,
         private OutputRenderer $outputRenderer,
-        private ConfigurationFactory $configurationFactory
     ) {
         parent::__construct();
     }
@@ -90,6 +87,20 @@ class GenerateCommand extends Command
             ));
         }
 
+        if (!str_starts_with($source, '/')) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_SOURCE_NOT_ABSOLUTE,
+                ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_ABSOLUTE
+            ));
+        }
+
+        if (!is_readable($source)) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_SOURCE_NOT_READABLE,
+                ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_NOT_READABLE
+            ));
+        }
+
         $target = $input->getOption(Options::OPTION_TARGET);
         $target = is_string($target) ? trim($target) : '';
 
@@ -100,19 +111,29 @@ class GenerateCommand extends Command
             ));
         }
 
+        if (!str_starts_with($target, '/')) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE,
+                ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_ABSOLUTE
+            ));
+        }
+
+        if (!is_dir($target)) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_TARGET_NOT_A_DIRECTORY,
+                ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_A_DIRECTORY
+            ));
+        }
+
+        if (!is_writable($target)) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_TARGET_NOT_WRITABLE,
+                ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_NOT_WRITABLE
+            ));
+        }
+
         $baseClass = $input->getOption(Options::OPTION_BASE_CLASS);
         $baseClass = is_string($baseClass) ? trim($baseClass) : '';
-
-        $configuration = $this->configurationFactory->create($input);
-
-        $configurationValidationState = $configuration->validate();
-        if (Configuration::VALIDATION_STATE_VALID !== $configurationValidationState) {
-            $errorOutput = $this->errorOutputFactory->createFromInvalidConfiguration($configurationValidationState);
-
-            $this->outputRenderer->render($errorOutput);
-
-            return $errorOutput->getCode();
-        }
 
         $testManifests = [];
 
