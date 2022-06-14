@@ -48,30 +48,52 @@ class ErrorOutputFactory
     ];
 
     public function __construct(
-        private ValidatorInvalidResultSerializer $validatorInvalidResultSerializer
+        private readonly ValidatorInvalidResultSerializer $validatorInvalidResultSerializer
     ) {
     }
 
     public function createForException(\Exception $exception): ErrorOutputInterface
     {
         if ($exception instanceof YamlLoaderException) {
-            return $this->createForYamlLoaderException($exception);
+            $message = $exception->getPrevious() instanceof \Exception
+                ? $exception->getPrevious()->getMessage()
+                : $exception->getMessage();
+
+            return new ErrorOutput($message, ExitCode::INVALID_YAML->value, [
+                'path' => $exception->getPath()
+            ]);
         }
 
         if ($exception instanceof CircularStepImportException) {
-            return $this->createForCircularStepImportException($exception);
+            return new ErrorOutput($exception->getMessage(), ExitCode::CIRCULAR_STEP_IMPORT->value, [
+                'import_name' => $exception->getImportName(),
+            ]);
         }
 
         if ($exception instanceof EmptyTestException) {
-            return $this->createForEmptyTestException($exception);
+            return new ErrorOutput($exception->getMessage(), ExitCode::EMPTY_TEST->value, [
+                'path' => $exception->getPath(),
+            ]);
         }
 
         if ($exception instanceof InvalidPageException) {
-            return $this->createForInvalidPageException($exception);
+            return new ErrorOutput($exception->getMessage(), ExitCode::INVALID_PAGE->value, [
+                'test_path' => $exception->getTestPath(),
+                'import_name' => $exception->getImportName(),
+                'page_path' => $exception->getPath(),
+                'validation_result' => $this->validatorInvalidResultSerializer->serializeToArray(
+                    $exception->getValidationResult()
+                )
+            ]);
         }
 
         if ($exception instanceof InvalidTestException) {
-            return $this->createForInvalidTestException($exception);
+            return new ErrorOutput($exception->getMessage(), ExitCode::INVALID_TEST->value, [
+                'test_path' => $exception->getPath(),
+                'validation_result' => $this->validatorInvalidResultSerializer->serializeToArray(
+                    $exception->getValidationResult()
+                )
+            ]);
         }
 
         if ($exception instanceof NonRetrievableImportException) {
@@ -83,79 +105,53 @@ class ErrorOutputFactory
         }
 
         if ($exception instanceof UnknownElementException && !$exception instanceof UnknownPageElementException) {
-            return $this->createForUnknownElementException($exception);
+            return new ErrorOutput($exception->getMessage(), ExitCode::UNKNOWN_ELEMENT->value, array_merge(
+                [
+                    'element_name' => $exception->getElementName(),
+                ],
+                $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
+            ));
         }
 
         if ($exception instanceof UnknownItemException) {
-            return $this->createForUnknownItemException($exception);
+            return new ErrorOutput($exception->getMessage(), ExitCode::UNKNOWN_ITEM->value, array_merge(
+                [
+                    'type' => $exception->getType(),
+                    'name' => $exception->getName(),
+                ],
+                $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
+            ));
         }
 
         if ($exception instanceof UnknownPageElementException) {
-            return $this->createForUnknownPageElementException($exception);
+            return new ErrorOutput($exception->getMessage(), ExitCode::UNKNOWN_PAGE_ELEMENT->value, array_merge(
+                [
+                    'import_name' => $exception->getImportName(),
+                    'element_name' => $exception->getElementName(),
+                ],
+                $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
+            ));
         }
 
         if ($exception instanceof UnresolvedVariableException) {
-            return $this->createForUnresolvedVariableException($exception);
+            return new ErrorOutput($exception->getMessage(), ExitCode::UNRESOLVED_PLACEHOLDER->value, [
+                'placeholder' => $exception->getVariable(),
+                'content' => $exception->getTemplate(),
+            ]);
         }
 
         if ($exception instanceof UnsupportedStepException) {
-            return $this->createForUnsupportedStepException($exception);
+            return new ErrorOutput(
+                $exception->getMessage(),
+                ExitCode::UNSUPPORTED_STEP->value,
+                $this->createErrorOutputContextFromUnsupportedStepException($exception)
+            );
         }
 
-        return $this->createUnknownErrorOutput();
+        return new ErrorOutput('An unknown error has occurred', ErrorOutput::CODE_UNKNOWN);
     }
 
-    public function createForYamlLoaderException(YamlLoaderException $exception): ErrorOutputInterface
-    {
-        $message = $exception->getMessage();
-        $previousException = $exception->getPrevious();
-
-        if ($previousException instanceof \Exception) {
-            $message = $previousException->getMessage();
-        }
-
-        return new ErrorOutput($message, ExitCode::INVALID_YAML->value, [
-            'path' => $exception->getPath()
-        ]);
-    }
-
-    public function createForCircularStepImportException(CircularStepImportException $exception): ErrorOutputInterface
-    {
-        return new ErrorOutput($exception->getMessage(), ExitCode::CIRCULAR_STEP_IMPORT->value, [
-            'import_name' => $exception->getImportName(),
-        ]);
-    }
-
-    public function createForEmptyTestException(EmptyTestException $exception): ErrorOutputInterface
-    {
-        return new ErrorOutput($exception->getMessage(), ExitCode::EMPTY_TEST->value, [
-            'path' => $exception->getPath(),
-        ]);
-    }
-
-    public function createForInvalidPageException(InvalidPageException $exception): ErrorOutputInterface
-    {
-        return new ErrorOutput($exception->getMessage(), ExitCode::INVALID_PAGE->value, [
-            'test_path' => $exception->getTestPath(),
-            'import_name' => $exception->getImportName(),
-            'page_path' => $exception->getPath(),
-            'validation_result' => $this->validatorInvalidResultSerializer->serializeToArray(
-                $exception->getValidationResult()
-            )
-        ]);
-    }
-
-    public function createForInvalidTestException(InvalidTestException $exception): ErrorOutputInterface
-    {
-        return new ErrorOutput($exception->getMessage(), ExitCode::INVALID_TEST->value, [
-            'test_path' => $exception->getPath(),
-            'validation_result' => $this->validatorInvalidResultSerializer->serializeToArray(
-                $exception->getValidationResult()
-            )
-        ]);
-    }
-
-    public function createForNonRetrievableImportException(
+    private function createForNonRetrievableImportException(
         NonRetrievableImportException $exception,
     ): ErrorOutputInterface {
         $yamlLoaderException = $exception->getYamlLoaderException();
@@ -179,7 +175,7 @@ class ErrorOutputFactory
         ]);
     }
 
-    public function createForParseException(ParseException $parseException): ErrorOutputInterface
+    private function createForParseException(ParseException $parseException): ErrorOutputInterface
     {
         $unparseableDataException = $parseException->getUnparseableDataException();
         $unparseableStatementException = $this->findUnparseableStatementException($unparseableDataException);
@@ -218,55 +214,6 @@ class ErrorOutputFactory
         }
 
         return new ErrorOutput($unparseableDataException->getMessage(), ExitCode::UNPARSEABLE_DATA->value, $context);
-    }
-
-    public function createForUnknownElementException(UnknownElementException $exception): ErrorOutputInterface
-    {
-        return new ErrorOutput($exception->getMessage(), ExitCode::UNKNOWN_ELEMENT->value, array_merge(
-            [
-                'element_name' => $exception->getElementName(),
-            ],
-            $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
-        ));
-    }
-
-    public function createForUnknownItemException(UnknownItemException $exception): ErrorOutputInterface
-    {
-        return new ErrorOutput($exception->getMessage(), ExitCode::UNKNOWN_ITEM->value, array_merge(
-            [
-                'type' => $exception->getType(),
-                'name' => $exception->getName(),
-            ],
-            $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
-        ));
-    }
-
-    public function createForUnknownPageElementException(UnknownPageElementException $exception): ErrorOutputInterface
-    {
-        return new ErrorOutput($exception->getMessage(), ExitCode::UNKNOWN_PAGE_ELEMENT->value, array_merge(
-            [
-                'import_name' => $exception->getImportName(),
-                'element_name' => $exception->getElementName(),
-            ],
-            $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
-        ));
-    }
-
-    public function createForUnresolvedVariableException(UnresolvedVariableException $exception): ErrorOutputInterface
-    {
-        return new ErrorOutput($exception->getMessage(), ExitCode::UNRESOLVED_PLACEHOLDER->value, [
-            'placeholder' => $exception->getVariable(),
-            'content' => $exception->getTemplate(),
-        ]);
-    }
-
-    public function createForUnsupportedStepException(UnsupportedStepException $exception): ErrorOutputInterface
-    {
-        return new ErrorOutput(
-            $exception->getMessage(),
-            ExitCode::UNSUPPORTED_STEP->value,
-            $this->createErrorOutputContextFromUnsupportedStepException($exception)
-        );
     }
 
     /**
@@ -322,14 +269,6 @@ class ErrorOutputFactory
         }
 
         return $unparseableStatementException;
-    }
-
-    private function createUnknownErrorOutput(): ErrorOutputInterface
-    {
-        return new ErrorOutput(
-            'An unknown error has occurred',
-            ErrorOutput::CODE_UNKNOWN
-        );
     }
 
     private function createInvalidStepStatementsDataReason(int $code): string
