@@ -16,11 +16,9 @@ use SmartAssert\Compiler\Tests\Model\CompilationOutput;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Yaml\Yaml;
-use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
-use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\ErrorOutput;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilParser\ActionParser;
@@ -52,16 +50,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
         self::assertSame($expectedExitCode, $compilationOutput->getExitCode());
 
         $outputContent = trim($compilationOutput->getOutputContent());
-        $outputDocuments = $this->processYamlCollectionOutput($outputContent);
-        self::assertCount(1, $outputDocuments);
-
-        $outputDocument = $outputDocuments[0];
-        self::assertInstanceOf(Document::class, $outputDocument);
-
-        $configuration = Configuration::fromArray((array) $outputDocument->parse());
-        self::assertSame($cliArguments->getSource(), $configuration->getSource());
-        self::assertSame($cliArguments->getTarget(), $configuration->getTarget());
-        self::assertSame(AbstractBaseTest::class, $configuration->getBaseClass());
+        self::assertSame('', $outputContent);
 
         $errorContent = trim($compilationOutput->getErrorContent());
         $errorDocuments = $this->processYamlCollectionOutput($errorContent);
@@ -149,15 +138,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
         self::assertSame(ErrorOutputFactory::CODE_GENERATOR_UNSUPPORTED_STEP, $compilationOutput->getExitCode());
 
         $outputContent = trim($compilationOutput->getOutputContent());
-        self::assertStringStartsWith('---', $outputContent);
-        self::assertStringEndsWith('...', $outputContent);
-        self::assertSame(1, substr_count($outputContent, '---'));
-        self::assertSame(1, substr_count($outputContent, '...'));
-
-        $configuration = Configuration::fromArray((array) Yaml::parse($outputContent));
-        self::assertSame($cliArguments->getSource(), $configuration->getSource());
-        self::assertSame($cliArguments->getTarget(), $configuration->getTarget());
-        self::assertSame(AbstractBaseTest::class, $configuration->getBaseClass());
+        self::assertSame('', $outputContent);
 
         $expectedErrorOutput = new ErrorOutput(
             'Unsupported step',

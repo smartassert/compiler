@@ -15,6 +15,7 @@ use SmartAssert\Compiler\Tests\Unit\AbstractBaseTest;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BasilCompilerModels\ErrorOutput;
 use webignition\BasilLoader\TestLoader;
@@ -25,7 +26,6 @@ class GenerateCommandTest extends AbstractBaseTest
     {
         $input = [];
 
-        $stdout = new BufferedOutput();
         $stderr = new BufferedOutput();
 
         $command = new GenerateCommand(
@@ -33,7 +33,7 @@ class GenerateCommandTest extends AbstractBaseTest
             \Mockery::mock(Compiler::class),
             \Mockery::mock(TestWriter::class),
             new ErrorOutputFactory(new ValidatorInvalidResultSerializer()),
-            new OutputRenderer($stdout, $stderr),
+            new OutputRenderer(\Mockery::mock(OutputInterface::class), $stderr),
             new ConfigurationFactory()
         );
 
@@ -42,17 +42,6 @@ class GenerateCommandTest extends AbstractBaseTest
         $exitCode = $command->run(new ArrayInput($input), new NullOutput());
 
         self::assertSame($expectedValidationErrorCode, $exitCode);
-        self::assertSame(
-            <<< 'EOF'
-            ---
-            source: ''
-            target: ''
-            base-class: webignition\BaseBasilTestCase\AbstractBaseTest
-            ...
-            
-            EOF,
-            $stdout->fetch()
-        );
 
         $expectedCommandOutput = new ErrorOutput(
             'source empty; call with --source=SOURCE',

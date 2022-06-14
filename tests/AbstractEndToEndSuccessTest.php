@@ -9,10 +9,7 @@ use SmartAssert\Compiler\Tests\Model\CliArguments;
 use SmartAssert\Compiler\Tests\Model\ExpectedGeneratedTest;
 use SmartAssert\Compiler\Tests\Model\ExpectedGeneratedTestCollection;
 use SmartAssert\Compiler\Tests\Services\ClassNameReplacer;
-use webignition\BaseBasilTestCase\AbstractBaseTest;
-use webignition\BasilCompilerModels\Configuration;
 use webignition\BasilCompilerModels\TestManifest;
-use webignition\YamlDocument\Document;
 
 abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
 {
@@ -61,15 +58,7 @@ abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
 
         $outputContent = trim($compilationOutput->getOutputContent());
         $outputDocuments = $this->processYamlCollectionOutput($outputContent);
-        self::assertCount(count($expectedGeneratedTests) + 1, $outputDocuments);
-
-        $configurationDocument = array_shift($outputDocuments);
-        self::assertInstanceOf(Document::class, $configurationDocument);
-
-        $configuration = Configuration::fromArray((array) $configurationDocument->parse());
-        self::assertSame($cliArguments->getSource(), $configuration->getSource());
-        self::assertSame($cliArguments->getTarget(), $configuration->getTarget());
-        self::assertSame(AbstractBaseTest::class, $configuration->getBaseClass());
+        self::assertCount(count($expectedGeneratedTests), $outputDocuments);
 
         /**
          * @var TestManifest[]
