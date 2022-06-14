@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface as ConsoleOutputInterface;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilCompilerModels\Configuration;
+use webignition\BasilCompilerModels\ErrorOutput;
 use webignition\BasilCompilerModels\TestManifest;
 use webignition\BasilCompilerModels\TestManifestCollection;
 use webignition\BasilLoader\Exception\EmptyTestException;
@@ -79,6 +80,29 @@ class GenerateCommand extends Command
 
     protected function execute(InputInterface $input, ConsoleOutputInterface $output): int
     {
+        $source = $input->getOption(Options::OPTION_SOURCE);
+        $source = is_string($source) ? trim($source) : '';
+
+        if ('' === $source) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_SOURCE_EMPTY,
+                ErrorOutputFactory::CODE_COMMAND_CONFIG_SOURCE_EMPTY
+            ));
+        }
+
+        $target = $input->getOption(Options::OPTION_TARGET);
+        $target = is_string($target) ? trim($target) : '';
+
+        if ('' === $target) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                ErrorOutputFactory::MESSAGE_COMMAND_CONFIG_TARGET_EMPTY,
+                ErrorOutputFactory::CODE_COMMAND_CONFIG_TARGET_EMPTY
+            ));
+        }
+
+        $baseClass = $input->getOption(Options::OPTION_BASE_CLASS);
+        $baseClass = is_string($baseClass) ? trim($baseClass) : '';
+
         $configuration = $this->configurationFactory->create($input);
 
         $configurationValidationState = $configuration->validate();
@@ -137,8 +161,6 @@ class GenerateCommand extends Command
             return $errorOutput->getCode();
         }
 
-        $this->outputRenderer->render(new TestManifestCollection($testManifests));
-
-        return 0;
+        return $this->outputRenderer->render(new TestManifestCollection($testManifests));
     }
 }

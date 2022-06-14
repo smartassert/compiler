@@ -19,12 +19,14 @@ class OutputRenderer
     ) {
     }
 
-    public function render(OutputInterface $output): void
+    public function render(OutputInterface $output): int
     {
         $this->renderAsYamlDocument(
             $output->toArray(),
             $output instanceof ErrorOutputInterface ? $this->stderr : $this->stdout
         );
+
+        return $output instanceof ErrorOutputInterface ? $output->getCode() : 0;
     }
 
     /**
