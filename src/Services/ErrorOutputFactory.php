@@ -30,10 +30,6 @@ use webignition\Stubble\UnresolvedVariableException;
 
 class ErrorOutputFactory
 {
-    public const UNPARSEABLE_STEP_INVALID_ACTIONS_DATA = 'invalid-actions-data';
-    public const UNPARSEABLE_STEP_INVALID_ASSERTIONS_DATA = 'invalid-assertions-data';
-    public const REASON_UNKNOWN = 'unknown';
-
     /**
      * @var array{action: array<int, string>, assertion: array<int, string>}
      */
@@ -218,7 +214,7 @@ class ErrorOutputFactory
             $context['statement_type'] = $statementType;
             $context['statement'] = $unparseableStatementException->getStatement();
             $context['reason'] =
-                $this->unparseableStatementErrorMessages[$statementType][$code] ?? self::REASON_UNKNOWN;
+                $this->unparseableStatementErrorMessages[$statementType][$code] ?? 'unknown';
         }
 
         return new ErrorOutput($unparseableDataException->getMessage(), ExitCode::UNPARSEABLE_DATA->value, $context);
@@ -339,13 +335,13 @@ class ErrorOutputFactory
     private function createInvalidStepStatementsDataReason(int $code): string
     {
         if (UnparseableStepException::CODE_INVALID_ACTIONS_DATA === $code) {
-            return self::UNPARSEABLE_STEP_INVALID_ACTIONS_DATA;
+            return 'invalid-actions-data';
         }
 
         if (UnparseableStepException::CODE_INVALID_ASSERTIONS_DATA === $code) {
-            return self::UNPARSEABLE_STEP_INVALID_ASSERTIONS_DATA;
+            return 'invalid-assertions-data';
         }
 
-        return self::REASON_UNKNOWN;
+        return 'unknown';
     }
 }
