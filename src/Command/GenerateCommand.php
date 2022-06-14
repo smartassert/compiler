@@ -117,7 +117,7 @@ class GenerateCommand extends Command
         $testManifests = [];
 
         try {
-            $tests = $this->testLoader->load($configuration->getSource());
+            $tests = $this->testLoader->load($source);
         } catch (
             CircularStepImportException |
             EmptyTestException |
@@ -139,14 +139,14 @@ class GenerateCommand extends Command
 
         try {
             foreach ($tests as $test) {
-                $compiledTest = $this->compiler->compile($test, $configuration->getBaseClass());
-                $target = $this->testWriter->write($compiledTest, $configuration->getTarget());
+                $compiledTest = $this->compiler->compile($test, $baseClass);
+                $writtenTarget = $this->testWriter->write($compiledTest, $target);
 
                 $testManifests[] = new TestManifest(
                     $test->getConfiguration()->getBrowser(),
                     $test->getConfiguration()->getUrl(),
                     $test->getPath() ?? '',
-                    $target,
+                    $writtenTarget,
                     $test->getSteps()->getStepNames()
                 );
             }
