@@ -14,8 +14,8 @@ class OutputRenderer
     private const YAML_DUMP_INLINE_DEPTH = 4;
 
     public function __construct(
-        private ConsoleOutputInterface $stdout,
-        private ConsoleOutputInterface $stderr
+        private readonly ConsoleOutputInterface $stdout,
+        private readonly ConsoleOutputInterface $stderr
     ) {
     }
 
