@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Command;
 
+use SmartAssert\Compiler\ExitCode;
 use SmartAssert\Compiler\Model\Options;
 use SmartAssert\Compiler\Services\Compiler;
-use SmartAssert\Compiler\Services\ConfigurationFactory;
 use SmartAssert\Compiler\Services\ErrorOutputFactory;
 use SmartAssert\Compiler\Services\OutputRenderer;
 use SmartAssert\Compiler\Services\TestWriter;
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface as ConsoleOutputInterface;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
-use webignition\BasilCompilerModels\Configuration;
+use webignition\BasilCompilerModels\ErrorOutput;
 use webignition\BasilCompilerModels\TestManifest;
 use webignition\BasilCompilerModels\TestManifestCollection;
 use webignition\BasilLoader\Exception\EmptyTestException;
@@ -42,7 +42,6 @@ class GenerateCommand extends Command
         private TestWriter $testWriter,
         private ErrorOutputFactory $errorOutputFactory,
         private OutputRenderer $outputRenderer,
-        private ConfigurationFactory $configurationFactory
     ) {
         parent::__construct();
     }
@@ -79,21 +78,68 @@ class GenerateCommand extends Command
 
     protected function execute(InputInterface $input, ConsoleOutputInterface $output): int
     {
-        $configuration = $this->configurationFactory->create($input);
+        $source = $input->getOption(Options::OPTION_SOURCE);
+        $source = is_string($source) ? trim($source) : '';
 
-        $configurationValidationState = $configuration->validate();
-        if (Configuration::VALIDATION_STATE_VALID !== $configurationValidationState) {
-            $errorOutput = $this->errorOutputFactory->createFromInvalidConfiguration($configurationValidationState);
-
-            $this->outputRenderer->render($errorOutput);
-
-            return $errorOutput->getCode();
+        if ('' === $source) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                'source empty; call with --source=SOURCE',
+                ExitCode::CONFIG_SOURCE_EMPTY->value
+            ));
         }
+
+        if (!str_starts_with($source, '/')) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                'source invalid: path must be absolute',
+                ExitCode::CONFIG_SOURCE_NOT_ABSOLUTE->value
+            ));
+        }
+
+        if (!is_readable($source)) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                'source invalid; file is not readable',
+                ExitCode::CONFIG_SOURCE_NOT_READABLE->value
+            ));
+        }
+
+        $target = $input->getOption(Options::OPTION_TARGET);
+        $target = is_string($target) ? trim($target) : '';
+
+        if ('' === $target) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                'target empty; call with --target=TARGET',
+                ExitCode::CONFIG_TARGET_EMPTY->value
+            ));
+        }
+
+        if (!str_starts_with($target, '/')) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                'target invalid: path must be absolute',
+                ExitCode::CONFIG_TARGET_NOT_ABSOLUTE->value
+            ));
+        }
+
+        if (!is_dir($target)) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                'target invalid; is not a directory (is it a file?)',
+                ExitCode::CONFIG_TARGET_NOT_A_DIRECTORY->value
+            ));
+        }
+
+        if (!is_writable($target)) {
+            return $this->outputRenderer->render(new ErrorOutput(
+                'target invalid; directory is not writable',
+                ExitCode::CONFIG_TARGET_NOT_WRITABLE->value
+            ));
+        }
+
+        $baseClass = $input->getOption(Options::OPTION_BASE_CLASS);
+        $baseClass = is_string($baseClass) ? trim($baseClass) : '';
 
         $testManifests = [];
 
         try {
-            $tests = $this->testLoader->load($configuration->getSource());
+            $tests = $this->testLoader->load($source);
         } catch (
             CircularStepImportException |
             EmptyTestException |
@@ -115,14 +161,14 @@ class GenerateCommand extends Command
 
         try {
             foreach ($tests as $test) {
-                $compiledTest = $this->compiler->compile($test, $configuration->getBaseClass());
-                $target = $this->testWriter->write($compiledTest, $configuration->getTarget());
+                $compiledTest = $this->compiler->compile($test, $baseClass);
+                $writtenTarget = $this->testWriter->write($compiledTest, $target);
 
                 $testManifests[] = new TestManifest(
                     $test->getConfiguration()->getBrowser(),
                     $test->getConfiguration()->getUrl(),
                     $test->getPath() ?? '',
-                    $target,
+                    $writtenTarget,
                     $test->getSteps()->getStepNames()
                 );
             }
@@ -137,8 +183,6 @@ class GenerateCommand extends Command
             return $errorOutput->getCode();
         }
 
-        $this->outputRenderer->render(new TestManifestCollection($testManifests));
-
-        return 0;
+        return $this->outputRenderer->render(new TestManifestCollection($testManifests));
     }
 }

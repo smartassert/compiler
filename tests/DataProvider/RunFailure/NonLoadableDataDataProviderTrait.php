@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\DataProvider\RunFailure;
 
-use SmartAssert\Compiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\ExitCode;
 
 trait NonLoadableDataDataProviderTrait
 {
@@ -16,18 +16,18 @@ trait NonLoadableDataDataProviderTrait
         return [
             'test contains invalid yaml' => [
                 'sourceRelativePath' => '/InvalidTest/invalid.unparseable.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
+                'expectedExitCode' => ExitCode::INVALID_YAML->value,
                 'expectedErrorOutputMessage' => 'Malformed inline YAML string at line 3 (near "- "chrome").',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
+                'expectedErrorOutputCode' => ExitCode::INVALID_YAML->value,
                 'expectedErrorOutputData' => [
                     'path' => '{{ remoteSourcePrefix }}/InvalidTest/invalid.unparseable.yml',
                 ],
             ],
             'test file contains non-array data' => [
                 'sourceRelativePath' => '/InvalidTest/invalid.not-an-array.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
+                'expectedExitCode' => ExitCode::INVALID_YAML->value,
                 'expectedErrorOutputMessage' => 'Data is not an array',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_INVALID_YAML,
+                'expectedErrorOutputCode' => ExitCode::INVALID_YAML->value,
                 'expectedErrorOutputData' => [
                     'path' => '{{ remoteSourcePrefix }}/InvalidTest/invalid.not-an-array.yml',
                 ],

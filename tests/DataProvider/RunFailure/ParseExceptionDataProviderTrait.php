@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\DataProvider\RunFailure;
 
-use SmartAssert\Compiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\ExitCode;
 
 trait ParseExceptionDataProviderTrait
 {
@@ -16,9 +16,9 @@ trait ParseExceptionDataProviderTrait
         return [
             'test declares step, step contains unparseable action' => [
                 'sourceRelativePath' => '/InvalidTest/unparseable-action.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedExitCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputMessage' => 'Unparseable test',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedErrorOutputCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputData' => [
                     'type' => 'test',
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/unparseable-action.yml',
@@ -30,9 +30,9 @@ trait ParseExceptionDataProviderTrait
             ],
             'test declares step, step contains unparseable assertion' => [
                 'sourceRelativePath' => '/InvalidTest/unparseable-assertion.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedExitCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputMessage' => 'Unparseable test',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedErrorOutputCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputData' => [
                     'type' => 'test',
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/unparseable-assertion.yml',
@@ -44,9 +44,9 @@ trait ParseExceptionDataProviderTrait
             ],
             'test imports step, step contains unparseable action' => [
                 'sourceRelativePath' => '/InvalidTest/import-unparseable-action.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedExitCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputMessage' => 'Unparseable step',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedErrorOutputCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputData' => [
                     'type' => 'step',
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/import-unparseable-action.yml',
@@ -58,9 +58,9 @@ trait ParseExceptionDataProviderTrait
             ],
             'test imports step, step contains unparseable assertion' => [
                 'sourceRelativePath' => '/InvalidTest/import-unparseable-assertion.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedExitCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputMessage' => 'Unparseable step',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedErrorOutputCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputData' => [
                     'type' => 'step',
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/import-unparseable-assertion.yml',
@@ -72,9 +72,9 @@ trait ParseExceptionDataProviderTrait
             ],
             'test declares step, step contains non-array actions data' => [
                 'sourceRelativePath' => '/InvalidTest/non-array-actions-data.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedExitCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputMessage' => 'Unparseable test',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedErrorOutputCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputData' => [
                     'type' => 'test',
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/non-array-actions-data.yml',
@@ -84,9 +84,9 @@ trait ParseExceptionDataProviderTrait
             ],
             'test declares step, step contains non-array assertions data' => [
                 'sourceRelativePath' => '/InvalidTest/non-array-assertions-data.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedExitCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputMessage' => 'Unparseable test',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedErrorOutputCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputData' => [
                     'type' => 'test',
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/non-array-assertions-data.yml',
@@ -96,9 +96,9 @@ trait ParseExceptionDataProviderTrait
             ],
             'test imports step, step contains non-array actions data' => [
                 'sourceRelativePath' => '/InvalidTest/import-non-array-actions-data.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedExitCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputMessage' => 'Unparseable step',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedErrorOutputCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputData' => [
                     'type' => 'step',
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/import-non-array-actions-data.yml',
@@ -108,9 +108,9 @@ trait ParseExceptionDataProviderTrait
             ],
             'test imports step, step contains non-array assertions data' => [
                 'sourceRelativePath' => '/InvalidTest/import-non-array-assertions-data.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedExitCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputMessage' => 'Unparseable step',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNPARSEABLE_DATA,
+                'expectedErrorOutputCode' => ExitCode::UNPARSEABLE_DATA->value,
                 'expectedErrorOutputData' => [
                     'type' => 'step',
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/import-non-array-assertions-data.yml',

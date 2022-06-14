@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\DataProvider\RunFailure;
 
-use SmartAssert\Compiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\ExitCode;
 
 trait UnknownElementDataProviderTrait
 {
@@ -16,9 +16,9 @@ trait UnknownElementDataProviderTrait
         return [
             'test declares step, step contains action with unknown element' => [
                 'sourceRelativePath' => '/InvalidTest/action-contains-unknown-element.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ELEMENT,
+                'expectedExitCode' => ExitCode::UNKNOWN_ELEMENT->value,
                 'expectedErrorOutputMessage' => 'Unknown element "unknown_element_name"',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ELEMENT,
+                'expectedErrorOutputCode' => ExitCode::UNKNOWN_ELEMENT->value,
                 'expectedErrorOutputData' => [
                     'element_name' => 'unknown_element_name',
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/action-contains-unknown-element.yml',
@@ -28,9 +28,9 @@ trait UnknownElementDataProviderTrait
             ],
             'test imports step, step contains action with unknown element' => [
                 'sourceRelativePath' => '/InvalidTest/import-action-containing-unknown-element.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ELEMENT,
+                'expectedExitCode' => ExitCode::UNKNOWN_ELEMENT->value,
                 'expectedErrorOutputMessage' => 'Unknown element "unknown_element_name"',
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_UNKNOWN_ELEMENT,
+                'expectedErrorOutputCode' => ExitCode::UNKNOWN_ELEMENT->value,
                 'expectedErrorOutputData' => [
                     'element_name' => 'unknown_element_name',
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/import-action-containing-unknown-element.yml',

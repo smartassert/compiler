@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\DataProvider\RunFailure;
 
-use SmartAssert\Compiler\Services\ErrorOutputFactory;
+use SmartAssert\Compiler\ExitCode;
 
 trait NonRetrievableImportDataProviderTrait
 {
@@ -16,12 +16,12 @@ trait NonRetrievableImportDataProviderTrait
         return [
             'test imports non-parsable page' => [
                 'sourceRelativePath' => '/InvalidTest/import-unparseable-page.yml',
-                'expectedExitCode' => ErrorOutputFactory::CODE_LOADER_NON_RETRIEVABLE_IMPORT,
+                'expectedExitCode' => ExitCode::NON_RETRIEVABLE_IMPORT->value,
                 'expectedErrorOutputMessage' => sprintf(
                     'Cannot retrieve page "unparseable_page" from "%s"',
                     '{{ remoteSourcePrefix }}/InvalidPage/unparseable.yml'
                 ),
-                'expectedErrorOutputCode' => ErrorOutputFactory::CODE_LOADER_NON_RETRIEVABLE_IMPORT,
+                'expectedErrorOutputCode' => ExitCode::NON_RETRIEVABLE_IMPORT->value,
                 'expectedErrorOutputData' => [
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/import-unparseable-page.yml',
                     'type' => 'page',
