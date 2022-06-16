@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Functional\Services;
 
+use PHPUnit\Framework\TestCase;
 use SmartAssert\Compiler\Model\CompiledTest;
 use SmartAssert\Compiler\Services\Compiler;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCompilableSourceFactory\ClassDefinitionFactory;
 use webignition\BasilCompilableSourceFactory\ClassNameFactory;
-use webignition\BasilModels\Model\Test\TestInterface;
+use webignition\BasilModels\Model\Test\NamedTest;
+use webignition\BasilModels\Model\Test\NamedTestInterface;
 use webignition\BasilParser\Test\TestParser;
 use webignition\ObjectReflector\ObjectReflector;
 
-class CompilerTest extends \PHPUnit\Framework\TestCase
+class CompilerTest extends TestCase
 {
     /**
      * @dataProvider compileDataProvider
@@ -21,7 +23,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      * @param string[] $classNameFactoryClassNames
      */
     public function testCompile(
-        TestInterface $test,
+        NamedTestInterface $test,
         array $classNameFactoryClassNames,
         string $fullyQualifiedBaseClass,
         CompiledTest $expectedCompiledTest
@@ -40,20 +42,22 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
      */
     public function compileDataProvider(): array
     {
-        $testParser = TestParser::create();
-        $test = $testParser->parse(
-            [
-                'config' => [
-                    'browser' => 'chrome',
-                    'url' => 'https://example.com/',
-                ],
-                'verify page is open' => [
-                    'assertions' => [
-                        '$page.url is "https://example.com/"',
+        $test = new NamedTest(
+            TestParser::create()->parse(
+                [
+                    'config' => [
+                        'browser' => 'chrome',
+                        'url' => 'https://example.com/',
                     ],
-                ],
-            ]
-        )->withPath('tests/Fixtures/basil/Test/example.com.verify-open-literal.yml');
+                    'verify page is open' => [
+                        'assertions' => [
+                            '$page.url is "https://example.com/"',
+                        ],
+                    ],
+                ]
+            ),
+            'tests/Fixtures/basil/Test/example.com.verify-open-literal.yml'
+        );
 
         return [
             'default' => [

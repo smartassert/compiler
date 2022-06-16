@@ -4,19 +4,13 @@ namespace SmartAssert\Compiler\Generated;
 
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BaseBasilTestCase\ClientManager;
-use webignition\BasilModels\Model\Test\Configuration;
 
 class GeneratedImportPage extends AbstractBaseTest
 {
     public static function setUpBeforeClass(): void
     {
         try {
-            self::setClientManager(new ClientManager(
-                new Configuration(
-                    'chrome',
-                    'http://example.com'
-                )
-            ));
+            self::setClientManager(new ClientManager('chrome'));
             parent::setUpBeforeClass();
             self::$client->request('GET', 'http://example.com');
         } catch (\Throwable $exception) {
