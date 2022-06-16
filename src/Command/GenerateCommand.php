@@ -165,9 +165,9 @@ class GenerateCommand extends Command
                 $writtenTarget = $this->testWriter->write($compiledTest, $target);
 
                 $testManifests[] = new TestManifest(
-                    $test->getConfiguration()->getBrowser(),
-                    $test->getConfiguration()->getUrl(),
-                    $test->getPath() ?? '',
+                    $test->getBrowser(),
+                    $test->getUrl(),
+                    $test->getName(),
                     $writtenTarget,
                     $test->getSteps()->getStepNames()
                 );

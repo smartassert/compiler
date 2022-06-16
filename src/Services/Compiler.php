@@ -7,7 +7,7 @@ namespace SmartAssert\Compiler\Services;
 use SmartAssert\Compiler\Model\CompiledTest;
 use webignition\BasilCompilableSourceFactory\ClassDefinitionFactory;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
-use webignition\BasilModels\Model\Test\TestInterface;
+use webignition\BasilModels\Model\Test\NamedTestInterface;
 use webignition\Stubble\UnresolvedVariableException;
 use webignition\Stubble\VariableResolver;
 
@@ -35,7 +35,7 @@ class Compiler
      * @throws UnresolvedVariableException
      * @throws UnsupportedStepException
      */
-    public function compile(TestInterface $test, string $fullyQualifiedBaseClass): CompiledTest
+    public function compile(NamedTestInterface $test, string $fullyQualifiedBaseClass): CompiledTest
     {
         $classDefinition = $this->classDefinitionFactory->createClassDefinition($test, $fullyQualifiedBaseClass);
         $resolvedClassDefinition = $this->variableResolver->resolveAndIgnoreUnresolvedVariables($classDefinition);

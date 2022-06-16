@@ -4,19 +4,13 @@ namespace SmartAssert\Compiler\Generated;
 
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BaseBasilTestCase\ClientManager;
-use webignition\BasilModels\Model\Test\Configuration;
 
 class GeneratedVerifyOpenLiteralFirefox extends AbstractBaseTest
 {
     public static function setUpBeforeClass(): void
     {
         try {
-            self::setClientManager(new ClientManager(
-                new Configuration(
-                    'firefox',
-                    'https://example.com/'
-                )
-            ));
+            self::setClientManager(new ClientManager('firefox'));
             parent::setUpBeforeClass();
             self::$client->request('GET', 'https://example.com/');
         } catch (\Throwable $exception) {
