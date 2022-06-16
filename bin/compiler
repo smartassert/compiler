@@ -9,15 +9,22 @@ const VERSION = 'dev-master';
 
 require 'vendor/autoload.php';
 
-use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 use SmartAssert\Compiler\Services\CommandFactory;
-use webignition\SingleCommandApplicationFactory\Factory;
+use Symfony\Component\Console\SingleCommandApplication;
 
 $stdout = new StreamOutput(STDOUT);
 $stderr = new StreamOutput(STDERR);
 
 $command = CommandFactory::createGenerateCommand($stdout, $stderr, $argv);
 
-$application = (new Factory())->create($command, VERSION);
-$application->run(null, new NullOutput());
+(new SingleCommandApplication())
+    ->setName((string) $command->getName())
+    ->setDefinition($command->getDefinition())
+    ->setVersion(VERSION)
+    ->setCode(function (InputInterface $input, OutputInterface $output) use ($command) {
+        return $command->run($input, $output);
+    })
+    ->run();
