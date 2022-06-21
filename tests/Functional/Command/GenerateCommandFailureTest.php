@@ -21,8 +21,8 @@ use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementExcep
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilCompilerModels\ErrorOutput;
 use webignition\BasilModels\Model\Step\Step;
-use webignition\BasilParser\ActionParser;
-use webignition\BasilParser\AssertionParser;
+use webignition\BasilModels\Parser\ActionParser;
+use webignition\BasilModels\Parser\AssertionParser;
 use webignition\ObjectReflector\ObjectReflector;
 use webignition\YamlDocument\Document;
 

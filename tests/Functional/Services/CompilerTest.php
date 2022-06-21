@@ -12,7 +12,7 @@ use webignition\BasilCompilableSourceFactory\ClassDefinitionFactory;
 use webignition\BasilCompilableSourceFactory\ClassNameFactory;
 use webignition\BasilModels\Model\Test\NamedTest;
 use webignition\BasilModels\Model\Test\NamedTestInterface;
-use webignition\BasilParser\Test\TestParser;
+use webignition\BasilModels\Parser\Test\TestParser;
 use webignition\ObjectReflector\ObjectReflector;
 
 class CompilerTest extends TestCase
