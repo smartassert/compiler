@@ -19,13 +19,13 @@ use webignition\BasilLoader\Exception\YamlLoaderException;
 use webignition\BasilLoader\Resolver\CircularStepImportException;
 use webignition\BasilLoader\Resolver\UnknownElementException;
 use webignition\BasilLoader\Resolver\UnknownPageElementException;
+use webignition\BasilModels\Parser\Exception\UnparseableActionException;
+use webignition\BasilModels\Parser\Exception\UnparseableAssertionException;
+use webignition\BasilModels\Parser\Exception\UnparseableDataExceptionInterface;
+use webignition\BasilModels\Parser\Exception\UnparseableStatementException;
+use webignition\BasilModels\Parser\Exception\UnparseableStepException;
+use webignition\BasilModels\Parser\Exception\UnparseableTestException;
 use webignition\BasilModels\Provider\Exception\UnknownItemException;
-use webignition\BasilParser\Exception\UnparseableActionException;
-use webignition\BasilParser\Exception\UnparseableAssertionException;
-use webignition\BasilParser\Exception\UnparseableDataExceptionInterface;
-use webignition\BasilParser\Exception\UnparseableStatementException;
-use webignition\BasilParser\Exception\UnparseableStepException;
-use webignition\BasilParser\Exception\UnparseableTestException;
 use webignition\Stubble\UnresolvedVariableException;
 
 class ErrorOutputFactory

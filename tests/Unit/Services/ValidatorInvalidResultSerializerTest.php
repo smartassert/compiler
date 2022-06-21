@@ -13,10 +13,10 @@ use webignition\BasilLoader\Validator\ResultType;
 use webignition\BasilLoader\Validator\Step\StepValidator;
 use webignition\BasilLoader\Validator\Test\TestValidator;
 use webignition\BasilLoader\Validator\ValueValidator;
-use webignition\BasilParser\ActionParser;
-use webignition\BasilParser\AssertionParser;
-use webignition\BasilParser\StepParser;
-use webignition\BasilParser\Test\TestParser;
+use webignition\BasilModels\Parser\ActionParser;
+use webignition\BasilModels\Parser\AssertionParser;
+use webignition\BasilModels\Parser\StepParser;
+use webignition\BasilModels\Parser\Test\TestParser;
 
 class ValidatorInvalidResultSerializerTest extends AbstractBaseTest
 {
