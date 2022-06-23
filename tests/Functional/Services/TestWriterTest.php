@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Functional\Services;
 
+use PHPUnit\Framework\TestCase;
 use SmartAssert\Compiler\Model\CompiledTest;
 use SmartAssert\Compiler\Services\PhpFileCreator;
 use SmartAssert\Compiler\Services\TestWriter;
 
-class TestWriterTest extends \PHPUnit\Framework\TestCase
+class TestWriterTest extends TestCase
 {
     /**
+     * @param non-empty-string$outputDirectory
+     *
      * @dataProvider generateDataProvider
      */
     public function testWrite(

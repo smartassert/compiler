@@ -15,8 +15,11 @@ namespace SmartAssert\Compiler\Generated;
 
 EOT;
 
+    /**
+     * @param non-empty-string $outputDirectory
+     */
     public function __construct(
-        private string $outputDirectory
+        private readonly string $outputDirectory
     ) {
     }
 
@@ -25,7 +28,12 @@ EOT;
         $content = sprintf(self::TEMPLATE, $code);
 
         $filename = $className . '.php';
-        $path = $this->outputDirectory . '/' . $filename;
+
+        $path = $this->outputDirectory;
+        if (!str_ends_with($path, '/')) {
+            $path .= '/';
+        }
+        $path .= $filename;
 
         file_put_contents($path, $content);
 
