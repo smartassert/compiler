@@ -19,7 +19,8 @@ use Symfony\Component\Yaml\Yaml;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
-use webignition\BasilCompilerModels\ErrorOutput;
+use webignition\BasilCompilerModels\Factory\ErrorOutputFactory;
+use webignition\BasilCompilerModels\Model\ErrorOutput;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Parser\ActionParser;
 use webignition\BasilModels\Parser\AssertionParser;
@@ -65,7 +66,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
             $expectedErrorOutputData
         );
 
-        $errorOutput = ErrorOutput::fromArray((array) $errorDocument->parse());
+        $errorOutput = (new ErrorOutputFactory())->create((array) $errorDocument->parse());
         self::assertEquals($expectedErrorOutput, $errorOutput);
     }
 
@@ -146,7 +147,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
             $expectedErrorOutputContext
         );
 
-        $errorOutput = ErrorOutput::fromArray((array) Yaml::parse($compilationOutput->getErrorContent()));
+        $errorOutput = (new ErrorOutputFactory())->create((array) Yaml::parse($compilationOutput->getErrorContent()));
 
         self::assertEquals($expectedErrorOutput, $errorOutput);
     }
