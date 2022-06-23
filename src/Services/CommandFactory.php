@@ -38,7 +38,7 @@ class CommandFactory
         return new GenerateCommand(
             TestLoader::createLoader(),
             Compiler::createCompiler(),
-            TestWriter::createWriter($outputDirectory),
+            new TestWriter(new PhpFileCreator($outputDirectory)),
             new ErrorOutputFactory(new ValidatorInvalidResultSerializer()),
             new OutputRenderer($stdout, $stderr)
         );

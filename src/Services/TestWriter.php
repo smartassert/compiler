@@ -13,13 +13,6 @@ class TestWriter
     ) {
     }
 
-    public static function createWriter(string $outputDirectory): self
-    {
-        return new TestWriter(
-            new PhpFileCreator($outputDirectory)
-        );
-    }
-
     public function write(CompiledTest $compiledTest, string $outputDirectory): string
     {
         $filename = $this->phpFileCreator->create($compiledTest->getClassName(), $compiledTest->getCode());
