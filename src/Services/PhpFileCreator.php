@@ -23,6 +23,11 @@ EOT;
     ) {
     }
 
+    /**
+     * @param non-empty-string $className
+     *
+     * @return non-empty-string
+     */
     public function create(string $className, string $code): string
     {
         $content = sprintf(self::TEMPLATE, $code);
