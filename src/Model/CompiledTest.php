@@ -6,9 +6,12 @@ namespace SmartAssert\Compiler\Model;
 
 class CompiledTest
 {
+    /**
+     * @param non-empty-string $className
+     */
     public function __construct(
-        private string $code,
-        private string $className
+        private readonly string $code,
+        private readonly string $className
     ) {
     }
 
@@ -17,6 +20,9 @@ class CompiledTest
         return $this->code;
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function getClassName(): string
     {
         return $this->className;
