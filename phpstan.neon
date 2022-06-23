@@ -5,6 +5,22 @@ parameters:
     - src
     - tests
   inferPrivatePropertyTypeFromConstructor: true
+  exceptions:
+    check:
+      missingCheckedExceptionInThrows: true
+      tooWideThrowType: true
   excludePaths:
     - '*/tests/build/*'
     - '*/tests/Fixtures/php/*'
+  ignoreErrors:
+    -
+      message: '#Method .+ throws checked exception Symfony\\Component\\Console\\Exception\\InvalidArgumentException#'
+      path: src/Command/GenerateCommand.php
+
+    -
+      message: '#Method .+ throws checked exception Symfony\\Component\\Console\\Exception\\LogicException#'
+      path: src/Services/CommandFactory.php
+
+    -
+      message: '#Method .+ throws checked exception#'
+      path: tests
