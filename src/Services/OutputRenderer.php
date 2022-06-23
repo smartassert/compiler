@@ -6,8 +6,8 @@ namespace SmartAssert\Compiler\Services;
 
 use Symfony\Component\Console\Output\OutputInterface as ConsoleOutputInterface;
 use Symfony\Component\Yaml\Yaml;
-use webignition\BasilCompilerModels\ErrorOutputInterface;
-use webignition\BasilCompilerModels\OutputInterface;
+use webignition\BasilCompilerModels\Model\ErrorOutputInterface;
+use webignition\BasilCompilerModels\Model\OutputInterface;
 
 class OutputRenderer
 {

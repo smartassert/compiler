@@ -7,8 +7,9 @@ namespace SmartAssert\Compiler\Services;
 use SmartAssert\Compiler\ExitCode;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentException;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
-use webignition\BasilCompilerModels\ErrorOutput;
-use webignition\BasilCompilerModels\ErrorOutputInterface;
+use webignition\BasilCompilerModels\Factory\ErrorOutputFactory as ErrorOutputModelFactory;
+use webignition\BasilCompilerModels\Model\ErrorOutput;
+use webignition\BasilCompilerModels\Model\ErrorOutputInterface;
 use webignition\BasilLoader\Exception\EmptyTestException;
 use webignition\BasilLoader\Exception\InvalidPageException;
 use webignition\BasilLoader\Exception\InvalidTestException;
@@ -147,7 +148,7 @@ class ErrorOutputFactory
             );
         }
 
-        return new ErrorOutput('An unknown error has occurred', ErrorOutput::CODE_UNKNOWN);
+        return new ErrorOutput('An unknown error has occurred', ErrorOutputModelFactory::CODE_UNKNOWN);
     }
 
     private function createForNonRetrievableImportException(

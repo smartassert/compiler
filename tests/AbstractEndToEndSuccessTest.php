@@ -10,7 +10,8 @@ use SmartAssert\Compiler\Tests\Model\ExpectedGeneratedTest;
 use SmartAssert\Compiler\Tests\Model\ExpectedGeneratedTestCollection;
 use SmartAssert\Compiler\Tests\Services\ClassNameReplacer;
 use Symfony\Component\Yaml\Yaml;
-use webignition\BasilCompilerModels\TestManifestCollection;
+use webignition\BasilCompilerModels\Factory\TestManifestCollectionFactory;
+use webignition\BasilCompilerModels\Factory\TestManifestFactory;
 
 abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
 {
@@ -61,7 +62,11 @@ abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTest
         $outputData = Yaml::parse($outputContent);
         self::assertIsArray($outputData);
 
-        $testManifestCollection = TestManifestCollection::fromArray($outputData);
+        $testManifestCollectionFactory = new TestManifestCollectionFactory(
+            new TestManifestFactory()
+        );
+
+        $testManifestCollection = $testManifestCollectionFactory->create($outputData);
 
         $localTarget = getcwd() . FixturePaths::TARGET;
 

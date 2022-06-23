@@ -15,7 +15,8 @@ use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownElementDataProvide
 use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownItemDataProviderTrait;
 use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownPageElementDataProviderTrait;
 use SmartAssert\Compiler\Tests\Model\CliArguments;
-use webignition\BasilCompilerModels\ErrorOutput;
+use webignition\BasilCompilerModels\Factory\ErrorOutputFactory;
+use webignition\BasilCompilerModels\Model\ErrorOutput;
 use webignition\YamlDocument\Document;
 
 abstract class AbstractEndToEndFailureTest extends AbstractEndToEndTest
@@ -78,8 +79,7 @@ abstract class AbstractEndToEndFailureTest extends AbstractEndToEndTest
             $expectedErrorOutputData
         );
 
-        $errorOutput = ErrorOutput::fromArray((array) $errorDocument->parse());
-
+        $errorOutput = (new ErrorOutputFactory())->create((array) $errorDocument->parse());
         self::assertEquals($expectedCommandOutput, $errorOutput);
     }
 

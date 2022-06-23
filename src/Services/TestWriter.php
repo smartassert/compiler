@@ -13,6 +13,9 @@ class TestWriter
     ) {
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function write(CompiledTest $compiledTest, string $outputDirectory): string
     {
         $filename = $this->phpFileCreator->create($compiledTest->getClassName(), $compiledTest->getCode());
