@@ -11,6 +11,8 @@ use SmartAssert\Compiler\Tests\Unit\AbstractBaseTest;
 class PhpFileCreatorTest extends AbstractBaseTest
 {
     /**
+     * @param non-empty-string $outputDirectory
+     *
      * @dataProvider createDataProvider
      */
     public function testCreate(
