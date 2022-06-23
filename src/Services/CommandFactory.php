@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SmartAssert\Compiler\Services;
 
 use SmartAssert\Compiler\Command\GenerateCommand;
+use SmartAssert\Compiler\Exception\EmptyOutputDirectoryPathException;
 use SmartAssert\Compiler\Model\Options;
 use Symfony\Component\Console\Output\OutputInterface;
 use webignition\BasilLoader\TestLoader;
@@ -15,32 +16,31 @@ class CommandFactory
 
     /**
      * @param array<int, string> $cliArguments
+     *
+     * @throws EmptyOutputDirectoryPathException
      */
     public static function createGenerateCommand(
         OutputInterface $stdout,
         OutputInterface $stderr,
         array $cliArguments
     ): GenerateCommand {
-        return new GenerateCommand(
-            TestLoader::createLoader(),
-            Compiler::createCompiler(),
-            TestWriter::createWriter(self::getOutputDirectory($cliArguments)),
-            new ErrorOutputFactory(new ValidatorInvalidResultSerializer()),
-            new OutputRenderer($stdout, $stderr)
-        );
-    }
-
-    /**
-     * @param array<int, string> $cliArguments
-     */
-    private static function getOutputDirectory(array $cliArguments): string
-    {
+        $outputDirectory = '';
         foreach ($cliArguments as $cliArgument) {
-            if (preg_match(self::TARGET_ARG_START_PATTERN, $cliArgument)) {
-                return (string) preg_replace(self::TARGET_ARG_START_PATTERN, '', $cliArgument);
+            if ('' === $outputDirectory && preg_match(self::TARGET_ARG_START_PATTERN, $cliArgument)) {
+                $outputDirectory = (string) preg_replace(self::TARGET_ARG_START_PATTERN, '', $cliArgument);
             }
         }
 
-        return '';
+        if ('' === $outputDirectory) {
+            throw new EmptyOutputDirectoryPathException();
+        }
+
+        return new GenerateCommand(
+            TestLoader::createLoader(),
+            Compiler::createCompiler(),
+            TestWriter::createWriter($outputDirectory),
+            new ErrorOutputFactory(new ValidatorInvalidResultSerializer()),
+            new OutputRenderer($stdout, $stderr)
+        );
     }
 }
