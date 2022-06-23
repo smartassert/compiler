@@ -9,7 +9,6 @@ use webignition\BasilCompilableSourceFactory\Exception\UnsupportedContentExcepti
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilCompilerModels\ErrorOutput;
 use webignition\BasilCompilerModels\ErrorOutputInterface;
-use webignition\BasilContextAwareException\ExceptionContext\ExceptionContextInterface;
 use webignition\BasilLoader\Exception\EmptyTestException;
 use webignition\BasilLoader\Exception\InvalidPageException;
 use webignition\BasilLoader\Exception\InvalidTestException;
@@ -109,7 +108,7 @@ class ErrorOutputFactory
                 [
                     'element_name' => $exception->getElementName(),
                 ],
-                $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
+                $this->createErrorOutputContextFromExceptionContext($exception)
             ));
         }
 
@@ -119,7 +118,7 @@ class ErrorOutputFactory
                     'type' => $exception->getType(),
                     'name' => $exception->getName(),
                 ],
-                $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
+                $this->createErrorOutputContextFromExceptionContext($exception)
             ));
         }
 
@@ -129,7 +128,7 @@ class ErrorOutputFactory
                     'import_name' => $exception->getImportName(),
                     'element_name' => $exception->getElementName(),
                 ],
-                $this->createErrorOutputContextFromExceptionContext($exception->getExceptionContext())
+                $this->createErrorOutputContextFromExceptionContext($exception)
             ));
         }
 
@@ -245,14 +244,15 @@ class ErrorOutputFactory
     }
 
     /**
-     * @return array<string, string>
+     * @return array{test_path: string, step_name: string, statement: string}
      */
-    private function createErrorOutputContextFromExceptionContext(ExceptionContextInterface $exceptionContext): array
-    {
+    private function createErrorOutputContextFromExceptionContext(
+        UnknownItemException | UnknownElementException $exception
+    ): array {
         return [
-            'test_path' => (string) $exceptionContext->getTestName(),
-            'step_name' => (string) $exceptionContext->getStepName(),
-            'statement' => (string) $exceptionContext->getContent(),
+            'test_path' => (string) $exception->getTestName(),
+            'step_name' => (string) $exception->getStepName(),
+            'statement' => (string) $exception->getContent(),
         ];
     }
 
