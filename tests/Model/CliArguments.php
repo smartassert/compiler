@@ -6,7 +6,7 @@ namespace SmartAssert\Compiler\Tests\Model;
 
 use SmartAssert\Compiler\Model\Options;
 
-class CliArguments
+class CliArguments implements \Stringable
 {
     public function __construct(
         private string $source,

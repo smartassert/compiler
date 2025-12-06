@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Unit\Services;
 
+use PHPUnit\Framework\TestCase;
 use SmartAssert\Compiler\Services\CompiledClassResolver;
 use SmartAssert\Compiler\Services\ExternalVariableIdentifiersFactory;
 use webignition\BasilCompilableSourceFactory\Model\VariableDependency;
@@ -12,7 +13,7 @@ use webignition\Stubble\VariableResolver;
 use webignition\StubbleResolvable\ResolvableCollection;
 use webignition\StubbleResolvable\ResolvedTemplateMutatorResolvable;
 
-class CompiledClassResolverTest extends \PHPUnit\Framework\TestCase
+class CompiledClassResolverTest extends TestCase
 {
     private CompiledClassResolver $compiledClassResolver;
 
@@ -51,14 +52,14 @@ class CompiledClassResolverTest extends \PHPUnit\Framework\TestCase
             ],
             'resolvable content' => [
                 'content' => $this->createRenderedListOfAllExternalDependencies(),
-                'expectedResolvedContent' => '$this->actionFactory' . "\n" .
-                    '$this->assertionFactory' . "\n" .
-                    '$this->navigator' . "\n" .
-                    '$_ENV' . "\n" .
-                    'self::$client' . "\n" .
-                    'self::$crawler' . "\n" .
-                    'self::$inspector' . "\n" .
-                    'self::$mutator',
+                'expectedResolvedContent' => '$this->actionFactory' . "\n"
+                    . '$this->assertionFactory' . "\n"
+                    . '$this->navigator' . "\n"
+                    . '$_ENV' . "\n"
+                    . 'self::$client' . "\n"
+                    . 'self::$crawler' . "\n"
+                    . 'self::$inspector' . "\n"
+                    . 'self::$mutator',
             ],
         ];
     }

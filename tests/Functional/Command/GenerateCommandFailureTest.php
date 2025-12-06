@@ -79,8 +79,8 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
             'placeholder CLIENT is not defined' => [
                 'sourceRelativePath' => '/Test/example.com.verify-open-literal.yml',
                 'expectedExitCode' => ExitCode::UNRESOLVED_PLACEHOLDER->value,
-                'expectedErrorOutputMessage' => 'Unresolved variable "CLIENT" in template ' .
-                    '"{{ CLIENT }}->request(\'GET\', \'https://example.com/\');"',
+                'expectedErrorOutputMessage' => 'Unresolved variable "CLIENT" in template '
+                    . '"{{ CLIENT }}->request(\'GET\', \'https://example.com/\');"',
                 'expectedErrorOutputCode' => ExitCode::UNRESOLVED_PLACEHOLDER->value,
                 'expectedErrorOutputData' => [
                     'placeholder' => 'CLIENT',

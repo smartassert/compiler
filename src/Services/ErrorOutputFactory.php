@@ -209,8 +209,8 @@ class ErrorOutputFactory
 
             $context['statement_type'] = $statementType;
             $context['statement'] = $unparseableStatementException->getStatement();
-            $context['reason'] =
-                $this->unparseableStatementErrorMessages[$statementType][$code] ?? 'unknown';
+            $context['reason']
+                = $this->unparseableStatementErrorMessages[$statementType][$code] ?? 'unknown';
         }
 
         return new ErrorOutput($unparseableDataException->getMessage(), ExitCode::UNPARSEABLE_DATA->value, $context);
@@ -248,7 +248,7 @@ class ErrorOutputFactory
      * @return array{test_path: string, step_name: string, statement: string}
      */
     private function createErrorOutputContextFromExceptionContext(
-        UnknownItemException | UnknownElementException $exception
+        UnknownElementException|UnknownItemException $exception
     ): array {
         return [
             'test_path' => (string) $exception->getTestName(),

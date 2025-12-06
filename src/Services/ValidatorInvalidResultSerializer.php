@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Services;
 
-use JsonSerializable;
 use webignition\BasilLoader\Validator\InvalidResultInterface;
 
 class ValidatorInvalidResultSerializer
@@ -50,7 +49,7 @@ class ValidatorInvalidResultSerializer
                 return (string) json_encode((string) $subject);
             }
 
-            if ($subject instanceof JsonSerializable) {
+            if ($subject instanceof \JsonSerializable) {
                 return (string) json_encode($subject);
             }
         }
