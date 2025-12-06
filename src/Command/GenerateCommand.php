@@ -55,8 +55,8 @@ class GenerateCommand extends Command
                 Options::OPTION_SOURCE,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Path to the basil test source from which to generate tests. ' .
-                'Can be absolute or relative to this directory.',
+                'Path to the basil test source from which to generate tests. '
+                . 'Can be absolute or relative to this directory.',
                 ''
             )
             ->addOption(

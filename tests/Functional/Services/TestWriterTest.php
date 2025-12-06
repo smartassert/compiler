@@ -12,7 +12,7 @@ use SmartAssert\Compiler\Services\TestWriter;
 class TestWriterTest extends TestCase
 {
     /**
-     * @param non-empty-string$outputDirectory
+     * @param non-empty-string $outputDirectory
      *
      * @dataProvider generateDataProvider
      */
@@ -49,11 +49,11 @@ class TestWriterTest extends TestCase
                     'ClassName'
                 ),
                 'outputDirectory' => $root . '/tests/build/target',
-                'expectedGeneratedCode' => '<?php' . "\n" .
-                    "\n" .
-                    'namespace SmartAssert\Compiler\Generated;' . "\n" .
-                    "\n" .
-                    'compiled test code' . "\n",
+                'expectedGeneratedCode' => '<?php' . "\n"
+                    . "\n"
+                    . 'namespace SmartAssert\Compiler\Generated;' . "\n"
+                    . "\n"
+                    . 'compiled test code' . "\n",
             ],
         ];
     }
