@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Integration\Console;
 
-use SmartAssert\Compiler\Tests\AbstractEndToEndSuccessTest;
+use SmartAssert\Compiler\Tests\AbstractEndToEndSuccessTestCase;
 use SmartAssert\Compiler\Tests\Model\CliArguments;
 use SmartAssert\Compiler\Tests\Model\CompilationOutput;
 use Symfony\Component\Process\Process;
 
-class ConsoleSuccessTest extends AbstractEndToEndSuccessTest
+class ConsoleSuccessTest extends AbstractEndToEndSuccessTestCase
 {
     protected function getRemoteSourcePrefix(): string
     {

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Integration\Image;
 
-use SmartAssert\Compiler\Tests\AbstractEndToEndSuccessTest;
+use SmartAssert\Compiler\Tests\AbstractEndToEndSuccessTestCase;
 use SmartAssert\Compiler\Tests\Model\CliArguments;
 use SmartAssert\Compiler\Tests\Model\CompilationOutput;
 use webignition\TcpCliProxyClient\Client;
 use webignition\TcpCliProxyClient\HandlerFactory;
 
-class ImageSuccessTest extends AbstractEndToEndSuccessTest
+class ImageSuccessTest extends AbstractEndToEndSuccessTestCase
 {
     protected function getRemoteSourcePrefix(): string
     {

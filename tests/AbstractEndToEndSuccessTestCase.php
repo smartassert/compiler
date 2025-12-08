@@ -13,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
 use webignition\BasilCompilerModels\Factory\TestManifestCollectionFactory;
 use webignition\BasilCompilerModels\Factory\TestManifestFactory;
 
-abstract class AbstractEndToEndSuccessTest extends AbstractEndToEndTestCase
+abstract class AbstractEndToEndSuccessTestCase extends AbstractEndToEndTestCase
 {
     private ClassNameReplacer $classNameReplacer;
 
