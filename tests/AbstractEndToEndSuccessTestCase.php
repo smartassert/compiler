@@ -86,7 +86,6 @@ abstract class AbstractEndToEndSuccessTestCase extends AbstractEndToEndTestCase
             $this->assertSame($expectedGeneratedTest->getExpectedContent(), $generatedTestContent);
 
             $stepNames = $testManifest->getStepNames();
-            self::assertIsArray($stepNames);
 
             $expectedManifestStepNamesKey = $sourceRelativePath . '.' . $testManifest->getBrowser();
             $expectedManifestStepNames = $expectedStepNames[$expectedManifestStepNamesKey];

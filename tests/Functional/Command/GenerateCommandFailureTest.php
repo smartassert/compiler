@@ -25,7 +25,6 @@ use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Parser\ActionParser;
 use webignition\BasilModels\Parser\AssertionParser;
 use webignition\ObjectReflector\ObjectReflector;
-use webignition\YamlDocument\Document;
 
 class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
 {
@@ -58,7 +57,6 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
         self::assertCount(1, $errorDocuments);
 
         $errorDocument = $errorDocuments[0];
-        self::assertInstanceOf(Document::class, $errorDocument);
 
         $expectedErrorOutput = new ErrorOutput(
             $this->replaceConfigurationPlaceholdersInString($expectedErrorOutputMessage),
