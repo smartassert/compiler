@@ -10,7 +10,7 @@ use SmartAssert\Compiler\Tests\Model\CompilationOutput;
 use webignition\YamlDocument\Document;
 use webignition\YamlDocument\Factory;
 
-abstract class AbstractEndToEndTest extends TestCase
+abstract class AbstractEndToEndTestCase extends TestCase
 {
     abstract protected function getRemoteSourcePrefix(): string;
 
