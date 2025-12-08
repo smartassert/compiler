@@ -39,20 +39,20 @@ class CompiledClassResolverTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function resolveDataProvider(): array
+    public static function resolveDataProvider(): array
     {
         return [
             'empty content' => [
-                'content' => '',
-                'expectedResolvedContent' => '',
+                'compiledClass' => '',
+                'expectedResolvedClass' => '',
             ],
             'non-resolvable content' => [
-                'content' => 'non-resolvable content',
-                'expectedResolvedContent' => 'non-resolvable content',
+                'compiledClass' => 'non-resolvable content',
+                'expectedResolvedClass' => 'non-resolvable content',
             ],
             'resolvable content' => [
-                'content' => $this->createRenderedListOfAllExternalDependencies(),
-                'expectedResolvedContent' => '$this->actionFactory' . "\n"
+                'compiledClass' => self::createRenderedListOfAllExternalDependencies(),
+                'expectedResolvedClass' => '$this->actionFactory' . "\n"
                     . '$this->assertionFactory' . "\n"
                     . '$this->navigator' . "\n"
                     . '$_ENV' . "\n"
@@ -64,7 +64,7 @@ class CompiledClassResolverTest extends TestCase
         ];
     }
 
-    private function createRenderedListOfAllExternalDependencies(): string
+    private static function createRenderedListOfAllExternalDependencies(): string
     {
         $variableDependencies = [
             new VariableDependency(VariableNames::ACTION_FACTORY),

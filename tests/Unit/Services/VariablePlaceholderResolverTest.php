@@ -33,7 +33,7 @@ class VariablePlaceholderResolverTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function resolveDataProvider(): array
+    public static function resolveDataProvider(): array
     {
         return [
             'contains parent > child descendant identifier' => [

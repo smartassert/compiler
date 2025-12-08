@@ -42,7 +42,7 @@ class ValidatorInvalidResultSerializerTest extends AbstractBaseTestCase
     /**
      * @return array<mixed>
      */
-    public function serializeToArrayDataProvider(): array
+    public static function serializeToArrayDataProvider(): array
     {
         $actionParser = ActionParser::create();
         $actionValidator = ActionValidator::create();
