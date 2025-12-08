@@ -11,7 +11,7 @@ trait InvalidPageDataProviderTrait
     /**
      * @return array<mixed>
      */
-    public function invalidPageDataProvider(): array
+    public static function invalidPageDataProvider(): array
     {
         return [
             'test imports invalid page; url empty' => [

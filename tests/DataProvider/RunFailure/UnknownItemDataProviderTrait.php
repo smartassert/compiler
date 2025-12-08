@@ -11,7 +11,7 @@ trait UnknownItemDataProviderTrait
     /**
      * @return array<mixed>
      */
-    public function unknownItemDataProvider(): array
+    public static function unknownItemDataProvider(): array
     {
         return [
             'test declares step, step uses unknown dataset' => [

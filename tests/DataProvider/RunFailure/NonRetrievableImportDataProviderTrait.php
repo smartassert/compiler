@@ -11,7 +11,7 @@ trait NonRetrievableImportDataProviderTrait
     /**
      * @return array<mixed>
      */
-    public function nonRetrievableImportDataProvider(): array
+    public static function nonRetrievableImportDataProvider(): array
     {
         return [
             'test imports non-parsable page' => [

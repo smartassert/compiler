@@ -40,7 +40,7 @@ class CompilerTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function compileDataProvider(): array
+    public static function compileDataProvider(): array
     {
         $test = new NamedTest(
             TestParser::create()->parse(
@@ -67,7 +67,7 @@ class CompilerTest extends TestCase
                 ],
                 'fullyQualifiedBaseClass' => AbstractBaseTest::class,
                 'expectedCompiledTest' => new CompiledTest(
-                    $this->createExpectedCodeFromSource(
+                    self::createExpectedCodeFromSource(
                         'tests/Fixtures/php/Test/GeneratedVerifyOpenLiteralChrome.php'
                     ),
                     'GeneratedVerifyOpenLiteralChrome'
@@ -76,7 +76,7 @@ class CompilerTest extends TestCase
         ];
     }
 
-    private function createExpectedCodeFromSource(string $source): string
+    private static function createExpectedCodeFromSource(string $source): string
     {
         $content = (string) file_get_contents($source);
 

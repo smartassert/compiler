@@ -11,7 +11,7 @@ trait InvalidTestDataProviderTrait
     /**
      * @return array<mixed>
      */
-    public function invalidTestDataProvider(): array
+    public static function invalidTestDataProvider(): array
     {
         return [
             'test has invalid configuration' => [

@@ -38,7 +38,7 @@ class TestWriterTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function generateDataProvider(): array
+    public static function generateDataProvider(): array
     {
         $root = getcwd();
 

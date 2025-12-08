@@ -11,7 +11,7 @@ trait EmptyTestDataProviderTrait
     /**
      * @return array<mixed>
      */
-    public function emptyTestDataProvider(): array
+    public static function emptyTestDataProvider(): array
     {
         return [
             'test file is empty' => [
