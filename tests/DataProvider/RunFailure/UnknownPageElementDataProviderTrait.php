@@ -11,7 +11,7 @@ trait UnknownPageElementDataProviderTrait
     /**
      * @return array<mixed>
      */
-    public function unknownPageElementDataProvider(): array
+    public static function unknownPageElementDataProvider(): array
     {
         return [
             'test declares step, step contains action using unknown page element' => [

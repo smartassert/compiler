@@ -11,7 +11,7 @@ trait CircularStepImportDataProviderTrait
     /**
      * @return array<mixed>
      */
-    public function circularStepImportDataProvider(): array
+    public static function circularStepImportDataProvider(): array
     {
         return [
             'test imports step which imports self' => [

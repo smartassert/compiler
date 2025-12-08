@@ -71,7 +71,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
     /**
      * @return array<mixed>
      */
-    public function unresolvedPlaceholderDataProvider(): array
+    public static function unresolvedPlaceholderDataProvider(): array
     {
         return [
             'placeholder CLIENT is not defined' => [
@@ -91,7 +91,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
                         ->andReturn([])
                     ;
 
-                    $this->mockCompilerCompiledClassResolverExternalVariableIdentifiers(
+                    self::mockCompilerCompiledClassResolverExternalVariableIdentifiers(
                         $command,
                         $mockExternalVariableIdentifiers
                     );
@@ -153,7 +153,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
     /**
      * @return array<mixed>
      */
-    public function runFailureUnsupportedStepDataProvider(): array
+    public static function runFailureUnsupportedStepDataProvider(): array
     {
         $actionParser = ActionParser::create();
         $assertionParser = AssertionParser::create();
@@ -275,7 +275,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
         return new CompilationOutput($stdout->fetch(), $stderr->fetch(), $exitCode);
     }
 
-    private function mockCompilerCompiledClassResolverExternalVariableIdentifiers(
+    private static function mockCompilerCompiledClassResolverExternalVariableIdentifiers(
         GenerateCommand $command,
         ExternalVariableIdentifiers $updatedExternalVariableIdentifiers
     ): void {

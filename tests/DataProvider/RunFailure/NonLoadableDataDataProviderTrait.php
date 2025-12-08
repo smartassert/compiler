@@ -11,7 +11,7 @@ trait NonLoadableDataDataProviderTrait
     /**
      * @return array<mixed>
      */
-    public function nonLoadableDataDataProvider(): array
+    public static function nonLoadableDataDataProvider(): array
     {
         return [
             'test contains invalid yaml' => [

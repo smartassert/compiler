@@ -38,7 +38,7 @@ class PhpFileCreatorTest extends AbstractBaseTestCase
     /**
      * @return array<mixed>
      */
-    public function createDataProvider(): array
+    public static function createDataProvider(): array
     {
         return [
             'no output directory' => [
@@ -46,7 +46,7 @@ class PhpFileCreatorTest extends AbstractBaseTestCase
                 'className' => 'TestClassName',
                 'code' => 'echo "test code";',
                 'expectedFilePutContentsFilename' => '/TestClassName.php',
-                'expectedFilePutContentsData' => sprintf($this->getPhpFileCreatorTemplate(), 'echo "test code";'),
+                'expectedFilePutContentsData' => sprintf(self::getPhpFileCreatorTemplate(), 'echo "test code";'),
                 'expectedCreatedFilename' => 'TestClassName.php',
             ],
             'has output directory' => [
@@ -54,13 +54,13 @@ class PhpFileCreatorTest extends AbstractBaseTestCase
                 'className' => 'TestClassName',
                 'code' => 'echo "test code";',
                 'expectedFilePutContentsFilename' => '/build/TestClassName.php',
-                'expectedFilePutContentsData' => sprintf($this->getPhpFileCreatorTemplate(), 'echo "test code";'),
+                'expectedFilePutContentsData' => sprintf(self::getPhpFileCreatorTemplate(), 'echo "test code";'),
                 'expectedCreatedFilename' => 'TestClassName.php',
             ],
         ];
     }
 
-    private function getPhpFileCreatorTemplate(): string
+    private static function getPhpFileCreatorTemplate(): string
     {
         $template = (new \ReflectionClass(PhpFileCreator::class))->getConstant('TEMPLATE');
 

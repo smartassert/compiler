@@ -11,7 +11,7 @@ trait ParseExceptionDataProviderTrait
     /**
      * @return array<mixed>
      */
-    public function parseExceptionDataProvider(): array
+    public static function parseExceptionDataProvider(): array
     {
         return [
             'test declares step, step contains unparseable action' => [

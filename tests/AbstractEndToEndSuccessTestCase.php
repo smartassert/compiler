@@ -97,7 +97,7 @@ abstract class AbstractEndToEndSuccessTestCase extends AbstractEndToEndTestCase
     /**
      * @return array<mixed>
      */
-    public function generateDataProvider(): array
+    public static function generateDataProvider(): array
     {
         return [
             'single test' => [

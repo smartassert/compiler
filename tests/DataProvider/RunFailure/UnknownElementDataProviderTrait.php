@@ -11,7 +11,7 @@ trait UnknownElementDataProviderTrait
     /**
      * @return array<mixed>
      */
-    public function unknownElementDataProvider(): array
+    public static function unknownElementDataProvider(): array
     {
         return [
             'test declares step, step contains action with unknown element' => [

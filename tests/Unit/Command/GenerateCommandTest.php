@@ -61,7 +61,7 @@ class GenerateCommandTest extends AbstractBaseTestCase
     /**
      * @return array<mixed>
      */
-    public function runInvalidConfigurationDataProvider(): array
+    public static function runInvalidConfigurationDataProvider(): array
     {
         $mockNamespace = 'SmartAssert\Compiler\Command';
         $isReadableMockArguments = [$mockNamespace, 'is_readable'];
@@ -80,7 +80,7 @@ class GenerateCommandTest extends AbstractBaseTestCase
                 ],
                 'initializer' => function () {},
                 'expectedExitCode' => ExitCode::CONFIG_SOURCE_EMPTY->value,
-                'expectedErrorData' => [
+                'expectedOutputData' => [
                     'message' => 'source empty; call with --source=SOURCE',
                     'code' => ExitCode::CONFIG_SOURCE_EMPTY->value,
                 ],
@@ -93,7 +93,7 @@ class GenerateCommandTest extends AbstractBaseTestCase
                 ],
                 'initializer' => function () {},
                 'expectedExitCode' => ExitCode::CONFIG_SOURCE_NOT_ABSOLUTE->value,
-                'expectedErrorData' => [
+                'expectedOutputData' => [
                     'message' => 'source invalid: path must be absolute',
                     'code' => ExitCode::CONFIG_SOURCE_NOT_ABSOLUTE->value,
                 ],
@@ -111,7 +111,7 @@ class GenerateCommandTest extends AbstractBaseTestCase
                     ;
                 },
                 'expectedExitCode' => ExitCode::CONFIG_SOURCE_NOT_READABLE->value,
-                'expectedErrorData' => [
+                'expectedOutputData' => [
                     'message' => 'source invalid; file is not readable',
                     'code' => ExitCode::CONFIG_SOURCE_NOT_READABLE->value,
                 ],
@@ -124,7 +124,7 @@ class GenerateCommandTest extends AbstractBaseTestCase
                 ],
                 'initializer' => function () {},
                 'expectedExitCode' => ExitCode::CONFIG_TARGET_EMPTY->value,
-                'expectedErrorData' => [
+                'expectedOutputData' => [
                     'message' => 'target empty; call with --target=TARGET',
                     'code' => ExitCode::CONFIG_TARGET_EMPTY->value,
                 ],
@@ -137,7 +137,7 @@ class GenerateCommandTest extends AbstractBaseTestCase
                 ],
                 'initializer' => function () {},
                 'expectedExitCode' => ExitCode::CONFIG_TARGET_NOT_ABSOLUTE->value,
-                'expectedErrorData' => [
+                'expectedOutputData' => [
                     'message' => 'target invalid: path must be absolute',
                     'code' => ExitCode::CONFIG_TARGET_NOT_ABSOLUTE->value,
                 ],
@@ -165,7 +165,7 @@ class GenerateCommandTest extends AbstractBaseTestCase
                     ;
                 },
                 'expectedExitCode' => ExitCode::CONFIG_TARGET_NOT_A_DIRECTORY->value,
-                'expectedErrorData' => [
+                'expectedOutputData' => [
                     'message' => 'target invalid; is not a directory (is it a file?)',
                     'code' => ExitCode::CONFIG_TARGET_NOT_A_DIRECTORY->value,
                 ],
@@ -199,7 +199,7 @@ class GenerateCommandTest extends AbstractBaseTestCase
                     ;
                 },
                 'expectedExitCode' => ExitCode::CONFIG_TARGET_NOT_WRITABLE->value,
-                'expectedErrorData' => [
+                'expectedOutputData' => [
                     'message' => 'target invalid; directory is not writable',
                     'code' => ExitCode::CONFIG_TARGET_NOT_WRITABLE->value,
                 ],
