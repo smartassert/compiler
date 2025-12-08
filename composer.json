@@ -57,12 +57,12 @@
         "php": "^8.4",
         "ext-json": "*",
         "symfony/console": "^8",
-        "symfony/yaml": "^6.1",
+        "symfony/yaml": "^8",
         "webignition/base-basil-test-case": "^5.1",
         "webignition/basil-compiler-models": ">=6.1,<7",
-        "webignition/basil-loader": "^5.2",
-        "webignition/basil-models": "^6.4",
-        "webignition/php-basil-compilable-source-factory": "^6",
+        "webignition/basil-loader": "^6",
+        "webignition/basil-models": "^9",
+        "webignition/php-basil-compilable-source-factory": "^7",
         "webignition/stubble": "^0.16.0"
     },
     "require-dev": {
@@ -79,7 +79,7 @@
         "webignition/object-reflector": ">=1,<2",
         "webignition/symfony-panther-webserver-runner": ">=0.6,<1",
         "webignition/tcp-cli-proxy-client": "^0.13",
-        "webignition/yaml-document": "^1.1"
+        "webignition/yaml-document": "^2.2"
     },
     "bin": [
         "bin/compiler"
