@@ -9,8 +9,7 @@ class ExpectedGeneratedTest
     public function __construct(
         private string $replacementClassName,
         private string $expectedContentPath
-    ) {
-    }
+    ) {}
 
     public function getReplacementClassName(): string
     {

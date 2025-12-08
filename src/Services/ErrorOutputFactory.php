@@ -49,8 +49,7 @@ class ErrorOutputFactory
 
     public function __construct(
         private readonly ValidatorInvalidResultSerializer $validatorInvalidResultSerializer
-    ) {
-    }
+    ) {}
 
     public function createForException(\Exception $exception): ErrorOutputInterface
     {
@@ -60,7 +59,7 @@ class ErrorOutputFactory
                 : $exception->getMessage();
 
             return new ErrorOutput($message, ExitCode::INVALID_YAML->value, [
-                'path' => $exception->getPath()
+                'path' => $exception->getPath(),
             ]);
         }
 
@@ -83,7 +82,7 @@ class ErrorOutputFactory
                 'page_path' => $exception->getPath(),
                 'validation_result' => $this->validatorInvalidResultSerializer->serializeToArray(
                     $exception->getValidationResult()
-                )
+                ),
             ]);
         }
 
@@ -92,7 +91,7 @@ class ErrorOutputFactory
                 'test_path' => $exception->getPath(),
                 'validation_result' => $this->validatorInvalidResultSerializer->serializeToArray(
                     $exception->getValidationResult()
-                )
+                ),
             ]);
         }
 
@@ -171,7 +170,7 @@ class ErrorOutputFactory
             'loader_error' => [
                 'message' => $loaderMessage,
                 'path' => $yamlLoaderException->getPath(),
-            ]
+            ],
         ]);
     }
 

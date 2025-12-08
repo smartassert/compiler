@@ -24,7 +24,7 @@ trait UnknownPageElementDataProviderTrait
                     'element_name' => 'unknown_element',
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/action-contains-unknown-page-element.yml',
                     'step_name' => 'action contains unknown page element',
-                    'statement' => 'click $page_import_name.elements.unknown_element'
+                    'statement' => 'click $page_import_name.elements.unknown_element',
                 ],
             ],
             'test imports step, test passes step unknown page element' => [
@@ -37,7 +37,7 @@ trait UnknownPageElementDataProviderTrait
                     'element_name' => 'unknown_element',
                     'test_path' => '{{ remoteSourcePrefix }}/InvalidTest/imports-test-passes-unknown-element.yml',
                     'step_name' => 'action contains unknown page element',
-                    'statement' => ''
+                    'statement' => '',
                 ],
             ],
         ];

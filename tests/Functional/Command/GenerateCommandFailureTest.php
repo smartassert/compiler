@@ -97,7 +97,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
                         $command,
                         $mockExternalVariableIdentifiers
                     );
-                }
+                },
             ],
         ];
     }

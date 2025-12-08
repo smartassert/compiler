@@ -16,8 +16,7 @@ class OutputRenderer
     public function __construct(
         private readonly ConsoleOutputInterface $stdout,
         private readonly ConsoleOutputInterface $stderr
-    ) {
-    }
+    ) {}
 
     public function render(OutputInterface $output): int
     {

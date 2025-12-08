@@ -14,8 +14,7 @@ class ExpectedGeneratedTestCollection implements \ArrayAccess, \Countable
      */
     public function __construct(
         private array $expectedGeneratedTests
-    ) {
-    }
+    ) {}
 
     /**
      * @return string[]

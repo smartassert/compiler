@@ -12,8 +12,7 @@ class CompiledTest
     public function __construct(
         private readonly string $code,
         private readonly string $className
-    ) {
-    }
+    ) {}
 
     public function getCode(): string
     {

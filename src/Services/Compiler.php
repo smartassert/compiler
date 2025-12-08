@@ -17,8 +17,7 @@ class Compiler
         private ClassDefinitionFactory $classDefinitionFactory,
         private CompiledClassResolver $compiledClassResolver,
         private VariableResolver $variableResolver
-    ) {
-    }
+    ) {}
 
     public static function createCompiler(): self
     {

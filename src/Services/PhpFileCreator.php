@@ -20,8 +20,7 @@ EOT;
      */
     public function __construct(
         private readonly string $outputDirectory
-    ) {
-    }
+    ) {}
 
     /**
      * @param non-empty-string $className

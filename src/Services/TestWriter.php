@@ -10,8 +10,7 @@ class TestWriter
 {
     public function __construct(
         private PhpFileCreator $phpFileCreator
-    ) {
-    }
+    ) {}
 
     /**
      * @return non-empty-string

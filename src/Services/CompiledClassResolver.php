@@ -13,8 +13,7 @@ class CompiledClassResolver
     public function __construct(
         private ExternalVariableIdentifiers $externalVariableIdentifiers,
         private VariablePlaceholderResolver $variablePlaceholderResolver
-    ) {
-    }
+    ) {}
 
     public static function createResolver(ExternalVariableIdentifiers $externalVariableIdentifiers): self
     {
