@@ -19,7 +19,7 @@ use webignition\BasilCompilerModels\Factory\ErrorOutputFactory;
 use webignition\BasilCompilerModels\Model\ErrorOutput;
 use webignition\YamlDocument\Document;
 
-abstract class AbstractEndToEndFailureTest extends AbstractEndToEndTest
+abstract class AbstractEndToEndFailureTestCase extends AbstractEndToEndTestCase
 {
     use NonLoadableDataDataProviderTrait;
     use CircularStepImportDataProviderTrait;

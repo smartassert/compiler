@@ -10,7 +10,7 @@ use SmartAssert\Compiler\Model\ExternalVariableIdentifiers;
 use SmartAssert\Compiler\Services\CommandFactory;
 use SmartAssert\Compiler\Services\CompiledClassResolver;
 use SmartAssert\Compiler\Services\Compiler;
-use SmartAssert\Compiler\Tests\AbstractEndToEndFailureTest;
+use SmartAssert\Compiler\Tests\AbstractEndToEndFailureTestCase;
 use SmartAssert\Compiler\Tests\Model\CliArguments;
 use SmartAssert\Compiler\Tests\Model\CompilationOutput;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -27,7 +27,7 @@ use webignition\BasilModels\Parser\AssertionParser;
 use webignition\ObjectReflector\ObjectReflector;
 use webignition\YamlDocument\Document;
 
-class GenerateCommandFailureTest extends AbstractEndToEndFailureTest
+class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
 {
     /**
      * @dataProvider unresolvedPlaceholderDataProvider

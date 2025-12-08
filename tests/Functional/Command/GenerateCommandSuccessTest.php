@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace SmartAssert\Compiler\Tests\Functional\Command;
 
 use SmartAssert\Compiler\Services\CommandFactory;
-use SmartAssert\Compiler\Tests\AbstractEndToEndSuccessTest;
+use SmartAssert\Compiler\Tests\AbstractEndToEndSuccessTestCase;
 use SmartAssert\Compiler\Tests\Model\CliArguments;
 use SmartAssert\Compiler\Tests\Model\CompilationOutput;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class GenerateCommandSuccessTest extends AbstractEndToEndSuccessTest
+class GenerateCommandSuccessTest extends AbstractEndToEndSuccessTestCase
 {
     protected function getRemoteSourcePrefix(): string
     {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SmartAssert\Compiler\Tests\Unit\Services;
 
 use SmartAssert\Compiler\Services\ValidatorInvalidResultSerializer;
-use SmartAssert\Compiler\Tests\Unit\AbstractBaseTest;
+use SmartAssert\Compiler\Tests\Unit\AbstractBaseTestCase;
 use webignition\BasilLoader\Validator\Action\ActionValidator;
 use webignition\BasilLoader\Validator\Assertion\AssertionValidator;
 use webignition\BasilLoader\Validator\InvalidResultInterface;
@@ -18,7 +18,7 @@ use webignition\BasilModels\Parser\AssertionParser;
 use webignition\BasilModels\Parser\StepParser;
 use webignition\BasilModels\Parser\Test\TestParser;
 
-class ValidatorInvalidResultSerializerTest extends AbstractBaseTest
+class ValidatorInvalidResultSerializerTest extends AbstractBaseTestCase
 {
     private ValidatorInvalidResultSerializer $serializer;
 

@@ -6,9 +6,9 @@ namespace SmartAssert\Compiler\Tests\Unit\Services;
 
 use phpmock\mockery\PHPMockery;
 use SmartAssert\Compiler\Services\PhpFileCreator;
-use SmartAssert\Compiler\Tests\Unit\AbstractBaseTest;
+use SmartAssert\Compiler\Tests\Unit\AbstractBaseTestCase;
 
-class PhpFileCreatorTest extends AbstractBaseTest
+class PhpFileCreatorTest extends AbstractBaseTestCase
 {
     /**
      * @param non-empty-string $outputDirectory
