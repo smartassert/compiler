@@ -1,4 +1,4 @@
-ARG php_version=8.1
+ARG php_version=8.4
 
 FROM php:${php_version}-cli-alpine
 
@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.source="https://github.com/smartassert/compiler"
 
 WORKDIR /app
 
-ARG proxy_server_version=0.8
+ARG proxy_server_version=1.0
 ARG php_version
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
