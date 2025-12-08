@@ -17,7 +17,6 @@ use SmartAssert\Compiler\Tests\DataProvider\RunFailure\UnknownPageElementDataPro
 use SmartAssert\Compiler\Tests\Model\CliArguments;
 use webignition\BasilCompilerModels\Factory\ErrorOutputFactory;
 use webignition\BasilCompilerModels\Model\ErrorOutput;
-use webignition\YamlDocument\Document;
 
 abstract class AbstractEndToEndFailureTestCase extends AbstractEndToEndTestCase
 {
@@ -69,7 +68,6 @@ abstract class AbstractEndToEndFailureTestCase extends AbstractEndToEndTestCase
         self::assertCount(1, $errorDocuments);
 
         $errorDocument = $errorDocuments[0];
-        self::assertInstanceOf(Document::class, $errorDocument);
 
         $expectedErrorOutputData = $this->replaceConfigurationPlaceholders($expectedErrorOutputData);
 

@@ -30,6 +30,7 @@ class ImageSuccessTest extends AbstractEndToEndSuccessTestCase
         $exitCode = 0;
 
         $handler = (new HandlerFactory())->createWithScalarOutput($output, $exitCode);
+        \assert(is_int($exitCode));
 
         $client = Client::createFromHostAndPort('localhost', 8000);
         $client->request('./compiler ' . $cliArguments, $handler);
