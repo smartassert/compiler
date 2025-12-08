@@ -66,7 +66,7 @@
         "webignition/stubble": "^0.16.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.66",
+        "friendsofphp/php-cs-fixer": "^3.9",
         "mockery/mockery": "^1.4",
         "php-mock/php-mock": "^2.3",
         "php-mock/php-mock-mockery": "^1.3",
