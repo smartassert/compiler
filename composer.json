@@ -85,10 +85,7 @@
         "bin/compiler"
     ],
     "config": {
-        "audit": {
-            "block-insecure": false
-        },
-        "sort-packages": true,
+       "sort-packages": true,
         "allow-plugins": {
             "phpstan/extension-installer": true
         }
