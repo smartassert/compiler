@@ -58,11 +58,11 @@
         "ext-json": "*",
         "symfony/console": "^8",
         "symfony/yaml": "^8",
-        "webignition/base-basil-test-case": "^5.1",
+        "webignition/base-basil-test-case": "dev-github-142",
         "webignition/basil-compiler-models": ">=6.1,<7",
         "webignition/basil-loader": "^6",
         "webignition/basil-models": "^9",
-        "webignition/php-basil-compilable-source-factory": "^7",
+        "webignition/php-basil-compilable-source-factory": "dev-github-620",
         "webignition/stubble": "^0.16.0"
     },
     "require-dev": {
