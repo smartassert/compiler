@@ -13,7 +13,7 @@ use SmartAssert\Compiler\Services\ErrorOutputFactory;
 use SmartAssert\Compiler\Services\OutputRenderer;
 use SmartAssert\Compiler\Services\TestWriter;
 use SmartAssert\Compiler\Services\ValidatorInvalidResultSerializer;
-use SmartAssert\Compiler\Tests\Unit\AbstractBaseTest;
+use SmartAssert\Compiler\Tests\Unit\AbstractBaseTestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use webignition\BasilLoader\TestLoader;
 
-class GenerateCommandTest extends AbstractBaseTest
+class GenerateCommandTest extends AbstractBaseTestCase
 {
     /**
      * @dataProvider runInvalidConfigurationDataProvider
@@ -76,7 +76,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 'input' => [
                     '--' . Options::OPTION_SOURCE => '',
                     '--' . Options::OPTION_TARGET => $targetPath,
-                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTest::class,
+                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTestCase::class,
                 ],
                 'initializer' => function () {
                 },
@@ -90,7 +90,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 'input' => [
                     '--' . Options::OPTION_SOURCE => 'relative.yaml',
                     '--' . Options::OPTION_TARGET => $targetPath,
-                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTest::class,
+                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTestCase::class,
                 ],
                 'initializer' => function () {
                 },
@@ -104,7 +104,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 'input' => [
                     '--' . Options::OPTION_SOURCE => $sourcePath,
                     '--' . Options::OPTION_TARGET => $targetPath,
-                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTest::class,
+                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTestCase::class,
                 ],
                 'initializer' => function () use ($isReadableMockArguments, $sourcePath) {
                     PHPMockery::mock(...$isReadableMockArguments)
@@ -122,7 +122,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 'input' => [
                     '--' . Options::OPTION_SOURCE => $sourcePath,
                     '--' . Options::OPTION_TARGET => '',
-                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTest::class,
+                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTestCase::class,
                 ],
                 'initializer' => function () {
                 },
@@ -136,7 +136,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 'input' => [
                     '--' . Options::OPTION_SOURCE => $sourcePath,
                     '--' . Options::OPTION_TARGET => 'relative',
-                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTest::class,
+                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTestCase::class,
                 ],
                 'initializer' => function () {
                 },
@@ -150,7 +150,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 'input' => [
                     '--' . Options::OPTION_SOURCE => $sourcePath,
                     '--' . Options::OPTION_TARGET => $targetPath,
-                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTest::class,
+                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTestCase::class,
                 ],
                 'initializer' => function () use (
                     $isReadableMockArguments,
@@ -178,7 +178,7 @@ class GenerateCommandTest extends AbstractBaseTest
                 'input' => [
                     '--' . Options::OPTION_SOURCE => $sourcePath,
                     '--' . Options::OPTION_TARGET => $targetPath,
-                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTest::class,
+                    '--' . Options::OPTION_BASE_CLASS => AbstractBaseTestCase::class,
                 ],
                 'initializer' => function () use (
                     $isReadableMockArguments,

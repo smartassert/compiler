@@ -6,9 +6,9 @@ namespace SmartAssert\Compiler\Tests\Unit\Services;
 
 use SmartAssert\Compiler\Model\ExternalVariableIdentifiers;
 use SmartAssert\Compiler\Services\ExternalVariableIdentifiersFactory;
-use SmartAssert\Compiler\Tests\Unit\AbstractBaseTest;
+use SmartAssert\Compiler\Tests\Unit\AbstractBaseTestCase;
 
-class ExternalVariableIdentifiersFactoryTest extends AbstractBaseTest
+class ExternalVariableIdentifiersFactoryTest extends AbstractBaseTestCase
 {
     public function testCreate(): void
     {
