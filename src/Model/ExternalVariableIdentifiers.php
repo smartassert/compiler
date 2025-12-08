@@ -18,8 +18,7 @@ class ExternalVariableIdentifiers
         private string $webDriverElementMutatorName,
         private string $actionFactoryName,
         private string $assertionFactoryName
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, string>

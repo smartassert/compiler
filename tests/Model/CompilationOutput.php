@@ -10,8 +10,7 @@ class CompilationOutput
         private readonly string $outputContent,
         private readonly string $errorContent,
         private readonly int $exitCode,
-    ) {
-    }
+    ) {}
 
     public function getOutputContent(): string
     {

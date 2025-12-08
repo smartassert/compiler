@@ -78,8 +78,7 @@ class GenerateCommandTest extends AbstractBaseTestCase
                     '--' . Options::OPTION_TARGET => $targetPath,
                     '--' . Options::OPTION_BASE_CLASS => AbstractBaseTestCase::class,
                 ],
-                'initializer' => function () {
-                },
+                'initializer' => function () {},
                 'expectedExitCode' => ExitCode::CONFIG_SOURCE_EMPTY->value,
                 'expectedErrorData' => [
                     'message' => 'source empty; call with --source=SOURCE',
@@ -92,8 +91,7 @@ class GenerateCommandTest extends AbstractBaseTestCase
                     '--' . Options::OPTION_TARGET => $targetPath,
                     '--' . Options::OPTION_BASE_CLASS => AbstractBaseTestCase::class,
                 ],
-                'initializer' => function () {
-                },
+                'initializer' => function () {},
                 'expectedExitCode' => ExitCode::CONFIG_SOURCE_NOT_ABSOLUTE->value,
                 'expectedErrorData' => [
                     'message' => 'source invalid: path must be absolute',
@@ -124,8 +122,7 @@ class GenerateCommandTest extends AbstractBaseTestCase
                     '--' . Options::OPTION_TARGET => '',
                     '--' . Options::OPTION_BASE_CLASS => AbstractBaseTestCase::class,
                 ],
-                'initializer' => function () {
-                },
+                'initializer' => function () {},
                 'expectedExitCode' => ExitCode::CONFIG_TARGET_EMPTY->value,
                 'expectedErrorData' => [
                     'message' => 'target empty; call with --target=TARGET',
@@ -138,8 +135,7 @@ class GenerateCommandTest extends AbstractBaseTestCase
                     '--' . Options::OPTION_TARGET => 'relative',
                     '--' . Options::OPTION_BASE_CLASS => AbstractBaseTestCase::class,
                 ],
-                'initializer' => function () {
-                },
+                'initializer' => function () {},
                 'expectedExitCode' => ExitCode::CONFIG_TARGET_NOT_ABSOLUTE->value,
                 'expectedErrorData' => [
                     'message' => 'target invalid: path must be absolute',

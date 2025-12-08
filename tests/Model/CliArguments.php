@@ -11,8 +11,7 @@ class CliArguments implements \Stringable
     public function __construct(
         private string $source,
         private string $target,
-    ) {
-    }
+    ) {}
 
     public function __toString(): string
     {
