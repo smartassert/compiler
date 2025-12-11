@@ -6,8 +6,8 @@ namespace SmartAssert\Compiler\Tests\Unit\Services;
 
 use PHPUnit\Framework\TestCase;
 use SmartAssert\Compiler\Services\VariablePlaceholderResolver;
-use webignition\StubbleResolvable\Resolvable;
-use webignition\StubbleResolvable\ResolvableInterface;
+use webignition\Stubble\Resolvable\Resolvable;
+use webignition\Stubble\Resolvable\ResolvableInterface;
 
 class VariablePlaceholderResolverTest extends TestCase
 {

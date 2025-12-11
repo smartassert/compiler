@@ -9,9 +9,9 @@ use SmartAssert\Compiler\Services\CompiledClassResolver;
 use SmartAssert\Compiler\Services\ExternalVariableIdentifiersFactory;
 use webignition\BasilCompilableSourceFactory\Model\VariableDependency;
 use webignition\BasilCompilableSourceFactory\VariableNames;
+use webignition\Stubble\Resolvable\ResolvableCollection;
+use webignition\Stubble\Resolvable\ResolvedTemplateMutatorResolvable;
 use webignition\Stubble\VariableResolver;
-use webignition\StubbleResolvable\ResolvableCollection;
-use webignition\StubbleResolvable\ResolvedTemplateMutatorResolvable;
 
 class CompiledClassResolverTest extends TestCase
 {

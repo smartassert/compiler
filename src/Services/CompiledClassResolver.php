@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace SmartAssert\Compiler\Services;
 
 use SmartAssert\Compiler\Model\ExternalVariableIdentifiers;
+use webignition\Stubble\Resolvable\Resolvable;
 use webignition\Stubble\UnresolvedVariableException;
-use webignition\StubbleResolvable\Resolvable;
 
 class CompiledClassResolver
 {
