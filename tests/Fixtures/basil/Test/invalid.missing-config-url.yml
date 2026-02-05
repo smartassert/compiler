@@ -1,0 +1,7 @@
+config:
+  browsers:
+    - chrome
+
+"verify page is open":
+  assertions:
+    - $page.url is "https://example.com"

@@ -1,0 +1,3 @@
+url: https://example.com
+elements:
+  element_name: $".selector".attribute_name

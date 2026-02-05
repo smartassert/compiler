@@ -8,7 +8,7 @@ use SmartAssert\Compiler\Command\GenerateCommand;
 use SmartAssert\Compiler\Exception\EmptyOutputDirectoryPathException;
 use SmartAssert\Compiler\Model\Options;
 use Symfony\Component\Console\Output\OutputInterface;
-use webignition\BasilLoader\TestLoader;
+use SmartAssert\Compiler\Loader\TestLoader;
 
 class CommandFactory
 {

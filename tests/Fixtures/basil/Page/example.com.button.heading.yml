@@ -1,0 +1,4 @@
+url: https://example.com
+elements:
+  button: $".button"
+  heading: $".heading"

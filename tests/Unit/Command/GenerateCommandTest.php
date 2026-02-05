@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
-use webignition\BasilLoader\TestLoader;
+use SmartAssert\Compiler\Loader\TestLoader;
 
 class GenerateCommandTest extends AbstractBaseTestCase
 {

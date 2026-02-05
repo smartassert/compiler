@@ -1,0 +1,5 @@
+actions:
+  - click $elements.action_selector
+
+assertions:
+  - $elements.assertion_selector exists

@@ -1,0 +1,4 @@
+url: https://example.com
+elements:
+  form: '$".form"'
+  input: '$form >> $".input"'

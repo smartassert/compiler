@@ -1,0 +1,4 @@
+url: https://example.com
+elements:
+  action_selector: $".action-selector"
+  assertion_selector: $".assertion-selector"

@@ -1,0 +1,5 @@
+actions:
+  - click $".button"
+
+assertions:
+  - $".heading" includes $data.expected_title
