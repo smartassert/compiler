@@ -6,11 +6,11 @@ namespace SmartAssert\Compiler\Tests\Unit\Loader\Validator\Assertion;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use SmartAssert\Compiler\Tests\Unit\Loader\Validator\ValueDataProviderTrait;
 use SmartAssert\Compiler\Loader\Validator\Assertion\AssertionContentValidator;
 use SmartAssert\Compiler\Loader\Validator\InvalidResult;
 use SmartAssert\Compiler\Loader\Validator\ResultType;
 use SmartAssert\Compiler\Loader\Validator\ValidResult;
+use SmartAssert\Compiler\Tests\Unit\Loader\Validator\ValueDataProviderTrait;
 
 class AssertionContentValidatorTest extends TestCase
 {

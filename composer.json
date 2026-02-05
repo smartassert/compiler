@@ -60,7 +60,6 @@
         "symfony/yaml": "^8",
         "webignition/base-basil-test-case": "^17.0",
         "webignition/basil-compiler-models": ">=6.1,<7",
-        "webignition/basil-loader": "^7",
         "webignition/basil-models": "^15",
         "webignition/php-basil-compilable-source-factory": "^22.4",
         "webignition/stubble": "^1.0"

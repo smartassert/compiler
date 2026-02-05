@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Loader\Validator\Action;
 
-use webignition\BasilIdentifierAnalyser\IdentifierTypeAnalyser;
 use SmartAssert\Compiler\Loader\Validator\InvalidResult;
 use SmartAssert\Compiler\Loader\Validator\InvalidResultInterface;
 use SmartAssert\Compiler\Loader\Validator\ResultInterface;
 use SmartAssert\Compiler\Loader\Validator\ResultType;
 use SmartAssert\Compiler\Loader\Validator\ValidResult;
 use SmartAssert\Compiler\Loader\Validator\ValueValidator;
+use webignition\BasilIdentifierAnalyser\IdentifierTypeAnalyser;
 use webignition\BasilModels\Model\Statement\Action\ActionInterface;
 
 class ActionValidator

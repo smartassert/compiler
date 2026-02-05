@@ -94,7 +94,7 @@ class StepResolverTest extends TestCase
             'non-resolvable actions, non-resolvable assertions' => [
                 'step' => $nonResolvableStep,
                 'pageProvider' => new EmptyPageProvider(),
-                'expectedStep' => $nonResolvableStep
+                'expectedStep' => $nonResolvableStep,
             ],
             'page element reference in action identifier' => [
                 'step' => self::createStep([
@@ -109,7 +109,7 @@ class StepResolverTest extends TestCase
                         [
                             'examined' => '$".examined"',
                         ]
-                    )
+                    ),
                 ]),
                 'expectedStep' => new Step(
                     new ActionCollection([
@@ -135,7 +135,7 @@ class StepResolverTest extends TestCase
                         [
                             'expected' => '$".expected"',
                         ]
-                    )
+                    ),
                 ]),
                 'expectedStep' => new Step(
                     new ActionCollection([
@@ -161,7 +161,7 @@ class StepResolverTest extends TestCase
                         [
                             'examined' => '$".examined"',
                         ]
-                    )
+                    ),
                 ]),
                 'expectedStep' => new Step(
                     new ActionCollection([]),
@@ -186,7 +186,7 @@ class StepResolverTest extends TestCase
                         [
                             'expected' => '$".expected"',
                         ]
-                    )
+                    ),
                 ]),
                 'expectedStep' => new Step(
                     new ActionCollection([]),
@@ -265,7 +265,7 @@ class StepResolverTest extends TestCase
                     ]),
                     new AssertionCollection([]),
                 )->withIdentifiers([
-                    'expected' => '$".expected"'
+                    'expected' => '$".expected"',
                 ]),
             ],
             'element reference in assertion examined value' => [
@@ -274,7 +274,7 @@ class StepResolverTest extends TestCase
                         '$elements.examined exists',
                     ],
                     'elements' => [
-                        'examined' => '$".examined"'
+                        'examined' => '$".examined"',
                     ],
                 ]),
                 'pageProvider' => new EmptyPageProvider(),
@@ -287,7 +287,7 @@ class StepResolverTest extends TestCase
                         ),
                     ])
                 )->withIdentifiers([
-                    'examined' => '$".examined"'
+                    'examined' => '$".examined"',
                 ]),
             ],
             'element reference in assertion expected value' => [
@@ -296,7 +296,7 @@ class StepResolverTest extends TestCase
                         '$".examined-selector" is $elements.expected',
                     ],
                     'elements' => [
-                        'expected' => '$".expected"'
+                        'expected' => '$".expected"',
                     ],
                 ]),
                 'pageProvider' => new EmptyPageProvider(),
@@ -310,7 +310,7 @@ class StepResolverTest extends TestCase
                         ),
                     ])
                 )->withIdentifiers([
-                    'expected' => '$".expected"'
+                    'expected' => '$".expected"',
                 ]),
             ],
             'attribute reference in assertion examined value' => [
@@ -319,7 +319,7 @@ class StepResolverTest extends TestCase
                         '$elements.examined.attribute_name exists',
                     ],
                     'elements' => [
-                        'examined' => '$".examined"'
+                        'examined' => '$".examined"',
                     ],
                 ]),
                 'pageProvider' => new EmptyPageProvider(),
@@ -332,7 +332,7 @@ class StepResolverTest extends TestCase
                         ),
                     ])
                 )->withIdentifiers([
-                    'examined' => '$".examined"'
+                    'examined' => '$".examined"',
                 ]),
             ],
             'attribute reference in assertion expected value' => [
@@ -341,7 +341,7 @@ class StepResolverTest extends TestCase
                         '$".examined" is $elements.expected.attribute_name',
                     ],
                     'elements' => [
-                        'expected' => '$".expected"'
+                        'expected' => '$".expected"',
                     ],
                 ]),
                 'pageProvider' => new EmptyPageProvider(),
@@ -355,7 +355,7 @@ class StepResolverTest extends TestCase
                         ),
                     ])
                 )->withIdentifiers([
-                    'expected' => '$".expected"'
+                    'expected' => '$".expected"',
                 ]),
             ],
         ];
@@ -395,7 +395,7 @@ class StepResolverTest extends TestCase
                         [
                             'page_element_name' => '$".resolved"',
                         ]
-                    )
+                    ),
                 ]),
                 'expectedStep' => new Step(new ActionCollection([]), new AssertionCollection([]))
                     ->withIdentifiers([
@@ -421,7 +421,7 @@ class StepResolverTest extends TestCase
                         [
                             'page_element_name' => '$".resolved"',
                         ]
-                    )
+                    ),
                 ]),
                 'expectedStep' => new Step(
                     new ActionCollection([
@@ -440,7 +440,7 @@ class StepResolverTest extends TestCase
                     ->withIdentifiers([])
                     ->withIdentifiers([
                         'step_element_name' => '$".resolved"',
-                    ])
+                    ]),
             ],
         ];
     }

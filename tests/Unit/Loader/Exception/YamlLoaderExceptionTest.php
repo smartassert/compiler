@@ -6,9 +6,9 @@ namespace SmartAssert\Compiler\Tests\Unit\Loader\Exception;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use SmartAssert\Compiler\Loader\Exception\YamlLoaderException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser as YamlParser;
-use SmartAssert\Compiler\Loader\Exception\YamlLoaderException;
 
 class YamlLoaderExceptionTest extends TestCase
 {

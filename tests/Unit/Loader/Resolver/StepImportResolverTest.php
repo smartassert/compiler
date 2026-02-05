@@ -200,7 +200,7 @@ class StepImportResolverTest extends TestCase
                     'data_provider_import_name' => new DataSetCollection([
                         '0' => [
                             'foo' => 'bar',
-                        ]
+                        ],
                     ]),
                 ]),
                 'expectedStep' => new Step(new ActionCollection([]), new AssertionCollection([]))
@@ -208,7 +208,7 @@ class StepImportResolverTest extends TestCase
                     ->withData(new DataSetCollection([
                         '0' => [
                             'foo' => 'bar',
-                        ]
+                        ],
                     ])),
             ],
         ];

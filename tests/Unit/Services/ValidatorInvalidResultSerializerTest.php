@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace SmartAssert\Compiler\Tests\Unit\Services;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use SmartAssert\Compiler\Services\ValidatorInvalidResultSerializer;
-use SmartAssert\Compiler\Tests\Unit\AbstractBaseTestCase;
 use SmartAssert\Compiler\Loader\Validator\Action\ActionValidator;
 use SmartAssert\Compiler\Loader\Validator\Assertion\AssertionValidator;
 use SmartAssert\Compiler\Loader\Validator\InvalidResultInterface;
@@ -14,6 +12,8 @@ use SmartAssert\Compiler\Loader\Validator\ResultType;
 use SmartAssert\Compiler\Loader\Validator\Step\StepValidator;
 use SmartAssert\Compiler\Loader\Validator\Test\TestValidator;
 use SmartAssert\Compiler\Loader\Validator\ValueValidator;
+use SmartAssert\Compiler\Services\ValidatorInvalidResultSerializer;
+use SmartAssert\Compiler\Tests\Unit\AbstractBaseTestCase;
 use webignition\BasilModels\Parser\ActionParser;
 use webignition\BasilModels\Parser\AssertionParser;
 use webignition\BasilModels\Parser\StepParser;

@@ -49,7 +49,7 @@ class PageElementReferenceResolverTest extends TestCase
                         [
                             'element_name' => '$".selector"',
                         ]
-                    )
+                    ),
                 ]),
                 'expectedIdentifier' => '$".selector"',
             ],
@@ -62,7 +62,7 @@ class PageElementReferenceResolverTest extends TestCase
                         [
                             'element_name' => '$".selector"',
                         ]
-                    )
+                    ),
                 ]),
                 'expectedIdentifier' => '$".selector".attribute_name',
             ],
@@ -90,7 +90,7 @@ class PageElementReferenceResolverTest extends TestCase
             'element not present in page' => [
                 'pageElementReference' => '$page_import_name.elements.element_name',
                 'pageProvider' => new PageProvider([
-                    'page_import_name' => new Page('page_import_name', 'http://example.com/')
+                    'page_import_name' => new Page('page_import_name', 'http://example.com/'),
                 ]),
                 'expectedExceptionMessage' => 'Unknown page element "element_name" in page "page_import_name"',
             ],
@@ -99,7 +99,7 @@ class PageElementReferenceResolverTest extends TestCase
                 'pageProvider' => new PageProvider([
                     'page_import_name' => new Page('page_import_name', 'http://example.com/', [
                         'element_name' => '$parent_element_name >> $".element"',
-                    ])
+                    ]),
                 ]),
                 'expectedExceptionMessage' => 'Unknown page element "parent_element_name" in page "page_import_name"',
             ],

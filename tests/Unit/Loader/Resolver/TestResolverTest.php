@@ -78,7 +78,7 @@ class TestResolverTest extends TestCase
                         '$".action-selector" to $data.key1',
                         '$".action-selector"',
                         '$data.key1'
-                    )
+                    ),
                 ]),
                 new AssertionCollection([
                     new Assertion(
@@ -87,7 +87,7 @@ class TestResolverTest extends TestCase
                         '$".assertion-selector"',
                         'is',
                         '$data.key2'
-                    )
+                    ),
                 ])
             )->withData(new DataSetCollection([
                 '0' => [
@@ -173,7 +173,7 @@ class TestResolverTest extends TestCase
                                 'click',
                                 '$".action-selector"',
                                 '$".action-selector"'
-                            )
+                            ),
                         ]),
                         new AssertionCollection([
                             new Assertion(
@@ -181,7 +181,7 @@ class TestResolverTest extends TestCase
                                 1,
                                 '$".assertion-selector"',
                                 'exists'
-                            )
+                            ),
                         ])
                     ),
                 ])),
@@ -261,7 +261,7 @@ class TestResolverTest extends TestCase
                                 'click',
                                 '$".action-selector"',
                                 '$".action-selector"'
-                            )
+                            ),
                         ]),
                         new AssertionCollection([
                             new Assertion(
@@ -269,7 +269,7 @@ class TestResolverTest extends TestCase
                                 1,
                                 '$".assertion-selector"',
                                 'exists'
-                            )
+                            ),
                         ])
                     ),
                 ])),
@@ -301,10 +301,10 @@ class TestResolverTest extends TestCase
                 'stepProvider' => new StepProvider([
                     'step_import_name' => $stepParser->parse([
                         'actions' => [
-                            'click $elements.elements_action_selector'
+                            'click $elements.elements_action_selector',
                         ],
                         'assertions' => [
-                            '$elements.elements_assertion_selector exists'
+                            '$elements.elements_assertion_selector exists',
                         ],
                     ]),
                 ]),
@@ -350,10 +350,10 @@ class TestResolverTest extends TestCase
                 'stepProvider' => new StepProvider([
                     'step_import_name' => $stepParser->parse([
                         'actions' => [
-                            'set $".action-selector" to $data.key1'
+                            'set $".action-selector" to $data.key1',
                         ],
                         'assertions' => [
-                            '$".assertion-selector" is $data.key2'
+                            '$".assertion-selector" is $data.key2',
                         ],
                     ]),
                 ]),
@@ -375,10 +375,10 @@ class TestResolverTest extends TestCase
                 'stepProvider' => new StepProvider([
                     'step_import_name' => $stepParser->parse([
                         'actions' => [
-                            'set $".action-selector" to $data.key1'
+                            'set $".action-selector" to $data.key1',
                         ],
                         'assertions' => [
-                            '$".assertion-selector" is $data.key2'
+                            '$".assertion-selector" is $data.key2',
                         ],
                     ]),
                 ]),
@@ -603,7 +603,7 @@ class TestResolverTest extends TestCase
                     ],
                     'step name' => [
                         'assertions' => [
-                            '$page_import_name.elements.element_name exists'
+                            '$page_import_name.elements.element_name exists',
                         ],
                     ],
                 ]),
@@ -626,7 +626,7 @@ class TestResolverTest extends TestCase
                     ],
                     'step name' => [
                         'actions' => [
-                            'click $page_import_name.elements.element_name'
+                            'click $page_import_name.elements.element_name',
                         ],
                     ],
                 ]),
@@ -654,7 +654,7 @@ class TestResolverTest extends TestCase
                     ],
                 ]),
                 'pageProvider' => new PageProvider([
-                    'page_import_name' => new Page('page_import_name', 'http://example.com')
+                    'page_import_name' => new Page('page_import_name', 'http://example.com'),
                 ]),
                 'stepProvider' => new EmptyStepProvider(),
                 'dataSetProvider' => new EmptyDataSetProvider(),
@@ -678,7 +678,7 @@ class TestResolverTest extends TestCase
                     ],
                 ]),
                 'pageProvider' => new PageProvider([
-                    'page_import_name' => new Page('page_import_name', 'http://example.com')
+                    'page_import_name' => new Page('page_import_name', 'http://example.com'),
                 ]),
                 'stepProvider' => new EmptyStepProvider(),
                 'dataSetProvider' => new EmptyDataSetProvider(),
@@ -703,7 +703,7 @@ class TestResolverTest extends TestCase
                     ],
                 ]),
                 'pageProvider' => new PageProvider([
-                    'page_import_name' => new Page('page_import_name', 'http://example.com')
+                    'page_import_name' => new Page('page_import_name', 'http://example.com'),
                 ]),
                 'stepProvider' => new EmptyStepProvider(),
                 'dataSetProvider' => new EmptyDataSetProvider(),

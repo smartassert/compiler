@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Loader\Validator\Assertion;
 
-use webignition\BasilIdentifierAnalyser\IdentifierTypeAnalyser;
 use SmartAssert\Compiler\Loader\Validator\ResultInterface;
 use SmartAssert\Compiler\Loader\Validator\ValidResult;
 use SmartAssert\Compiler\Loader\Validator\ValueValidator;
+use webignition\BasilIdentifierAnalyser\IdentifierTypeAnalyser;
 
 class AssertionContentValidator
 {

@@ -102,13 +102,13 @@ class StepValidatorTest extends TestCase
                 'click $elements.element_name',
             ],
             'assertions' => [
-                '$".selector" exists'
+                '$".selector" exists',
             ],
         ]);
 
         $invalidAssertionStep = $stepParser->parse([
             'assertions' => [
-                '$elements.element_name exists'
+                '$elements.element_name exists',
             ],
         ]);
 
@@ -117,13 +117,13 @@ class StepValidatorTest extends TestCase
                 'set $".selector" to $data.key',
             ],
             'assertions' => [
-                '$".selector" exists'
+                '$".selector" exists',
             ],
         ]);
 
         $invalidAssertionDataStepNoData = $stepParser->parse([
             'assertions' => [
-                '$".selector" is $data.key'
+                '$".selector" is $data.key',
             ],
         ]);
 
@@ -160,7 +160,7 @@ class StepValidatorTest extends TestCase
                 'set $".selector2" to $data.key2',
             ],
             'assertions' => [
-                '$".selector" exists'
+                '$".selector" exists',
             ],
             'data' => $incompleteData,
         ]);

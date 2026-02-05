@@ -6,11 +6,11 @@ namespace SmartAssert\Compiler\Tests\Unit\Loader;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use SmartAssert\Compiler\Loader\Exception\YamlLoaderException;
+use SmartAssert\Compiler\Loader\YamlLoader;
+use SmartAssert\Compiler\Tests\Services\FixturePathFinder;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser as YamlParser;
-use SmartAssert\Compiler\Loader\Exception\YamlLoaderException;
-use SmartAssert\Compiler\Tests\Services\FixturePathFinder;
-use SmartAssert\Compiler\Loader\YamlLoader;
 
 class YamlLoaderTest extends TestCase
 {

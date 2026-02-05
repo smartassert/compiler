@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Loader;
 
+use SmartAssert\Compiler\Loader\Exception\YamlLoaderException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Parser as YamlParser;
-use SmartAssert\Compiler\Loader\Exception\YamlLoaderException;
 
 class YamlLoader
 {

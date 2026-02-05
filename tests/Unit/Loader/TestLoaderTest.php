@@ -15,10 +15,10 @@ use SmartAssert\Compiler\Loader\Exception\YamlLoaderException;
 use SmartAssert\Compiler\Loader\Resolver\UnknownElementException;
 use SmartAssert\Compiler\Loader\Resolver\UnknownPageElementException;
 use SmartAssert\Compiler\Loader\TestLoader;
-use SmartAssert\Compiler\Tests\Services\FixturePathFinder;
 use SmartAssert\Compiler\Loader\Validator\InvalidResult;
 use SmartAssert\Compiler\Loader\Validator\ResultType;
 use SmartAssert\Compiler\Loader\Validator\Test\TestValidator;
+use SmartAssert\Compiler\Tests\Services\FixturePathFinder;
 use webignition\BasilModels\Model\DataSet\DataSetCollection;
 use webignition\BasilModels\Model\Statement\Action\ActionCollection;
 use webignition\BasilModels\Model\Statement\Action\ResolvedAction;
@@ -75,7 +75,7 @@ class TestLoaderTest extends TestCase
                                 new AssertionCollection([
                                     $assertionParser->parse('$page.url is "https://example.com/"', 0),
                                 ])
-                            )
+                            ),
                         ])),
                         FixturePathFinder::find('basil/Test/example.com.verify-open-literal.yml')
                     ),
@@ -91,7 +91,7 @@ class TestLoaderTest extends TestCase
                                 new AssertionCollection([
                                     $assertionParser->parse('$page.url is "https://example.com"', 0),
                                 ])
-                            )
+                            ),
                         ])),
                         FixturePathFinder::find('basil/Test/example.com.import-step-verify-open-literal.yml')
                     ),
@@ -116,7 +116,7 @@ class TestLoaderTest extends TestCase
                                 '1' => [
                                     'expected_title' => 'Bar',
                                 ],
-                            ]))
+                            ])),
                         ])),
                         FixturePathFinder::find('basil/Test/example.com.import-step-data-parameters.yml')
                     ),
@@ -141,7 +141,7 @@ class TestLoaderTest extends TestCase
                                         '"example"'
                                     ),
                                 ])
-                            )
+                            ),
                         ])),
                         FixturePathFinder::find('basil/Test/example.com.import-step-element-parameters.yml')
                     ),
@@ -164,7 +164,7 @@ class TestLoaderTest extends TestCase
                                         '$".form" >> $".input"'
                                     ),
                                 ])
-                            )
+                            ),
                         ])),
                         FixturePathFinder::find('basil/Test/example.com.descendant-element-parameters.yml')
                     ),
@@ -180,7 +180,7 @@ class TestLoaderTest extends TestCase
                                 new AssertionCollection([
                                     $assertionParser->parse('$page.url is "https://example.com/"', 0),
                                 ])
-                            )
+                            ),
                         ])),
                         FixturePathFinder::find('basil/Test/example.com.verify-open-literal-multiple-browsers.yml')
                     ),
@@ -191,7 +191,7 @@ class TestLoaderTest extends TestCase
                                 new AssertionCollection([
                                     $assertionParser->parse('$page.url is "https://example.com/"', 0),
                                 ])
-                            )
+                            ),
                         ])),
                         FixturePathFinder::find('basil/Test/example.com.verify-open-literal-multiple-browsers.yml')
                     ),
@@ -375,14 +375,14 @@ class TestLoaderTest extends TestCase
                 'expectedIsUnparseableTestException' => true,
                 'expectedIsUnparseableStepException' => false,
                 'expectedExceptionTestPath' => FixturePathFinder::find('basil/Test/invalid.empty-action.yml'),
-                'expectedExceptionSubjectPath' => FixturePathFinder::find('basil/Test/invalid.empty-action.yml')
+                'expectedExceptionSubjectPath' => FixturePathFinder::find('basil/Test/invalid.empty-action.yml'),
             ],
             'imported step contains unparseable action' => [
                 'path' => FixturePathFinder::find('basil/Test/invalid.import-empty-action.yml'),
                 'expectedIsUnparseableTestException' => false,
                 'expectedIsUnparseableStepException' => true,
                 'expectedExceptionTestPath' => FixturePathFinder::find('basil/Test/invalid.import-empty-action.yml'),
-                'expectedExceptionSubjectPath' => FixturePathFinder::find('basil/Step/invalid.empty-action.yml')
+                'expectedExceptionSubjectPath' => FixturePathFinder::find('basil/Step/invalid.empty-action.yml'),
             ],
         ];
     }

@@ -8,10 +8,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SmartAssert\Compiler\Loader\Exception\InvalidPageException;
 use SmartAssert\Compiler\Loader\PageLoader;
-use SmartAssert\Compiler\Tests\Services\FixturePathFinder;
 use SmartAssert\Compiler\Loader\Validator\InvalidResult;
 use SmartAssert\Compiler\Loader\Validator\PageValidator;
 use SmartAssert\Compiler\Loader\Validator\ResultType;
+use SmartAssert\Compiler\Tests\Services\FixturePathFinder;
 use webignition\BasilModels\Model\Page\Page;
 use webignition\BasilModels\Model\Page\PageInterface;
 
