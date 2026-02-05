@@ -22,6 +22,8 @@ enum ExitCode: int
 
     case CONFIG_TARGET_NOT_ABSOLUTE = 108;
 
+    case CONFIG_BASE_CLASS_EMPTY = 109;
+
     case INVALID_YAML = 200;
 
     case CIRCULAR_STEP_IMPORT = 201;
