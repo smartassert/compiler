@@ -24,7 +24,7 @@ class Compiler
         return new Compiler(
             ClassDefinitionFactory::createFactory(),
             CompiledClassResolver::createResolver(
-                ExternalVariableIdentifiersFactory::create()
+                DependencyVariablesFactory::create()
             ),
             new VariableResolver()
         );
