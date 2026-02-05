@@ -135,6 +135,8 @@ class GenerateCommand extends Command
 
         $baseClass = $input->getOption(Options::OPTION_BASE_CLASS);
         $baseClass = is_string($baseClass) ? trim($baseClass) : '';
+        // @todo fix following line in #153
+        \assert('' !== $baseClass);
 
         $testManifests = [];
 

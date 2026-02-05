@@ -53,13 +53,13 @@ class ValidatorInvalidResultSerializerTest extends AbstractBaseTestCase
         $testParser = TestParser::create();
         $testValidator = TestValidator::create();
 
-        $actionWithInvalidIdentifier = $actionParser->parse('click $".selector".attribute_name');
+        $actionWithInvalidIdentifier = $actionParser->parse('click $".selector".attribute_name', 0);
         $actionWithInvalidIdentifierResult = $actionValidator->validate($actionWithInvalidIdentifier);
 
-        $actionWithInvalidValue = $actionParser->parse('set $".selector" to $page.invalid');
+        $actionWithInvalidValue = $actionParser->parse('set $".selector" to $page.invalid', 0);
         $actionWithInvalidValueResult = $actionValidator->validate($actionWithInvalidValue);
 
-        $assertionWithInvalidComparison = $assertionParser->parse('$".button" glows');
+        $assertionWithInvalidComparison = $assertionParser->parse('$".button" glows', 0);
         $assertionWithInvalidComparisonResult = $assertionValidator->validate($assertionWithInvalidComparison);
 
         $stepWithInvalidAction = $stepParser->parse([

@@ -18,6 +18,8 @@ use webignition\ObjectReflector\ObjectReflector;
 class CompilerTest extends TestCase
 {
     /**
+     * @param non-empty-string $fullyQualifiedBaseClass
+     *
      * @dataProvider compileDataProvider
      *
      * @param string[] $classNameFactoryClassNames

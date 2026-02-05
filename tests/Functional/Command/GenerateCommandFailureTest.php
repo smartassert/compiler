@@ -21,6 +21,8 @@ use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStatementExcep
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilCompilerModels\Factory\ErrorOutputFactory;
 use webignition\BasilCompilerModels\Model\ErrorOutput;
+use webignition\BasilModels\Model\Statement\Action\ActionCollection;
+use webignition\BasilModels\Model\Statement\Assertion\AssertionCollection;
 use webignition\BasilModels\Model\Step\Step;
 use webignition\BasilModels\Parser\ActionParser;
 use webignition\BasilModels\Parser\AssertionParser;
@@ -162,13 +164,13 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
             'click action with attribute identifier' => [
                 'unsupportedStepException' => new UnsupportedStepException(
                     new Step(
-                        [
-                            $actionParser->parse('click $".selector".attribute_name'),
-                        ],
-                        []
+                        new ActionCollection([
+                            $actionParser->parse('click $".selector".attribute_name', 0),
+                        ]),
+                        new AssertionCollection([]),
                     ),
                     new UnsupportedStatementException(
-                        $actionParser->parse('click $".selector".attribute_name'),
+                        $actionParser->parse('click $".selector".attribute_name', 0),
                         new UnsupportedContentException(
                             UnsupportedContentException::TYPE_IDENTIFIER,
                             '$".selector".attribute_name'
@@ -185,13 +187,13 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
             'comparison assertion examined value identifier cannot be extracted' => [
                 'unsupportedStepException' => new UnsupportedStepException(
                     new Step(
-                        [],
-                        [
-                            $assertionParser->parse('$".selector" is "value"'),
-                        ]
+                        new ActionCollection([]),
+                        new AssertionCollection([
+                            $assertionParser->parse('$".selector" is "value"', 0),
+                        ]),
                     ),
                     new UnsupportedStatementException(
-                        $assertionParser->parse('$".selector" is "value"'),
+                        $assertionParser->parse('$".selector" is "value"', 0),
                         new UnsupportedContentException(
                             UnsupportedContentException::TYPE_IDENTIFIER,
                             '$".selector"'
@@ -208,13 +210,13 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
             'comparison assertion examined value is not supported' => [
                 'unsupportedStepException' => new UnsupportedStepException(
                     new Step(
-                        [],
-                        [
-                            $assertionParser->parse('$elements.element_name is "value"'),
-                        ]
+                        new ActionCollection([]),
+                        new AssertionCollection([
+                            $assertionParser->parse('$elements.element_name is "value"', 0),
+                        ])
                     ),
                     new UnsupportedStatementException(
-                        $assertionParser->parse('$elements.element_name is "value"'),
+                        $assertionParser->parse('$elements.element_name is "value"', 0),
                         new UnsupportedContentException(
                             UnsupportedContentException::TYPE_VALUE,
                             '$elements.element_name'
@@ -231,13 +233,13 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
             'unsupported action type' => [
                 'unsupportedStepException' => new UnsupportedStepException(
                     new Step(
-                        [
-                            $actionParser->parse('foo $".selector"'),
-                        ],
-                        []
+                        new ActionCollection([
+                            $actionParser->parse('foo $".selector"', 0),
+                        ]),
+                        new AssertionCollection([]),
                     ),
                     new UnsupportedStatementException(
-                        $actionParser->parse('foo $".selector"')
+                        $actionParser->parse('foo $".selector"', 0)
                     )
                 ),
                 'expectedErrorOutputContext' => [
