@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Services;
 
-use webignition\BasilLoader\Validator\InvalidResultInterface;
+use SmartAssert\Compiler\Loader\Validator\InvalidResultInterface;
 
 class ValidatorInvalidResultSerializer
 {

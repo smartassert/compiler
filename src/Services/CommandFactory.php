@@ -6,9 +6,9 @@ namespace SmartAssert\Compiler\Services;
 
 use SmartAssert\Compiler\Command\GenerateCommand;
 use SmartAssert\Compiler\Exception\EmptyOutputDirectoryPathException;
+use SmartAssert\Compiler\Loader\TestLoader;
 use SmartAssert\Compiler\Model\Options;
 use Symfony\Component\Console\Output\OutputInterface;
-use webignition\BasilLoader\TestLoader;
 
 class CommandFactory
 {

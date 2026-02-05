@@ -1,0 +1,9 @@
+config:
+  browsers:
+    - chrome
+  url: https://example.com
+
+"step referencing missing data provider":
+  assertions:
+    - $page.title is $data_provider_import_name.expected_title
+  data: data_provider_import_name

@@ -1,0 +1,13 @@
+config:
+  browsers:
+    - chrome
+  url: https://example.com
+
+imports:
+  pages:
+    page_import_name: "../Page/example.com.form.yml"
+
+"descendant element parameters step":
+    assertions:
+      - $page_import_name.elements.form exists
+      - $page_import_name.elements.input exists

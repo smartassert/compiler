@@ -1,0 +1,5 @@
+actions:
+  - click $elements.button
+
+assertions:
+  - $elements.heading includes "example"

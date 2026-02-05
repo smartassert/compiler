@@ -8,6 +8,7 @@ use phpmock\mockery\PHPMockery;
 use PHPUnit\Framework\Attributes\DataProvider;
 use SmartAssert\Compiler\Command\GenerateCommand;
 use SmartAssert\Compiler\ExitCode;
+use SmartAssert\Compiler\Loader\TestLoader;
 use SmartAssert\Compiler\Model\Options;
 use SmartAssert\Compiler\Services\Compiler;
 use SmartAssert\Compiler\Services\ErrorOutputFactory;
@@ -20,7 +21,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
-use webignition\BasilLoader\TestLoader;
 
 class GenerateCommandTest extends AbstractBaseTestCase
 {

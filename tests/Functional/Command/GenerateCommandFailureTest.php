@@ -66,7 +66,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
             $expectedErrorOutputData
         );
 
-        $errorOutput = (new ErrorOutputFactory())->create((array) $errorDocument->parse());
+        $errorOutput = new ErrorOutputFactory()->create((array) $errorDocument->parse());
         self::assertEquals($expectedErrorOutput, $errorOutput);
     }
 

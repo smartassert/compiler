@@ -1,0 +1,14 @@
+config:
+  browsers:
+    - chrome
+  url: https://example.com
+
+imports:
+  steps:
+    data_parameters: "../Step/data-parameters.yml"
+  data_providers:
+    data_provider_import_name: "../DataProvider/expected-title-only.yml"
+
+"data parameters step":
+  use: data_parameters
+  data: data_provider_import_name

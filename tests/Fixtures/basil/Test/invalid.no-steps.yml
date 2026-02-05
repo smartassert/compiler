@@ -1,0 +1,4 @@
+config:
+  browsers:
+    - chrome
+  url: https://example.com

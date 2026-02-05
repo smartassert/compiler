@@ -1,0 +1,5 @@
+actions:
+  - set $elements.action_selector to $data.key1
+
+assertions:
+  - $elements.assertion_selector is $data.key2

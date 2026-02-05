@@ -1,7 +1,7 @@
 config:
   browsers:
     - chrome
-  url: https://example.com/
+  url: https://example.com
 
 imports:
   steps:
