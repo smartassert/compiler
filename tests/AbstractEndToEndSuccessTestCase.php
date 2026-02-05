@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use SmartAssert\Compiler\Tests\DataProvider\FixturePaths;
 use SmartAssert\Compiler\Tests\Model\CliArguments;
 use SmartAssert\Compiler\Tests\Model\ExpectedGeneratedTest;
@@ -39,10 +40,9 @@ abstract class AbstractEndToEndSuccessTestCase extends AbstractEndToEndTestCase
     }
 
     /**
-     * @dataProvider generateDataProvider
-     *
      * @param array<string, string[]> $expectedStepNames
      */
+    #[DataProvider('generateDataProvider')]
     public function testGenerate(
         string $sourceRelativePath,
         ExpectedGeneratedTestCollection $expectedGeneratedTests,

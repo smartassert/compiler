@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use SmartAssert\Compiler\Tests\DataProvider\RunFailure\CircularStepImportDataProviderTrait;
 use SmartAssert\Compiler\Tests\DataProvider\RunFailure\EmptyTestDataProviderTrait;
 use SmartAssert\Compiler\Tests\DataProvider\RunFailure\InvalidPageDataProviderTrait;
@@ -32,19 +33,18 @@ abstract class AbstractEndToEndFailureTestCase extends AbstractEndToEndTestCase
     use UnknownPageElementDataProviderTrait;
 
     /**
-     * @dataProvider nonLoadableDataDataProvider
-     * @dataProvider circularStepImportDataProvider
-     * @dataProvider emptyTestDataProvider
-     * @dataProvider invalidPageDataProvider
-     * @dataProvider invalidTestDataProvider
-     * @dataProvider nonRetrievableImportDataProvider
-     * @dataProvider parseExceptionDataProvider
-     * @dataProvider unknownElementDataProvider
-     * @dataProvider unknownItemDataProvider
-     * @dataProvider unknownPageElementDataProvider
-     *
      * @param array<mixed> $expectedErrorOutputData
      */
+    #[DataProvider('nonLoadableDataDataProvider')]
+    #[DataProvider('circularStepImportDataProvider')]
+    #[DataProvider('emptyTestDataProvider')]
+    #[DataProvider('invalidPageDataProvider')]
+    #[DataProvider('invalidTestDataProvider')]
+    #[DataProvider('nonRetrievableImportDataProvider')]
+    #[DataProvider('parseExceptionDataProvider')]
+    #[DataProvider('unknownElementDataProvider')]
+    #[DataProvider('unknownItemDataProvider')]
+    #[DataProvider('unknownPageElementDataProvider')]
     public function testGenerateFailure(
         string $sourceRelativePath,
         int $expectedExitCode,

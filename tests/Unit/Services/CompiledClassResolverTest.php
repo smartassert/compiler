@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Unit\Services;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SmartAssert\Compiler\Services\CompiledClassResolver;
 use SmartAssert\Compiler\Services\ExternalVariableIdentifiersFactory;
@@ -26,9 +27,7 @@ class CompiledClassResolverTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider resolveDataProvider
-     */
+    #[DataProvider('resolveDataProvider')]
     public function testResolve(string $compiledClass, string $expectedResolvedClass): void
     {
         $resolvedContent = $this->compiledClassResolver->resolve($compiledClass);
@@ -52,14 +51,14 @@ class CompiledClassResolverTest extends TestCase
             ],
             'resolvable content' => [
                 'compiledClass' => self::createRenderedListOfAllExternalDependencies(),
-                'expectedResolvedClass' => '$this->actionFactory' . "\n"
-                    . '$this->assertionFactory' . "\n"
-                    . '$this->navigator' . "\n"
-                    . '$_ENV' . "\n"
-                    . 'self::$client' . "\n"
-                    . 'self::$crawler' . "\n"
-                    . 'self::$inspector' . "\n"
-                    . 'self::$mutator',
+                'expectedResolvedClass' => <<<'EOD'
+                    $this->navigator
+                    $_ENV
+                    self::$client
+                    self::$crawler
+                    self::$inspector
+                    self::$mutator
+                    EOD,
             ],
         ];
     }

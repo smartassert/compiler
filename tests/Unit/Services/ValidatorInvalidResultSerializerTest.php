@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Unit\Services;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use SmartAssert\Compiler\Services\ValidatorInvalidResultSerializer;
 use SmartAssert\Compiler\Tests\Unit\AbstractBaseTestCase;
 use webignition\BasilLoader\Validator\Action\ActionValidator;
@@ -30,10 +31,9 @@ class ValidatorInvalidResultSerializerTest extends AbstractBaseTestCase
     }
 
     /**
-     * @dataProvider serializeToArrayDataProvider
-     *
      * @param array<mixed> $expectedData
      */
+    #[DataProvider('serializeToArrayDataProvider')]
     public function testSerializeToArray(InvalidResultInterface $invalidResult, array $expectedData): void
     {
         self::assertSame($expectedData, $this->serializer->serializeToArray($invalidResult));

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Functional\Command;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use SmartAssert\Compiler\Command\GenerateCommand;
 use SmartAssert\Compiler\ExitCode;
 use SmartAssert\Compiler\Model\ExternalVariableIdentifiers;
@@ -31,10 +32,9 @@ use webignition\ObjectReflector\ObjectReflector;
 class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
 {
     /**
-     * @dataProvider unresolvedPlaceholderDataProvider
-     *
      * @param array<mixed> $expectedErrorOutputData
      */
+    #[DataProvider('unresolvedPlaceholderDataProvider')]
     public function testRunFailure(
         string $sourceRelativePath,
         int $expectedExitCode,
@@ -103,10 +103,9 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
     }
 
     /**
-     * @dataProvider runFailureUnsupportedStepDataProvider
-     *
      * @param array<mixed> $expectedErrorOutputContext
      */
+    #[DataProvider('runFailureUnsupportedStepDataProvider')]
     public function testRunFailureUnsupportedStepException(
         UnsupportedStepException $unsupportedStepException,
         array $expectedErrorOutputContext
