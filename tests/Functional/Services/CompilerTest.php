@@ -20,8 +20,7 @@ class CompilerTest extends TestCase
 {
     /**
      * @param non-empty-string $fullyQualifiedBaseClass
-     *
-     * @param string[] $classNameFactoryClassNames
+     * @param string[]         $classNameFactoryClassNames
      */
     #[DataProvider('compileDataProvider')]
     public function testCompile(

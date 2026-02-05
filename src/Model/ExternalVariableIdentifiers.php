@@ -16,6 +16,7 @@ class ExternalVariableIdentifiers
         private string $phpUnitTestCaseName,
         private string $webDriverElementInspectorName,
         private string $webDriverElementMutatorName,
+        private string $messaageFactory,
     ) {}
 
     /**
@@ -31,6 +32,7 @@ class ExternalVariableIdentifiers
             DependencyName::PHPUNIT_TEST_CASE->value => $this->phpUnitTestCaseName,
             DependencyName::WEBDRIVER_ELEMENT_INSPECTOR->value => $this->webDriverElementInspectorName,
             DependencyName::WEBDRIVER_ELEMENT_MUTATOR->value => $this->webDriverElementMutatorName,
+            DependencyName::MESSAGE_FACTORY->value => $this->messaageFactory,
         ];
     }
 }

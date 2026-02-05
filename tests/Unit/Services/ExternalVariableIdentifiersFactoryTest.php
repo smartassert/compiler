@@ -21,6 +21,7 @@ class ExternalVariableIdentifiersFactoryTest extends AbstractBaseTestCase
                 '$this',
                 'self::$inspector',
                 'self::$mutator',
+                'self::$messageFactory',
             ),
             ExternalVariableIdentifiersFactory::create()
         );

@@ -18,6 +18,7 @@ class ExternalVariableIdentifiersFactory
             '$this',
             'self::$inspector',
             'self::$mutator',
+            'self::$messageFactory',
         );
     }
 }
