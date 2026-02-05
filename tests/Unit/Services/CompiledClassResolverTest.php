@@ -7,7 +7,7 @@ namespace SmartAssert\Compiler\Tests\Unit\Services;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SmartAssert\Compiler\Services\CompiledClassResolver;
-use SmartAssert\Compiler\Services\ExternalVariableIdentifiersFactory;
+use SmartAssert\Compiler\Services\DependencyVariablesFactory;
 use webignition\BasilCompilableSourceFactory\Enum\DependencyName;
 use webignition\BasilCompilableSourceFactory\Model\Property;
 use webignition\Stubble\Resolvable\ResolvableCollection;
@@ -23,7 +23,7 @@ class CompiledClassResolverTest extends TestCase
         parent::setUp();
 
         $this->compiledClassResolver = CompiledClassResolver::createResolver(
-            ExternalVariableIdentifiersFactory::create()
+            DependencyVariablesFactory::create()
         );
     }
 

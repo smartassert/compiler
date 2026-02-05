@@ -7,7 +7,7 @@ namespace SmartAssert\Compiler\Tests\Functional\Command;
 use PHPUnit\Framework\Attributes\DataProvider;
 use SmartAssert\Compiler\Command\GenerateCommand;
 use SmartAssert\Compiler\ExitCode;
-use SmartAssert\Compiler\Model\ExternalVariableIdentifiers;
+use SmartAssert\Compiler\Model\DependencyVariables;
 use SmartAssert\Compiler\Services\CommandFactory;
 use SmartAssert\Compiler\Services\CompiledClassResolver;
 use SmartAssert\Compiler\Services\Compiler;
@@ -87,7 +87,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
                     'content' => '{{ CLIENT }}->request(\'GET\', \'https://example.com/\');',
                 ],
                 'initializer' => function (GenerateCommand $command) {
-                    $mockExternalVariableIdentifiers = \Mockery::mock(ExternalVariableIdentifiers::class);
+                    $mockExternalVariableIdentifiers = \Mockery::mock(DependencyVariables::class);
                     $mockExternalVariableIdentifiers
                         ->shouldReceive('get')
                         ->andReturn([])
@@ -278,7 +278,7 @@ class GenerateCommandFailureTest extends AbstractEndToEndFailureTestCase
 
     private static function mockCompilerCompiledClassResolverExternalVariableIdentifiers(
         GenerateCommand $command,
-        ExternalVariableIdentifiers $updatedExternalVariableIdentifiers
+        DependencyVariables $updatedExternalVariableIdentifiers
     ): void {
         $compiledClassResolver = CompiledClassResolver::createResolver($updatedExternalVariableIdentifiers);
         $compiler = ObjectReflector::getProperty($command, 'compiler');

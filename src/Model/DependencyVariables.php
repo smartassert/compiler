@@ -6,7 +6,7 @@ namespace SmartAssert\Compiler\Model;
 
 use webignition\BasilCompilableSourceFactory\Enum\DependencyName;
 
-class ExternalVariableIdentifiers
+class DependencyVariables
 {
     public function __construct(
         private string $domNavigatorCrawlerName,

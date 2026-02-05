@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Services;
 
-use SmartAssert\Compiler\Model\ExternalVariableIdentifiers;
+use SmartAssert\Compiler\Model\DependencyVariables;
 
-class ExternalVariableIdentifiersFactory
+class DependencyVariablesFactory
 {
-    public static function create(): ExternalVariableIdentifiers
+    public static function create(): DependencyVariables
     {
-        return new ExternalVariableIdentifiers(
+        return new DependencyVariables(
             '$this->navigator',
             '$_ENV',
             'self::$client',

@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Unit\Services;
 
-use SmartAssert\Compiler\Model\ExternalVariableIdentifiers;
-use SmartAssert\Compiler\Services\ExternalVariableIdentifiersFactory;
+use SmartAssert\Compiler\Model\DependencyVariables;
+use SmartAssert\Compiler\Services\DependencyVariablesFactory;
 use SmartAssert\Compiler\Tests\Unit\AbstractBaseTestCase;
 
-class ExternalVariableIdentifiersFactoryTest extends AbstractBaseTestCase
+class DependencyVariablesFactoryTest extends AbstractBaseTestCase
 {
     public function testCreate(): void
     {
         self::assertEquals(
-            new ExternalVariableIdentifiers(
+            new DependencyVariables(
                 '$this->navigator',
                 '$_ENV',
                 'self::$client',
@@ -23,7 +23,7 @@ class ExternalVariableIdentifiersFactoryTest extends AbstractBaseTestCase
                 'self::$mutator',
                 'self::$messageFactory',
             ),
-            ExternalVariableIdentifiersFactory::create()
+            DependencyVariablesFactory::create()
         );
     }
 }
