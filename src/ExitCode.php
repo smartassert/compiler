@@ -6,6 +6,8 @@ namespace SmartAssert\Compiler;
 
 enum ExitCode: int
 {
+    case SUCCESS = 0;
+
     case CONFIG_SOURCE_EMPTY = 100;
 
     case CONFIG_SOURCE_NOT_READABLE = 102;

@@ -31,6 +31,8 @@ class Compiler
     }
 
     /**
+     * @param non-empty-string $fullyQualifiedBaseClass
+     *
      * @throws UnresolvedVariableException
      * @throws UnsupportedStepException
      */

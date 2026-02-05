@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Unit\Services;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use SmartAssert\Compiler\Services\ValidatorInvalidResultSerializer;
 use SmartAssert\Compiler\Tests\Unit\AbstractBaseTestCase;
 use webignition\BasilLoader\Validator\Action\ActionValidator;
@@ -30,10 +31,9 @@ class ValidatorInvalidResultSerializerTest extends AbstractBaseTestCase
     }
 
     /**
-     * @dataProvider serializeToArrayDataProvider
-     *
      * @param array<mixed> $expectedData
      */
+    #[DataProvider('serializeToArrayDataProvider')]
     public function testSerializeToArray(InvalidResultInterface $invalidResult, array $expectedData): void
     {
         self::assertSame($expectedData, $this->serializer->serializeToArray($invalidResult));
@@ -53,13 +53,13 @@ class ValidatorInvalidResultSerializerTest extends AbstractBaseTestCase
         $testParser = TestParser::create();
         $testValidator = TestValidator::create();
 
-        $actionWithInvalidIdentifier = $actionParser->parse('click $".selector".attribute_name');
+        $actionWithInvalidIdentifier = $actionParser->parse('click $".selector".attribute_name', 0);
         $actionWithInvalidIdentifierResult = $actionValidator->validate($actionWithInvalidIdentifier);
 
-        $actionWithInvalidValue = $actionParser->parse('set $".selector" to $page.invalid');
+        $actionWithInvalidValue = $actionParser->parse('set $".selector" to $page.invalid', 0);
         $actionWithInvalidValueResult = $actionValidator->validate($actionWithInvalidValue);
 
-        $assertionWithInvalidComparison = $assertionParser->parse('$".button" glows');
+        $assertionWithInvalidComparison = $assertionParser->parse('$".button" glows', 0);
         $assertionWithInvalidComparisonResult = $assertionValidator->validate($assertionWithInvalidComparison);
 
         $stepWithInvalidAction = $stepParser->parse([

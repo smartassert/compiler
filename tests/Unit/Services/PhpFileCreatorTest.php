@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SmartAssert\Compiler\Tests\Unit\Services;
 
 use phpmock\mockery\PHPMockery;
+use PHPUnit\Framework\Attributes\DataProvider;
 use SmartAssert\Compiler\Services\PhpFileCreator;
 use SmartAssert\Compiler\Tests\Unit\AbstractBaseTestCase;
 
@@ -13,9 +14,8 @@ class PhpFileCreatorTest extends AbstractBaseTestCase
     /**
      * @param non-empty-string $outputDirectory
      * @param non-empty-string $className
-     *
-     * @dataProvider createDataProvider
      */
+    #[DataProvider('createDataProvider')]
     public function testCreate(
         string $outputDirectory,
         string $className,

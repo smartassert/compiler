@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Unit\Services;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SmartAssert\Compiler\Services\CompiledClassResolver;
 use SmartAssert\Compiler\Services\ExternalVariableIdentifiersFactory;
-use webignition\BasilCompilableSourceFactory\Model\VariableDependency;
-use webignition\BasilCompilableSourceFactory\VariableNames;
+use webignition\BasilCompilableSourceFactory\Enum\DependencyName;
+use webignition\BasilCompilableSourceFactory\Model\Property;
 use webignition\Stubble\Resolvable\ResolvableCollection;
 use webignition\Stubble\Resolvable\ResolvedTemplateMutatorResolvable;
 use webignition\Stubble\VariableResolver;
@@ -26,9 +27,7 @@ class CompiledClassResolverTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider resolveDataProvider
-     */
+    #[DataProvider('resolveDataProvider')]
     public function testResolve(string $compiledClass, string $expectedResolvedClass): void
     {
         $resolvedContent = $this->compiledClassResolver->resolve($compiledClass);
@@ -52,14 +51,14 @@ class CompiledClassResolverTest extends TestCase
             ],
             'resolvable content' => [
                 'compiledClass' => self::createRenderedListOfAllExternalDependencies(),
-                'expectedResolvedClass' => '$this->actionFactory' . "\n"
-                    . '$this->assertionFactory' . "\n"
-                    . '$this->navigator' . "\n"
-                    . '$_ENV' . "\n"
-                    . 'self::$client' . "\n"
-                    . 'self::$crawler' . "\n"
-                    . 'self::$inspector' . "\n"
-                    . 'self::$mutator',
+                'expectedResolvedClass' => <<<'EOD'
+                    $this->navigator
+                    $_ENV
+                    self::$client
+                    self::$crawler
+                    self::$inspector
+                    self::$mutator
+                    EOD,
             ],
         ];
     }
@@ -67,14 +66,12 @@ class CompiledClassResolverTest extends TestCase
     private static function createRenderedListOfAllExternalDependencies(): string
     {
         $variableDependencies = [
-            new VariableDependency(VariableNames::ACTION_FACTORY),
-            new VariableDependency(VariableNames::ASSERTION_FACTORY),
-            new VariableDependency(VariableNames::DOM_CRAWLER_NAVIGATOR),
-            new VariableDependency(VariableNames::ENVIRONMENT_VARIABLE_ARRAY),
-            new VariableDependency(VariableNames::PANTHER_CLIENT),
-            new VariableDependency(VariableNames::PANTHER_CRAWLER),
-            new VariableDependency(VariableNames::WEBDRIVER_ELEMENT_INSPECTOR),
-            new VariableDependency(VariableNames::WEBDRIVER_ELEMENT_MUTATOR),
+            Property::asDependency(DependencyName::DOM_CRAWLER_NAVIGATOR),
+            Property::asDependency(DependencyName::ENVIRONMENT_VARIABLE_ARRAY),
+            Property::asDependency(DependencyName::PANTHER_CLIENT),
+            Property::asDependency(DependencyName::PANTHER_CRAWLER),
+            Property::asDependency(DependencyName::WEBDRIVER_ELEMENT_INSPECTOR),
+            Property::asDependency(DependencyName::WEBDRIVER_ELEMENT_MUTATOR),
         ];
 
         $mutableVariableDependencies = [];
@@ -87,7 +84,7 @@ class CompiledClassResolverTest extends TestCase
             );
         }
 
-        return (new VariableResolver())->resolveAndIgnoreUnresolvedVariables(
+        return new VariableResolver()->resolveAndIgnoreUnresolvedVariables(
             new ResolvedTemplateMutatorResolvable(
                 ResolvableCollection::create($mutableVariableDependencies),
                 function (string $resolvedTemplate) {

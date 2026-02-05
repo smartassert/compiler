@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use SmartAssert\Compiler\ExitCode;
 use SmartAssert\Compiler\Tests\DataProvider\FixturePaths;
 use SmartAssert\Compiler\Tests\Model\CliArguments;
 use SmartAssert\Compiler\Tests\Model\ExpectedGeneratedTest;
@@ -39,10 +41,9 @@ abstract class AbstractEndToEndSuccessTestCase extends AbstractEndToEndTestCase
     }
 
     /**
-     * @dataProvider generateDataProvider
-     *
      * @param array<string, string[]> $expectedStepNames
      */
+    #[DataProvider('generateDataProvider')]
     public function testGenerate(
         string $sourceRelativePath,
         ExpectedGeneratedTestCollection $expectedGeneratedTests,
@@ -54,7 +55,18 @@ abstract class AbstractEndToEndSuccessTestCase extends AbstractEndToEndTestCase
         );
 
         $compilationOutput = $this->getCompilationOutput($cliArguments);
-        $this->assertSame(0, $compilationOutput->getExitCode());
+
+        $compilationExitCode = $compilationOutput->getExitCode();
+
+        $this->assertSame(
+            0,
+            $compilationExitCode,
+            sprintf(
+                'Exit code %d: %s',
+                $compilationExitCode,
+                ExitCode::from($compilationExitCode)->name
+            )
+        );
 
         self::assertSame('', $compilationOutput->getErrorContent());
 

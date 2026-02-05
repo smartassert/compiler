@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Functional\Services;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SmartAssert\Compiler\Model\CompiledTest;
 use SmartAssert\Compiler\Services\Compiler;
@@ -18,10 +19,10 @@ use webignition\ObjectReflector\ObjectReflector;
 class CompilerTest extends TestCase
 {
     /**
-     * @dataProvider compileDataProvider
-     *
-     * @param string[] $classNameFactoryClassNames
+     * @param non-empty-string $fullyQualifiedBaseClass
+     * @param string[]         $classNameFactoryClassNames
      */
+    #[DataProvider('compileDataProvider')]
     public function testCompile(
         NamedTestInterface $test,
         array $classNameFactoryClassNames,

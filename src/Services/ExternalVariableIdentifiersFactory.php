@@ -18,8 +18,7 @@ class ExternalVariableIdentifiersFactory
             '$this',
             'self::$inspector',
             'self::$mutator',
-            '$this->actionFactory',
-            '$this->assertionFactory'
+            'self::$messageFactory',
         );
     }
 }

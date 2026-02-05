@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SmartAssert\Compiler\Tests\Unit\Command;
 
 use phpmock\mockery\PHPMockery;
+use PHPUnit\Framework\Attributes\DataProvider;
 use SmartAssert\Compiler\Command\GenerateCommand;
 use SmartAssert\Compiler\ExitCode;
 use SmartAssert\Compiler\Model\Options;
@@ -24,11 +25,10 @@ use webignition\BasilLoader\TestLoader;
 class GenerateCommandTest extends AbstractBaseTestCase
 {
     /**
-     * @dataProvider runInvalidConfigurationDataProvider
-     *
      * @param array<mixed> $input
      * @param array<mixed> $expectedOutputData
      */
+    #[DataProvider('runInvalidConfigurationDataProvider')]
     public function testRunInvalidConfiguration(
         array $input,
         callable $initializer,

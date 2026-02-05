@@ -3,42 +3,56 @@
 namespace SmartAssert\Compiler\Generated;
 
 use webignition\BaseBasilTestCase\AbstractBaseTest;
+use webignition\BaseBasilTestCase\Attribute\Statements;
+use webignition\BaseBasilTestCase\Attribute\StepName;
 use webignition\BaseBasilTestCase\ClientManager;
+use webignition\BaseBasilTestCase\Enum\StatementStage;
 
 class GeneratedVerifyOpenLiteralChrome extends AbstractBaseTest
 {
     public static function setUpBeforeClass(): void
     {
-        try {
-            self::setClientManager(new ClientManager('chrome'));
-            parent::setUpBeforeClass();
-            self::$client->request('GET', 'https://example.com/');
-        } catch (\Throwable $exception) {
-            self::staticSetLastException($exception);
-        }
+        self::setClientManager(new ClientManager('chrome'));
+        parent::setUpBeforeClass();
+        self::$client->request('GET', 'https://example.com/');
     }
 
-    public function test1()
-    {
-        if (self::hasException()) {
-            return;
-        }
-        $this->setBasilStepName('verify page is open');
-        $this->setCurrentDataSet(null);
-
-        // $page.url is "https://example.com/"
-        $this->handledStatements[] = $this->assertionFactory->createFromJson('{
+    #[StepName('verify page is open')]
+    #[Statements([
+        '{
             "statement-type": "assertion",
-            "source": "$page.url is \\"https:\\/\\/example.com\\/\\"",
+            "source": "$page.url is \"https:\/\/example.com\/\"",
+            "index": 0,
             "identifier": "$page.url",
-            "value": "\\"https:\\/\\/example.com\\/\\"",
+            "value": "\"https:\/\/example.com\/\"",
             "operator": "is"
-        }');
-        $this->setExpectedValue("https://example.com/" ?? null);
-        $this->setExaminedValue(self::$client->getCurrentURL() ?? null);
+        }',
+    ])]
+    public function test1(): void
+    {
+        // $page.url is "https://example.com/"
+        $statement_0 = '{
+            "statement-type": "assertion",
+            "source": "$page.url is \"https:\/\/example.com\/\"",
+            "index": 0,
+            "identifier": "$page.url",
+            "value": "\"https:\/\/example.com\/\"",
+            "operator": "is"
+        }';
+
+        try {
+            $expectedValue = "https://example.com/";
+            $examinedValue = self::$client->getCurrentURL();
+        } catch (\Throwable $exception) {
+            $this->fail(
+                self::$messageFactory->createFailureMessage($statement_0, $exception, StatementStage::SETUP),
+            );
+        }
+
         $this->assertEquals(
-            $this->getExpectedValue(),
-            $this->getExaminedValue()
+            $expectedValue,
+            $examinedValue,
+            self::$messageFactory->createAssertionMessage($statement_0, $expectedValue, $examinedValue),
         );
     }
 }

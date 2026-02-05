@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\Compiler\Tests\Unit\Services;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SmartAssert\Compiler\Services\VariablePlaceholderResolver;
 use webignition\Stubble\Resolvable\Resolvable;
@@ -20,9 +21,7 @@ class VariablePlaceholderResolverTest extends TestCase
         $this->variablePlaceholderResolver = new VariablePlaceholderResolver();
     }
 
-    /**
-     * @dataProvider resolveDataProvider
-     */
+    #[DataProvider('resolveDataProvider')]
     public function testResolve(ResolvableInterface $resolvable, string $expectedResolvedTemplate): void
     {
         $resolvedContent = $this->variablePlaceholderResolver->resolve($resolvable);
