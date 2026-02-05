@@ -69,11 +69,11 @@ class TestLoaderTest extends TestCase
                 'path' => FixturePathFinder::find('basil/Test/example.com.verify-open-literal.yml'),
                 'expectedTests' => [
                     new NamedTest(
-                        new Test('chrome', 'https://example.com', new StepCollection([
+                        new Test('chrome', 'https://example.com/', new StepCollection([
                             'verify page is open' => new Step(
                                 new ActionCollection([]),
                                 new AssertionCollection([
-                                    $assertionParser->parse('$page.url is "https://example.com"', 0),
+                                    $assertionParser->parse('$page.url is "https://example.com/"', 0),
                                 ])
                             )
                         ])),
@@ -174,22 +174,22 @@ class TestLoaderTest extends TestCase
                 'path' => FixturePathFinder::find('basil/Test/example.com.verify-open-literal-multiple-browsers.yml'),
                 'expectedTests' => [
                     new NamedTest(
-                        new Test('chrome', 'https://example.com', new StepCollection([
+                        new Test('chrome', 'https://example.com/', new StepCollection([
                             'verify page is open' => new Step(
                                 new ActionCollection([]),
                                 new AssertionCollection([
-                                    $assertionParser->parse('$page.url is "https://example.com"', 0),
+                                    $assertionParser->parse('$page.url is "https://example.com/"', 0),
                                 ])
                             )
                         ])),
                         FixturePathFinder::find('basil/Test/example.com.verify-open-literal-multiple-browsers.yml')
                     ),
                     new NamedTest(
-                        new Test('firefox', 'https://example.com', new StepCollection([
+                        new Test('firefox', 'https://example.com/', new StepCollection([
                             'verify page is open' => new Step(
                                 new ActionCollection([]),
                                 new AssertionCollection([
-                                    $assertionParser->parse('$page.url is "https://example.com"', 0),
+                                    $assertionParser->parse('$page.url is "https://example.com/"', 0),
                                 ])
                             )
                         ])),
