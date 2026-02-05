@@ -75,7 +75,7 @@
         "phpstan/phpstan-mockery": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0",
         "squizlabs/php_codesniffer": "^4.0",
-        "symfony/process": "^7",
+        "symfony/process": "^8.0",
         "webignition/object-reflector": ">=1,<2",
         "webignition/symfony-panther-webserver-runner": ">=0.6,<1",
         "webignition/tcp-cli-proxy-client": "^0.13",
