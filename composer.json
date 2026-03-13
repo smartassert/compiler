@@ -77,7 +77,7 @@
         "symfony/process": "^8.0",
         "webignition/object-reflector": ">=1,<2",
         "webignition/symfony-panther-webserver-runner": ">=0.6,<1",
-        "webignition/tcp-cli-proxy-client": "^0.13",
+        "webignition/tcp-cli-proxy-client": "^0.13 || ^1.0",
         "webignition/yaml-document": "^2.2"
     },
     "bin": [
