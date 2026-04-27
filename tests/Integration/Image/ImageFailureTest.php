@@ -38,7 +38,7 @@ class ImageFailureTest extends AbstractEndToEndFailureTestCase
         $output = '';
         $exitCode = 0;
 
-        $handler = new HandlerFactory()->createWithScalarOutput($output, $exitCode);
+        $handler = (new HandlerFactory())->createWithScalarOutput($output, $exitCode);
         \assert(is_int($exitCode));
 
         $client = Client::createFromHostAndPort('localhost', 8000);
