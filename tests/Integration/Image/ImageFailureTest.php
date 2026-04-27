@@ -8,6 +8,9 @@ use SmartAssert\Compiler\Tests\AbstractEndToEndFailureTestCase;
 use SmartAssert\Compiler\Tests\Model\CliArguments;
 use SmartAssert\Compiler\Tests\Model\CompilationOutput;
 use webignition\TcpCliProxyClient\Client;
+use webignition\TcpCliProxyClient\Exception\ClientCreationException;
+use webignition\TcpCliProxyClient\Exception\SocketErrorException;
+use webignition\TcpCliProxyClient\Exception\SocketTimedOutException;
 use webignition\TcpCliProxyClient\HandlerFactory;
 
 class ImageFailureTest extends AbstractEndToEndFailureTestCase
@@ -22,6 +25,12 @@ class ImageFailureTest extends AbstractEndToEndFailureTestCase
         return '/app/tests';
     }
 
+    /**
+     * @throws \ErrorException
+     * @throws ClientCreationException
+     * @throws SocketErrorException
+     * @throws SocketTimedOutException
+     */
     protected function getCompilationOutput(
         CliArguments $cliArguments,
         ?callable $initializer = null
