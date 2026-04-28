@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.source="https://github.com/smartassert/compiler"
 
 WORKDIR /app
 
-ARG proxy_server_version=1.0
+ARG proxy_server_version=1.1
 ARG php_version
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
