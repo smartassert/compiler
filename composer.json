@@ -56,8 +56,8 @@
     "require": {
         "php": "^8.4",
         "ext-json": "*",
-        "symfony/console": "^8",
-        "symfony/yaml": "^8",
+        "symfony/console": "^8.1",
+        "symfony/yaml": "^8.1",
         "webignition/base-basil-test-case": "^17.0",
         "webignition/basil-compiler-models": ">=6.1,<7",
         "webignition/basil-models": "^15",
