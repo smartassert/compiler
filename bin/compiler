@@ -9,8 +9,8 @@ const VERSION = 'dev-master';
 
 require 'vendor/autoload.php';
 
+use SmartAssert\Compiler\Model\Options;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 use SmartAssert\Compiler\Services\CommandFactory;
 use Symfony\Component\Console\SingleCommandApplication;
@@ -20,11 +20,15 @@ $stderr = new StreamOutput(STDERR);
 
 $command = CommandFactory::createGenerateCommand($stdout, $stderr, $argv);
 
-(new SingleCommandApplication())
+new SingleCommandApplication()
     ->setName((string) $command->getName())
     ->setDefinition($command->getDefinition())
     ->setVersion(VERSION)
-    ->setCode(function (InputInterface $input, OutputInterface $output) use ($command) {
-        return $command->run($input, $output);
+    ->setCode(function (InputInterface $input) use ($command) {
+        $source = $input->getOption(Options::OPTION_SOURCE);
+        $target = $input->getOption(Options::OPTION_TARGET);
+        $baseClass = $input->getOption(Options::OPTION_BASE_CLASS);
+
+        return ($command)($source, $target, $baseClass);
     })
     ->run();

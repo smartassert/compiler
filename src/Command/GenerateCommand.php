@@ -20,10 +20,9 @@ use SmartAssert\Compiler\Services\Compiler;
 use SmartAssert\Compiler\Services\ErrorOutputFactory;
 use SmartAssert\Compiler\Services\OutputRenderer;
 use SmartAssert\Compiler\Services\TestWriter;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface as ConsoleOutputInterface;
 use webignition\BaseBasilTestCase\AbstractBaseTest;
 use webignition\BasilCompilableSourceFactory\Exception\UnsupportedStepException;
 use webignition\BasilCompilerModels\Model\ErrorOutput;
@@ -32,10 +31,9 @@ use webignition\BasilCompilerModels\Model\TestManifestCollection;
 use webignition\BasilModels\Provider\Exception\UnknownItemException;
 use webignition\Stubble\UnresolvedVariableException;
 
+#[AsCommand(name: 'generate')]
 class GenerateCommand extends Command
 {
-    private const NAME = 'generate';
-
     public function __construct(
         private TestLoader $testLoader,
         private Compiler $compiler,
@@ -46,41 +44,14 @@ class GenerateCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->setName(self::NAME)
-            ->setDescription('Generate tests from basil source')
-            ->addOption(
-                Options::OPTION_SOURCE,
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Path to the basil test source from which to generate tests. '
-                . 'Can be absolute or relative to this directory.',
-                ''
-            )
-            ->addOption(
-                Options::OPTION_TARGET,
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Output path for generated tests',
-                ''
-            )
-            ->addOption(
-                Options::OPTION_BASE_CLASS,
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Base class to extend',
-                AbstractBaseTest::class
-            )
-        ;
-    }
-
-    protected function execute(InputInterface $input, ConsoleOutputInterface $output): int
-    {
-        $source = $input->getOption(Options::OPTION_SOURCE);
-        $source = is_string($source) ? trim($source) : '';
-
+    public function __invoke(
+        #[Option(name: Options::OPTION_SOURCE)]
+        string $source = '',
+        #[Option(name: Options::OPTION_TARGET)]
+        string $target = '',
+        #[Option(name: Options::OPTION_BASE_CLASS)]
+        string $baseClass = AbstractBaseTest::class,
+    ): int {
         if ('' === $source) {
             return $this->outputRenderer->render(new ErrorOutput(
                 'source empty; call with --source=SOURCE',
@@ -101,9 +72,6 @@ class GenerateCommand extends Command
                 ExitCode::CONFIG_SOURCE_NOT_READABLE->value
             ));
         }
-
-        $target = $input->getOption(Options::OPTION_TARGET);
-        $target = is_string($target) ? trim($target) : '';
 
         if ('' === $target) {
             return $this->outputRenderer->render(new ErrorOutput(
@@ -133,8 +101,6 @@ class GenerateCommand extends Command
             ));
         }
 
-        $baseClass = $input->getOption(Options::OPTION_BASE_CLASS);
-        $baseClass = is_string($baseClass) ? trim($baseClass) : '';
         if ('' === $baseClass) {
             return $this->outputRenderer->render(new ErrorOutput(
                 'base class empty',
