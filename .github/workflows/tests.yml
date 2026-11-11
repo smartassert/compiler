@@ -57,6 +57,3 @@ jobs:
 
       - name: Run
         run: composer test-integration-image
-
-      - name: Teardown
-        run: composer integration-teardown
