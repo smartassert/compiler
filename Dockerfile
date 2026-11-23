@@ -1,4 +1,4 @@
-ARG php_version=8.4
+ARG php_version=8.5
 
 FROM composer:2 AS composer_build
 
@@ -15,7 +15,7 @@ LABEL org.opencontainers.image.source="https://github.com/smartassert/compiler"
 WORKDIR /app
 COPY --from=composer_build /app /app
 
-ARG proxy_server_version=1.1
+ARG proxy_server_version=1.3
 ARG php_version
 
 RUN apk --no-cache add libzip-dev \
